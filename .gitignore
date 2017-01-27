@@ -1,0 +1,10 @@
+*.aux
+*.dvi
+*.log
+*.nav
+*.out
+*.pdf
+*.snm
+*.toc
+*.vrb
+notebooks/.ipynb_checkpoints
