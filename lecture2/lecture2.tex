@@ -227,11 +227,8 @@
 \end{frame}
 
 \begin{frame}{Пример}
-	\begin{frame}{Пример}
     \centering
-	\includegraphics[width=\linewidth,height=0.8 \textheight,keepaspectratio]{images/attack_vs_defense_fail}
-\end{frame}
-
+	\includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{images/attack_vs_defense_fail}
 \end{frame}
 
 \begin{frame}{Метод k ближайших соседей}
@@ -256,10 +253,6 @@
 	Правда ли нужно выбрасывать один объект?
 \end{frame}
 
-\begin{frame}{Ответ}
-	\TODO{картинка с пояснением почему нужно. переобучение}
-\end{frame}
-
 \begin{frame}{Метод $k$ взвешенных соседей}
 	${w(i,u) = [i \leq k] * w_i}$, где $w_i$ это вес, зависящий только от номера соседа\\
 	\bigbreak
@@ -271,57 +264,65 @@
 \end{frame}
 
 \begin{frame}{Вопрос}
+	\centering
 	Как более обоснованно задать веса?\\
 \end{frame}
 
 \begin{frame}{Ядерная оценка плотности}
 	\textbf{Метод окна Парзена}\\
-	${w_i = K(\frac{\rho(u, x^i)}{h})}$\\
+	\bigbreak
+	${w_i = K(\frac{\rho(u, x_i)}{h})}$\\
 	$K(r)$ -- ядро, невозрастающее, положительное на ${[0, 1]}$\\
 \end{frame}
 
 \begin{frame}{Ядерная оценка плотности}
 	\textbf{Метод окна Парзена}\\
-	${w_i = K(\frac{\rho(u, x^i)}{h})}$\\
+	${w_i = K(\frac{\rho(u, x_i)}{h})}$\\
 	$K(r)$ -- ядро, невозрастающее, положительное на ${[0, 1]}$\\
-  \bigbreak
+	\bigbreak
 	Фиксированной ширины:\\
-	${a(u, X^l, h, K) = \arg\max\limits_{y \in Y} \sum\limits_{i=1}^l [y^i = y] K(\frac{\rho(u, x^i)}{h})}$ \hspace{5mm} $h$ -- ширина окна\\
+	${a(u, X^l, h, K) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} K(\frac{\rho(u, x_i)}{h})}$ \hspace{5mm} $h$ -- ширина окна\\
 \end{frame}
 
 \begin{frame}{Ядерная оценка плотности}
 	\textbf{Метод окна Парзена}\\
-	${w_i = K(\frac{\rho(u, x^i)}{h})}$\\
+	${w_i = K(\frac{\rho(u, x_i)}{h})}$\\
 	$K(r)$ -- ядро, невозрастающее, положительное на ${[0, 1]}$\\
   \bigbreak
 	Фиксированной ширины:\\
-	${a(u, X^l, h, K) = \arg\max\limits_{y \in Y} \sum\limits_{i=1}^l [y^i = y] K(\frac{\rho(u, x^i)}{h})}$\\
+	${a(u, X^l, h, K) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} K(\frac{\rho(u, x_i)}{h})}$\\
 	$h$ -- ширина окна\\
   \bigbreak
 	Переменной ширины:\\
-	${a(u, X^l, k, K) = \arg\max\limits_{y \in Y} \sum\limits_{i=1}^l [y^i = y] K(\frac{\rho(u, x^i)}{\rho(u, x^{k+1})})}$
+	${a(u, X^l, k, K) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y}  K(\frac{\rho(u, x_i)}{\rho(u, x_{k})})}$
 \end{frame}
 
 \begin{frame}{Более наглядно}
-  \TODO{картинка с пояснением}
+    \centering
+	\includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{images/parzen}
 \end{frame}
 
 \section{Выбор метрики}
-% Какие метрики вам известны?\\
 % Как выбрать подходящую? 
 % http://arxiv.org/pdf/1306.6709v4.pdf
 
-\begin{frame}{Выбор метрики. MMC}
+\begin{frame}{Выбор метрики}
+	\alert{Идея}: Максимизировать сумму расстояний между объектами разных классов
+	при этом сохраняя сумму расстояний между объектами одного класса небольшой.\\
+\end{frame}
+
+\begin{frame}{Выбор метрики}
 	\alert{Идея}: Максимизировать сумму расстояний между объектами разных классов
 	при этом сохраняя сумму расстояний между объектами одного класса небольшой.\\
 	\bigbreak
-	$${\max \sum\limits_{x_i, x_j \in D} \rho(x_i, x_j) }$$\\
+	$${\max \sum\limits_{x_i \in D, x_j \in F} \rho(x_i, x_j) }$$\\
 	\bigbreak
 	$${\sum\limits_{x_i, x_j \in S} \rho^2(x_i, x_j) \leq 1 }$$
 \end{frame}
 
 \begin{frame}{Проклятие размерности}
-	Если используемая метрика ${\rho(u, x^i)}$ основана на суммировании различий по всем признакам, а число признаков очень велико,
+	\centering
+	Если используемая метрика ${\rho(u, x_i)}$ основана на суммировании различий по всем признакам, а число признаков очень велико,
 	то все точки выборки могут оказаться практически одинаково далеки друг от друга.\\
 \end{frame}
 
@@ -333,6 +334,7 @@
 \section{Предобработка}
 
 \begin{frame}{Предобработка данных}
+	\centering
 	Что делать если разные шкалы признаков?
 \end{frame}
 
@@ -363,9 +365,9 @@
 \end{frame}
 
 \begin{frame}{Отступ}
-	Отступ показывает степень "типичности объекта".\\
+	Отступ показывает степень \alert{типичности объекта}.\\
 	\bigbreak
-	Отступом объекта ${x_i \in X^l}$ относительно классификатора $a$ называется величина\\
+	Отступом объекта ${x_i \in X^l}$ относительно классификатора $a$ называется величина:\\
 	${M(x_i) = \Gamma_{y_i}(x_i) - \max\limits_{y \in Y\backslash y_i} \Gamma_y(x_i)}$
 \end{frame}
 
@@ -386,8 +388,8 @@
 
 \begin{frame}{Отбор эталонных объектов}
 	\alert{Задача}:\\
-	Ыыбрать оптимальное подмножество эталонов $\Omega\subseteq X^l$\\ 
-  \bigbreak
+	Выбрать оптимальное подмножество эталонов $\Omega\subseteq X^l$\\ 
+    \bigbreak
 	Классификатор будет иметь вид:\\
 	${a(u, \Omega) = \arg\max\limits_{y \in Y} \sum\limits_{x_i \in \Omega} [y_u^i = y]w(i, u) }$\\
 \end{frame}
