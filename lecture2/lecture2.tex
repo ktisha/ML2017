@@ -3,6 +3,7 @@
 
 \title{Лекция 2}
 \subtitle{Метрические классификаторы}
+\usepackage{subfig}
 
 \begin{document}
 
@@ -10,22 +11,124 @@
 
 \section{Разбор летучки}
 
-\section{Гипотеза компактности}
+\section{Мотивирующий пример}
 
+{\setbeamertemplate{frame footer}{\href{https://www.kaggle.com/abcsds/pokemon}{Pokemon with stats (https://www.kaggle.com/abcsds/pokemon)}}
 \begin{frame}{Мотивирующий пример}
-  \TODO {картинка про покемонов}
+	\begin{figure}
+	    \centering
+	    \subfloat{{\includegraphics[width=2cm]{images/Bulbasaur} }}
+	    \qquad
+	    \subfloat{{\includegraphics[width=2cm]{images/Mewtwo} }}
+    	    \qquad
+    	    \subfloat{{\includegraphics[width=2cm]{images/Volcanion} }}
+    	    \qquad
+    	    \subfloat{{\includegraphics[width=2cm]{images/Ekans} }}
+    	    \qquad
+    	    \subfloat{{\includegraphics[width=2cm]{images/Nidorina} }}
+	    \qquad 
+    	    \subfloat{{\includegraphics[width=2cm]{images/Rattata} }}
+	    \qquad
+    	    \subfloat{{\includegraphics[width=2cm]{images/Sandshrew} }}
+	    \qquad
+    	    \subfloat{{\includegraphics[width=2cm]{images/Articuno} }}    	        	    
+	\end{figure}
 \end{frame}
+}
+
+\begin{frame}{Датасет}
+    \centering
+	\includegraphics[width=\textwidth]{images/pokemons}
+\end{frame}
+
+\section{Какие признаки есть в датасете?}
+
+\begin{frame}
+	${f: X \rightarrow D_f}$
+	\begin{enumerate} [-]
+	  \item Бинарные (${D_f = \left\{ 0, 1 \right\} }$)
+	  \item Номинальные (${D_f}$ -- конечное множество)
+	  \item Порядковые (${D_f}$ -- конечное упорядоченное множество)
+	  \item Количественные (${D_f = \mathbb{R} }$)
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Признаки}
+	\begin{enumerate} [-]	
+		\item Бинарные (Legendary)
+		\item Номинальные (Type 1, Type 2)
+		\item Порядковые (Generation)
+		\item Количественные (Attack, Defense, ...)
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Легендарность}
+\alert{Легендарный покемон} это чрезвычайно редкий и зачастую очень могущественных покемон, о нем слагаются мифы и легенды в мире покемонов.
+\end{frame}
+
+\begin{frame}{Легендарность}
+	\begin{figure}
+	    \centering
+	    \subfloat{{\includegraphics[width=2cm]{images/Bulbasaur} }}
+	    \qquad
+	    \subfloat{\frame{\includegraphics[width=2cm]{images/Mewtwo} }}
+    	    \qquad
+    	    \subfloat{\frame{\includegraphics[width=2cm]{images/Volcanion} }}
+    	    \qquad
+    	    \subfloat{{\includegraphics[width=2cm]{images/Ekans} }}
+    	    \qquad
+    	    \subfloat{{\includegraphics[width=2cm]{images/Nidorina} }}
+	    \qquad 
+    	    \subfloat{{\includegraphics[width=2cm]{images/Rattata} }}
+	    \qquad
+    	    \subfloat{{\includegraphics[width=2cm]{images/Sandshrew} }}
+	    \qquad
+    	    \subfloat{\frame{\includegraphics[width=2cm]{images/Articuno} }}    	        	    
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Распределение}
+    \centering
+	\includegraphics[width=\textwidth]{images/attack_defense}
+	
+	Number of Pokemons = 800
+\end{frame}
+
+{\setbeamertemplate{frame footer}{\href{https://github.com/ktisha/ML2017/tree/master/notebooks}{Репозиторий с материалами (https://github.com/ktisha/ML2017))}}
+\begin{frame}{Типы покемонов}
+    \centering
+	\includegraphics[width=\linewidth,height=0.8 \textheight,keepaspectratio]{images/pokemons_by_type}
+\end{frame}
+}
 
 \begin{frame}{Задача классификации}
 	$X$ - множество объектов \\
 	$Y$ - множество классов \\
 	Обучающая выборка: ${X^l = (x_i, y_i)_{i=1}^l}$ \\ 
 	\bigbreak
+	\bigbreak
 	\alert{Задача}: Построить алгоритм ${a \colon X \rightarrow Y}$, способный классифицировать произвольный объект ${x \in X}$.
 \end{frame}
 
+\begin{frame}{Задача классификации в нашем контексте}
+	$X$ - покемоны \\
+	$Y$ - легендарность \\
+	Обучающая выборка: ${X^l = (x_i, y_i)_{i=1}^l}$ \\ 
+	$l = 800$ покемонов в выборке\\
+	\bigbreak
+	\alert{Задача}: Построить алгоритм ${a \colon X \rightarrow Y}$, способный определить, является ли покемон легендарным.
+\end{frame}
+
+\section{Гипотеза компактности}
+
 \begin{frame}{Гипотеза компактности}
-  Схожие объекты, как правило, лежат в одном классе.\\
+    \centering
+ 	Схожие объекты, как правило, лежат в одном классе.\\
+\end{frame}
+
+\begin{frame}{Пример}
+    \centering
+	\includegraphics[width=\linewidth,height=0.8 \textheight,keepaspectratio]{images/attack_vs_defense}
 \end{frame}
 
 \begin{frame}{Гипотеза компактности}
@@ -43,44 +146,46 @@
 
 \section{Функции расстояния}
 
+{\setbeamertemplate{frame footer}{Euclidean distance (metric)}
 \begin{frame}{Евклидово расстояние}
-	Euclidean distance (metric)
-	\bigbreak
-	${\rho (u, x_i) = \sqrt{\sum\limits_{j=1}^n |u^j - x_i^j|^2}}$, \hspace{5mm} ${X \in \mathbb{R}^{n}}$\\
+	${\rho (u, v) = \sqrt{\sum\limits_{j=1}^n |u^j - v^j|^2}}$, \hspace{5mm} ${u, v \in X^{l}}$\\
 	\bigbreak
 	
 	Признаковые описания объектов:\\
 	${u = \left\{ u^1, u^2, ..., u^n \right\}}$ \\
-	${x_i = \left\{x_i^1, x_i^2, ..., x_i^n \right\} }$ 
+	${v = \left\{v^1, v^2, ..., v^n \right\} }$ 
 \end{frame}
+}
 
+{\setbeamertemplate{frame footer}{Манхэттенское расстояние, Taxicab distance}
 \begin{frame}{Расстояние городских кварталов}
-	Манхэттенское расстояние, Taxicab distance
-	\bigbreak
-	${\rho (u, x_i) = \sum\limits_{j=1}^n |u^j - x_i^j|}$, \hspace{5mm} ${X \in \mathbb{R}^{n}}$\\
+	${\rho (u, v) = \sum\limits_{j=1}^n |u^j - v^j|}$, \hspace{5mm} ${u, v \in X^{l}}$\\
 	\bigbreak
 	
 	Признаковые описания объектов:\\
 	${u = \left\{ u^1, u^2, ..., u^n \right\}}$ \\
-	${x_i = \left\{x_i^1, x_i^2, ..., x_i^n \right\} }$ 
+	${v = \left\{v^1, v^2, ..., v^n \right\} }$ 
 \end{frame}
+}
 
+{\setbeamertemplate{frame footer}{Minkowski distance}
 \begin{frame}{Расстояние Минковского}
-	Minkowski distance. Обобщение евклидова расстояния и расстояния городских кварталов.
+	Обобщение евклидова расстояния и расстояния городских кварталов
 	\bigbreak
-	${\rho (u, x_i) = (\sum\limits_{j=1}^n |u^j - x_i^j|^q)^{1/q}}$, \hspace{5mm} ${X \in \mathbb{R}^{n}}$\\
+	${\rho (u, v) = (\sum\limits_{j=1}^n |u^j - v^j|^q)^{1/q}}$, \hspace{5mm} ${u, v \in X^{l}}$\\
 	\bigbreak
 	
 	Признаковые описания объектов:\\
 	${u = \left\{ u^1, u^2, ..., u^n \right\}}$ \\
-	${x_i = \left\{x_i^1, x_i^2, ..., x_i^n \right\} }$ 
+	${v = \left\{v^1, v^2, ..., v^n \right\} }$ 
 \end{frame}
+}
 
+{\setbeamertemplate{frame footer}{Редакционное расстояние, дистанция редактирования, Edit distance }
 \begin{frame}{Расстояние Левенштейна}
-	Редакционное расстояние, дистанция редактирования, Edit distance 
-	\bigbreak
 	Минимальное количество операций вставки одного символа, удаления одного символа и замены одного символа на другой, необходимых для превращения одной строки в другую.
 \end{frame}
+}
 
 \section{Метрический классификатор}
 
@@ -88,17 +193,22 @@
 	$u \in X$ - произвольный объект, который собираемся классифицировать.\\
 	\bigbreak
 	Отсортируем объекты $x_1, x_2, ..., x_l$ относительно $u$:
-	${\rho(u, x^1) \leq \rho(u, x^2) \leq \dots \leq \rho(u, x^l)}$\\
+	${\rho(u, x_1) \leq \rho(u, x_2) \leq \dots \leq \rho(u, x_l)}$\\
 	\bigbreak
-	${x^i}$ -- $i$-й сосед объекта $u$\\
-	${y^i}$ -- ответ на $i$-м соседе объекта $u$
+	${x_i}$ -- $i$-й сосед объекта $u$\\
+	${y_i}$ -- класс $i$-го соседа объекта $u$
 \end{frame}
 
 \begin{frame}{Метрический алгоритм классификации}
-	${a(u, X^l) = \arg\max\limits_{y \in Y} \underbrace{\sum\limits_{i=1}^l [y^i = y]w(i, u)}_{\Gamma_y(u)} }$\\
+	${a(u, X^l) = \arg\max\limits_{y \in Y} \underbrace{\sum\limits_{y_i = y} w(i, u)}_{\Gamma_y(u)} }$\\
 	\vspace{5mm}
 	$w(i, u)$ - вес $i$-го соседа $u$, неотрицателен\\
 	$\Gamma_y(u)$ - оценка близости объекта $u$ к классу ${y}$
+\end{frame}
+
+\begin{frame}{Метод ближайшего соседа}
+	Объект относится к тому классу, к которому относится ближайший в выборке.\\
+	${w(i, u) = [i=1]}$\\
 \end{frame}
 
 \begin{frame}{Метод ближайшего соседа}
@@ -117,7 +227,11 @@
 \end{frame}
 
 \begin{frame}{Пример}
-	\TODO{отрицательный пример неустойчивость к шуму}
+	\begin{frame}{Пример}
+    \centering
+	\includegraphics[width=\linewidth,height=0.8 \textheight,keepaspectratio]{images/attack_vs_defense_fail}
+\end{frame}
+
 \end{frame}
 
 \begin{frame}{Метод k ближайших соседей}
