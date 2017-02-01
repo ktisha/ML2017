@@ -87,8 +87,8 @@
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Распределение}
-    \centering
+\begin{frame}{Распределения}
+  \centering
 	\includegraphics[width=\textwidth]{images/attack_defense}
 	
 	Number of Pokemons = 800
@@ -96,8 +96,9 @@
 
 {\setbeamertemplate{frame footer}{\href{https://github.com/ktisha/ML2017/tree/master/notebooks}{Репозиторий с материалами (https://github.com/ktisha/ML2017))}}
 \begin{frame}{Типы покемонов}
-    \centering
-	\includegraphics[width=\linewidth,height=0.8 \textheight,keepaspectratio]{images/pokemons_by_type}
+  \begin{center}
+	  \includegraphics[width=\linewidth,height=0.8 \textheight,keepaspectratio]{images/pokemons_by_type}
+  \end{center}
 \end{frame}
 }
 
@@ -126,21 +127,23 @@
  	Схожие объекты, как правило, лежат в одном классе.\\
 \end{frame}
 
-\begin{frame}{Пример}
-    \centering
-	\includegraphics[width=\linewidth,height=0.8 \textheight,keepaspectratio]{images/attack_vs_defense}
-\end{frame}
-
 \begin{frame}{Гипотеза компактности}
 	Схожие объекты, как правило, лежат в одном классе.\\
 	\bigbreak
 	Как определить \alert{схожесть} объектов?\\
 \end{frame}
 
+\begin{frame}{Пример}
+  \begin{center}
+    	\includegraphics[width=\linewidth,height=0.8 \textheight,keepaspectratio]{images/attack_vs_defense}  
+  \end{center}    
+\end{frame}
+
 \begin{frame}{Гипотеза компактности}
 	Схожие объекты, как правило, лежат в одном классе.\\
 	\bigbreak
-	\alert{Схожесть} $=$ Функция расстояния:\\
+	\alert{Схожесть} $=$ Функция расстояния\\
+	\bigbreak
 	${\rho: X \times X \rightarrow [0, \infty) }$
 \end{frame}
 
@@ -187,27 +190,44 @@
 \end{frame}
 }
 
+\begin{frame}{Расстояние Левенштейна}
+	\begin{center}
+	  \includegraphics[width=\textwidth]{images/levenshtein}
+	\end{center}
+\end{frame}
+
 \section{Метрический классификатор}
 
 \begin{frame}{Обобщенный метрический классификатор}
 	$u \in X$ - произвольный объект, который собираемся классифицировать.\\
 	\bigbreak
-	Отсортируем объекты $x_1, x_2, ..., x_l$ относительно $u$:
+	Отсортируем объекты из $X^l$ относительно $u$:
 	${\rho(u, x_1) \leq \rho(u, x_2) \leq \dots \leq \rho(u, x_l)}$\\
 	\bigbreak
 	${x_i}$ -- $i$-й сосед объекта $u$\\
-	${y_i}$ -- класс $i$-го соседа объекта $u$
+	${y_i}$ -- класс $i$-го соседа $u$
+\end{frame}
+
+\begin{frame}{Обобщенный метрический классификатор}
+	${\rho(u, x_1) \leq \rho(u, x_2) \leq \dots \leq \rho(u, x_l)}$\\
+	\bigbreak
+	${x_i}$ -- $i$-й сосед объекта $u$\\
+	${y_i}$ -- класс $i$-го соседа $u$
+  \bigbreak
+  \alert{Идея 1}: Посмотрим на ближайшие объекты и отнесем $u$ к доминирующему классу. 
+  \bigbreak
+  \alert{Идея 2}: Более близкие объекты важнее для классификации.
 \end{frame}
 
 \begin{frame}{Метрический алгоритм классификации}
-	${a(u, X^l) = \arg\max\limits_{y \in Y} \underbrace{\sum\limits_{y_i = y} w(i, u)}_{\Gamma_y(u)} }$\\
+	${a(u, X^l) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} w(i, u)}$\\
 	\vspace{5mm}
 	$w(i, u)$ - вес $i$-го соседа $u$, неотрицателен\\
-	$\Gamma_y(u)$ - оценка близости объекта $u$ к классу ${y}$
 \end{frame}
 
 \begin{frame}{Метод ближайшего соседа}
 	Объект относится к тому классу, к которому относится ближайший в выборке.\\
+	\bigbreak
 	${w(i, u) = [i=1]}$\\
 \end{frame}
 
@@ -227,8 +247,9 @@
 \end{frame}
 
 \begin{frame}{Пример}
-    \centering
-	\includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{images/attack_vs_defense_fail}
+  \begin{center}
+    	\includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{images/attack_vs_defense_fail}  
+  \end{center}
 \end{frame}
 
 \begin{frame}{Метод k ближайших соседей}
@@ -238,7 +259,7 @@
 		\item[+] Менее чувствителен к шуму
 		\item[+] Появляется настраиваемый параметр k
 	  \bigbreak
-	  \item[--] Неоднозначность классификации при ${\Gamma_y(u) = \Gamma_s(u), y \neq s}$
+	  \item[--] Неоднозначность при ${\sum\limits_{y_i = y} w(i, u) = \sum\limits_{y_i = s} w(i, u)}$ \hspace{5mm} $y \neq s$
 	\end{itemize}
 \end{frame}
 
@@ -246,7 +267,8 @@
 
 \begin{frame}{Как выбрать $k$}
 	Функционал скользящего контроля (leave-one-out):\\
-	${LOO(k, X^l) = \sum\limits_{i=1}^l [a(x_i; X^l \backslash \left\{x_i\right\}, k) \neq y] \rightarrow \min\limits_k}$\\
+	\bigbreak
+	${LOO(k, X^l) = \sum\limits_{i=1}^l [a(x_i; X^l \backslash \left\{x_i\right\}, k) \neq y_i] \rightarrow \min\limits_k}$\\
 \end{frame}
 
 \begin{frame}{Вопрос}
@@ -270,28 +292,20 @@
 
 \begin{frame}{Ядерная оценка плотности}
 	\textbf{Метод окна Парзена}\\
-	\bigbreak
-	${w_i = K(\frac{\rho(u, x_i)}{h})}$\\
-	$K(r)$ -- ядро, невозрастающее, положительное на ${[0, 1]}$\\
-\end{frame}
-
-\begin{frame}{Ядерная оценка плотности}
-	\textbf{Метод окна Парзена}\\
-	${w_i = K(\frac{\rho(u, x_i)}{h})}$\\
 	$K(r)$ -- ядро, невозрастающее, положительное на ${[0, 1]}$\\
 	\bigbreak
 	Фиксированной ширины:\\
 	${a(u, X^l, h, K) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} K(\frac{\rho(u, x_i)}{h})}$ \hspace{5mm} $h$ -- ширина окна\\
+	
+	$\rho(u, x_i)$
 \end{frame}
 
 \begin{frame}{Ядерная оценка плотности}
 	\textbf{Метод окна Парзена}\\
-	${w_i = K(\frac{\rho(u, x_i)}{h})}$\\
-	$K(r)$ -- ядро, невозрастающее, положительное на ${[0, 1]}$\\
+  $K(r)$ -- ядро, невозрастающее, положительное на ${[0, 1]}$\\
   \bigbreak
 	Фиксированной ширины:\\
-	${a(u, X^l, h, K) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} K(\frac{\rho(u, x_i)}{h})}$\\
-	$h$ -- ширина окна\\
+	${a(u, X^l, h, K) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} K(\frac{\rho(u, x_i)}{h})}$  \hspace{5mm}  $h$ -- ширина окна\\
   \bigbreak
 	Переменной ширины:\\
 	${a(u, X^l, k, K) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y}  K(\frac{\rho(u, x_i)}{\rho(u, x_{k})})}$
@@ -303,8 +317,6 @@
 \end{frame}
 
 \section{Выбор метрики}
-% Как выбрать подходящую? 
-% http://arxiv.org/pdf/1306.6709v4.pdf
 
 \begin{frame}{Выбор метрики}
 	\alert{Идея}: Максимизировать сумму расстояний между объектами разных классов
@@ -315,7 +327,9 @@
 	\alert{Идея}: Максимизировать сумму расстояний между объектами разных классов
 	при этом сохраняя сумму расстояний между объектами одного класса небольшой.\\
 	\bigbreak
-	$${\max \sum\limits_{x_i \in D, x_j \in F} \rho(x_i, x_j) }$$\\
+	\begin{center}
+    	${\max \sum\limits_{x_i \in D, x_j \in F} \rho(x_i, x_j) }$ \hspace{5mm} $D \neq F$	
+	\end{center}
 	\bigbreak
 	$${\sum\limits_{x_i, x_j \in S} \rho^2(x_i, x_j) \leq 1 }$$
 \end{frame}
@@ -335,7 +349,7 @@
 
 \begin{frame}{Предобработка данных}
 	\centering
-	Что делать если разные шкалы признаков?
+	Что произойдет, если признаки представлены в разном масштабе?
 \end{frame}
 
 \begin{frame}{Предобработка данных}
@@ -343,18 +357,17 @@
 	В противном случае признак с наибольшими числовыми значениями будет доминировать в метрике.
 \end{frame}
 
-
 \begin{frame}{Жадное добавление признаков}
-	\begin{itemize} [<+- | alert@+>]
-		\item[--] ${\rho_j(u, x_i) = \vert u^j - x_i^j \vert}$ -- расстояние по j-му признаку\\
+	\begin{enumerate} 
+		\item ${\rho_j(u, x_i) = \vert u^j - x_i^j \vert}$ -- расстояние по j-му признаку\\
 		          $LOO(j) \rightarrow \min$\\
-		\item[--] Добавляем признак и строим $\rho'$\\
+		\item Добавляем признак и строим $\rho'$\\
 							${\rho'(u, x_i) = \rho(u, x_i) + w_j\rho_j(u, x_i)}$\\
 							$LOO(j, w_j) \rightarrow \min$\\
-		\item[--] Замена признака:\\
+		\item Заменяем признак\\
             		${\rho'(u, x_i) = \rho(u, x_i) - w_k\rho_k(u, x_i) + w_j\rho_j(u, x_i)}$\\
-		\item[--] Добавляем признаки, пока LOO не увеличивается
-	\end{itemize}
+		\item Добавляем признаки, пока LOO не увеличивается
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}{Сверхбольшие выборки}
@@ -364,34 +377,51 @@
 	\end{itemize}
 \end{frame}
 
+\section{Отбор эталонов}
+
+\begin{frame}\frametitle{Метрический алгоритм классификации}
+	${a(u, X^l) = \arg\max\limits_{y \in Y} \underbrace{\sum\limits_{y_i = y} w(i, u)}_{\Gamma_y(u)} }$\\
+	\vspace{5mm}
+	$w(i, u)$ - вес $i$-го соседа $u$, неотрицателен\\
+	$\Gamma_y(u)$ - оценка близости объекта $u$ к классу ${y}$
+\end{frame}
+
 \begin{frame}{Отступ}
+	${\Gamma_y(u) = \sum\limits_{y_i = y} w(i, u)}$\\
+	\bigbreak
 	Отступ показывает степень \alert{типичности объекта}.\\
 	\bigbreak
 	Отступом объекта ${x_i \in X^l}$ относительно классификатора $a$ называется величина:\\
-	${M(x_i) = \Gamma_{y_i}(x_i) - \max\limits_{y \in Y\backslash y_i} \Gamma_y(x_i)}$
+	\bigbreak
+	\centering	
+  ${M(x_i) = \Gamma_{y_i}(x_i) - \max\limits_{y \in Y\backslash y_i} \Gamma_y(x_i)}$
+
 \end{frame}
 
 \begin{frame}{Типы объектов}
 	\begin{enumerate}
 		\item Эталонные
-		\item Неинформативные
+		\item Надёжно классифицируемые (неинформативные)
 		\item Пограничные	
 		\item Ошибочные	
 		\item Шумовые	
 	\end{enumerate}
 \end{frame}
 
+{\setbeamertemplate{frame footer}{\textcolor{gray}{картинка с machinelearning.ru}}
 \begin{frame}{Типы объектов}
-  \TODO{картинка с примером}
+  \begin{center}
+    \includegraphics[width=\textwidth, keepaspectratio]{images/margin}
+  \end{center}
 \end{frame}
-
+}
 
 \begin{frame}{Отбор эталонных объектов}
 	\alert{Задача}:\\
 	Выбрать оптимальное подмножество эталонов $\Omega\subseteq X^l$\\ 
     \bigbreak
 	Классификатор будет иметь вид:\\
-	${a(u, \Omega) = \arg\max\limits_{y \in Y} \sum\limits_{x_i \in \Omega} [y_u^i = y]w(i, u) }$\\
+	${a(u, \Omega) = \arg\max\limits_{y \in Y} \sum\limits_{x_i \in \Omega} [y_i = y]w(i, u) }$\\
 \end{frame}
 
 \begin{frame}{Алгоритм STOLP}
@@ -413,22 +443,89 @@
 	\end{itemize}
 \end{frame}
 
-\section{Быстрый поиск ближайших соседей}
-
-\begin{frame}{Быстрый поиск ближайших соседей}
-	\begin{itemize}
-		\item[--] граф ближайших соседей
-		\item[--] k-d дерево
-		\item[--] хеширование (LSH)
-	\end{itemize}
-\end{frame}
-
 \begin{frame}[standout]
   Вопросы?
 \end{frame}
 
 \appendix
 
+\section{Быстрый поиск ближайших соседей}
+
+\begin{frame}{Быстрый поиск ближайших соседей}
+	\begin{enumerate} [--]
+		\item граф ближайших соседей
+		\item k-d дерево
+		\item хеширование (LSH)
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}\frametitle{k-d дерево}
+	\alert{Идея}: разложим множество по поторому будем искать в бинарное дерево с простыми условиями и конкретными точками в узлах.
+	\vspace{5mm}
+	\begin{enumerate}
+		\item По циклу, или рандомно выбираем ось.
+		\item Ищем медиану (точку, разбивающую множество на как можно более равные части).
+		\item Повторяем 1-2 для каждого из получившихся подмножеств 
+	\end{enumerate}
+	Сложность построения: $O(n\log n)$\\
+	Сложность поиска: в лучшем случае $O(\log n)$, в худшем -- $O(n)$
+\end{frame}
+
+\begin{frame}\frametitle{2-d дерево}
+	\begin{center}
+    	\includegraphics[height=190pt]{images/Kdtree_2d}  	
+	\end{center}
+\end{frame}
+
+\begin{frame}\frametitle{k-d дерево. Особенности}
+	\begin{itemize}
+	\item[+] Один из наиболее простых методов
+	\item[--] Работает только при малом количестве параметров
+	\item[--] Затратный алгоритм перестроения
+	\end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Locality Sensitive Hash}
+  \alert{Задача}: Найти похожие документы в интернете\\
+\end{frame}
+
+\begin{frame}\frametitle{Locality Sensitive Hash}
+	\centering
+	\alert{Проблема}: Сколько сравнений нам понадобится  для того, чтобы найти похожие среди $N$ документов?\\
+\end{frame}
+
+\begin{frame}\frametitle{Locality Sensitive Hash}
+	\alert{Проблема}: Сколько сравнений нам понадобится  для того, чтобы найти похожие среди $N$ документов?\\
+	\vspace{5mm}
+	$C = \frac{N(N-1)}{2}$\\
+	\vspace{5mm}
+	$N = 10^6 \Rightarrow C = 5*10^{11}$
+\end{frame}
+
+\begin{frame}\frametitle{Locality Sensitive Hash}
+	\alert{Идея}: Давайте от каждого документа (строки из нулей и единиц) возьмем хэш $h$:\\
+	\begin{enumerate} [--]
+	\item Если документы $C_1$ и $C_2$ похожи, то с большой вероятностью $h(C1) == h(C2)$\\
+	\item Иначе -- с большой вероятностью $h(C1) \neq h(C2)$
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}\frametitle{Locality Sensitive Hash}
+	\alert{Идея}: \\
+	\begin{enumerate}
+	\item Разбить документ на n-граммы
+	\item Взять от каждого n-грамма хэш
+	\item Получим представление документа в виде строки из нулей и единиц. Длина такого вектора = количество всевозможных n-грамм.
+	\item Посчитаем документы похожими, если у них много совпадающих n-грамм
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}\frametitle{Locality Sensitive Hash}
+	\begin{figure}[htbp]
+	\centering
+	\includegraphics[height=190pt]{images/min-hash1}  
+	\end{figure}
+\end{frame}
 
 %\begin{frame}\frametitle{Что происходит сейчас в области knn}
 	%A Ranking-based KNN Approach for Multi-Label Classification 2012
@@ -443,22 +540,21 @@
 	%http://www.jmlr.org/papers/volume10/weinberger09a/weinberger09a.pdf
 %\end{frame}
 
-\begin{frame}\frametitle{Доп. ресурсы}
-	\href{http://www.machinelearning.ru}{http://www.machinelearning.ru}\\
-	\bigbreak
-	\href{http://www.machinelearning.ru/wiki/images/6/6d/Voron-ML-1.pdf}{Пособие}
+\begin{frame}\frametitle{Что читать/смотреть}
+	\href{http://www.machinelearning.ru/wiki/images/6/6d/Voron-ML-1.pdf}{Курс К. В. Воронцова}\\
+	\href{https://yandexdataschool.ru/edu-process/courses/machine-learning}{Видеолекции ШАД}\\
+	Pattern Recognition and Machine Learning. Christopher M Bishop
 \end{frame}
 
-
 \begin{frame}\frametitle{На следующей лекции}
-	\begin{itemize}
-		\item[--] Кластеризация.  K-means.
-		\item[--] Цели кластеризации.
-		\item[--] Типы кластерных структур.
-		\item[--] Функционал качества кластеризации
-		\item[--] К-средних
-		\item[--] Иерархическая кластеризация.
-	\end{itemize}
+	\begin{enumerate} [--]
+		\item Кластеризация.  K-means.
+		\item Цели кластеризации.
+		\item Типы кластерных структур.
+		\item Функционал качества кластеризации
+		\item К-средних
+		\item Иерархическая кластеризация.
+	\end{enumerate}
 \end{frame}
 
 \end{document}
