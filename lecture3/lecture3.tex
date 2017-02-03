@@ -81,38 +81,38 @@
 
 \begin{frame}{Сгущения}
 	\begin{center}
-    \includegraphics[height=0.8 \textheight, keepaspectratio = true]{images/cluster1}  
+    \includegraphics[height=0.6 \textheight, keepaspectratio = true]{images/cluster1}  
 	\end{center}
 \end{frame}
 
 
 \begin{frame}{Ленты}
 	\begin{center}
-	  \includegraphics[height=0.8 \textheight, keepaspectratio = true]{images/cluster2}  
+	  \includegraphics[height=0.6 \textheight, keepaspectratio = true]{images/cluster2}  
 	\end{center}
 \end{frame}
 
 \begin{frame}{С центром}
 	\begin{center}
-	  \includegraphics[height=0.8 \textheight, keepaspectratio = true]{images/cluster3}  
+	  \includegraphics[height=0.6 \textheight, keepaspectratio = true]{images/cluster3}  
 	\end{center}
 \end{frame}
 
 \begin{frame}{С перемычками}
 	\begin{center}
-	  \includegraphics[height=0.8 \textheight, keepaspectratio = true]{images/cluster4}  
+	  \includegraphics[height=0.6 \textheight, keepaspectratio = true]{images/cluster4}  
 	\end{center}
 \end{frame}
 
 \begin{frame}{На фоне}
 	\begin{center}
-	  \includegraphics[height=0.8 \textheight, keepaspectratio = true]{images/cluster5}  
+	  \includegraphics[height=0.6 \textheight, keepaspectratio = true]{images/cluster5}  
 	\end{center}
 \end{frame}
 
 \begin{frame}{Перекрывающиеся}
 	\begin{center}
-	  \includegraphics[height=0.8 \textheight, keepaspectratio = true]{images/cluster6}  
+	  \includegraphics[height=0.6 \textheight, keepaspectratio = true]{images/cluster6}  
 	\end{center}
 \end{frame}
 
@@ -182,37 +182,36 @@
 	\hspace{5mm} $W = U \cup V$\\
 	\hspace{5mm} ${C_t = C_{t-1} \cup \left\{ W \right\}\setminus \left\{U, V \right\} }$\\
 	\hspace{5mm} foreach ${S \in C_t}$\\
-	\hspace{10mm}   вычислить $\rho(W, S)$\\
+	\hspace{10mm}   compute $\rho(W, S)$\\
 \end{frame}
 
 
 \begin{frame}{Алгоритм Ланса-Уильямса}
-  Чего не хватает?
+  \begin{center}
+    Чего-то не хватает?  
+  \end{center}
 \end{frame}
 
-\begin{frame}{Формула Ланса-Уильямса}
-	\begin{minipage}[t]{0.55\linewidth}
-		Расстояние $\rho(W, S)$?\\
-		${ W = \left\{ U \cup V \right\} }$\\	
-		Знаем:\\
+\begin{frame}\frametitle{Формула Ланса-Уильямса}
+	\begin{minipage}[t]{0.45\linewidth}
+    \vspace{15mm}
+ 		${ W = \left\{ U \cup V \right\} }$\\	
+		\bigbreak		
+		\alert{Знаем}:\\
 		${\rho(U, S), \rho(V, S), \rho(U, V)}$
+		\bigbreak				
+		Расстояние $\rho(W, S)$?\\	
 	\end{minipage}%
-
-\TODO{картинка}
-%	\begin{minipage}[t]{0.45\linewidth}
-%	    \begin{figure}[htbp]
-%			  \includegraphics[height=130pt, keepaspectratio = true]{images/lans-formula}  
-%			\end{figure}
-%	\end{minipage}%
+	\begin{minipage}[t]{0.55\linewidth}
+	  \begin{figure}[htbp]
+	    \includegraphics[height=150pt, keepaspectratio = true]{images/lans-formula}  
+	  \end{figure}
+  \end{minipage}%
 \end{frame}
 
 \begin{frame}{Формула Ланса-Уильямса}
-	Расстояние $\rho(W, S)$?\\
 	${ W = \left\{ U \cup V \right\} }$\\
 	\bigbreak
-	Знаем:\\
-	${\rho(U, S), \rho(V, S), \rho(U, V)}$\\
-  \bigbreak
 	${\rho(U \cup V, S) = \alpha_U \rho(U, S) + \alpha_V \rho(V, S) + }$ \\
 	\hspace{30mm} ${ + \beta \rho(U, V) + \gamma \vert \rho(U, S) - \rho(V, S)\vert}$\\
 	\bigbreak
@@ -225,57 +224,50 @@
 \end{frame}
 
 \begin{frame}{Расстояние ближнего соседа}
-	\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=100pt, keepaspectratio = true]{images/lans1}  
-%	\end{figure}
+	\begin{figure}[htbp]
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans1}  
+	\end{figure}
 \end{frame}
 
 \begin{frame}{Расстояние ближнего соседа}
 	Расстояние ближнего соседа:\\
-	\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=100pt, keepaspectratio = true]{images/lans1}  
-%	\end{figure}
+	\begin{figure}[htbp]
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans1}  
+	\end{figure}
 	${\alpha_U = \alpha_V = \frac{1}{2}}$ \\${\beta = 0}$ \\${\gamma = -\frac{1}{2}}$
 \end{frame}
 
 \begin{frame}{Расстояние дальнего соседа}
 	Расстояние дальнего соседа:\\
-  \TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=100pt, keepaspectratio = true]{images/lans2}  
-%	\end{figure}
+	\begin{figure}[htbp]
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans2}  
+	\end{figure}
 \end{frame}
 
 \begin{frame}{Расстояние дальнего соседа}
-	\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=100pt, keepaspectratio = true]{images/lans2}  
-%	\end{figure}
+	\begin{figure}[htbp]
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans2}  
+	\end{figure}
 	${\alpha_U = \alpha_V = \frac{1}{2}}$ \\${\beta = 0}$ \\${\gamma = \frac{1}{2}}$
 \end{frame}
 
 \begin{frame}{Групповое среднее}
-  \TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=100pt, keepaspectratio = true]{images/lans3}  
-%	\end{figure}
+	\begin{figure}[htbp]
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans3}  
+	\end{figure}
 \end{frame}
 
 \begin{frame}{Групповое среднее}
-  \TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=100pt, keepaspectratio = true]{images/lans3}  
-%	\end{figure}
+	\begin{figure}[htbp]
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans3}  
+	\end{figure}
 	${\alpha_U = \frac{\vert U \vert}{\vert W \vert}}$\\${\alpha_V = \frac{\vert V \vert}{\vert W \vert}}$ \\${\beta = \gamma = 0}$
 \end{frame}
 
 \begin{frame}{Расстояние Уорда}
-  \TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=100pt, keepaspectratio = true]{images/lans4}  
-%	\end{figure}
+	\begin{figure}[htbp]
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans4}  
+	\end{figure}
 
   ${\alpha_U = \frac{\vert S \vert + \vert U \vert}{\vert S \vert + \vert W \vert}}$\\${\alpha_V = \frac{\vert S \vert + \vert V \vert}{\vert S \vert + \vert W \vert}}$ \\${\beta = \frac{ -\vert S \vert}{\vert S \vert + \vert W \vert}}$ \\${\gamma = 0}$
 \end{frame}
@@ -283,13 +275,22 @@
 \section{Визуализация кластеров}
 
 \begin{frame}{Диаграмма вложения}
-  \TODO{картинка}  
+  \begin{center}
+    \includegraphics[height=0.8 \textheight, keepaspectratio = true]{images/diagram}    
+  \end{center}
 \end{frame}
 
 \begin{frame}{Дендрограмма}
-  \TODO{картинка}  
+  \begin{center}
+    \includegraphics[height=0.8 \textheight, width=0.8 \textwidth, keepaspectratio = true]{images/dendrogram}    
+  \end{center}
 \end{frame}
 
+\begin{frame}{Дендрограмма}
+  \begin{center}
+    \includegraphics[height=0.8 \textheight, width=0.8 \textwidth, keepaspectratio = true]{images/dendrogram1}    
+  \end{center}
+\end{frame}
 
 \begin{frame}{Вопрос}
   \centering  
@@ -298,41 +299,42 @@
 
 \begin{frame}{Свойство монотонности}
   Кластеризация монотонна, если на каждом шаге расстояние $\rho$ между объединяемыми кластерами не уменьшается.\\
-  $\rho_2 \leq \rho_3 \leq \dots \leq \rho_l$
+  \bigbreak  
+  $$\rho_2 \leq \rho_3 \leq \dots \leq \rho_l$$
 \end{frame}
 
 \section{Графовые алгоритмы}
 
 \begin{frame}{Графовые алгоритмы}
-  \centering  
-  Какие есть две очевидные идеи?
+  \begin{center}
+    Какие есть две очевидные идеи?
+  \end{center}    
 \end{frame}
 
 \begin{frame}{Графовые алгоритмы}
 	Идеи:\\
-	\begin{itemize}
-		\item[--] Выделение связных компонент
-		\item[--] Минимальное покрывающее дерево
-	\end{itemize}
+	\begin{enumerate}
+		\item Выделение связных компонент
+		\item Минимальное покрывающее дерево
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}{Выделение связных компонент}
-	\begin{itemize}
-		\item[--] Рисуем полный граф с весами, равными расстоянию между объектами
-		\item[--] Выбираем лимит расстояния $r$ и выкидываем все ребра длиннее $r$
-		\item[--] Компоненты связности полученного графа -- наши кластеры
-	\end{itemize}
+	\begin{enumerate}
+		\item Рисуем полный граф с весами, равными расстоянию между объектами
+		\item Выбираем лимит расстояния $r$ и выкидываем все ребра длиннее $r$
+		\item Компоненты связности полученного графа -- наши кластеры
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}{Выделение связных компонент}
-  \centering
-  Как искать компоненты связности?
+  \begin{center}
+    Как искать \alert{компоненты связности}?
+  \end{center}
 \end{frame}
 
 \begin{frame}{Минимальное покрывающее дерево}
 	Минимальное остовное дерево -- дерево, содержащее все вершины графа и имеющее минимальный суммарный вес ребер.\\
-	\bigbreak
-	Как найти?
 \end{frame}
 
 \begin{frame}{Минимальное покрывающее дерево}
@@ -366,19 +368,22 @@
 	\vspace{2mm}
 	\hspace{10mm} ${c = \left\{ x \in X \vert \rho(x, x_0) < R \right\}}$ \\
 	\vspace{2mm}
-	\hspace{10mm} $x_0 = \frac{1}{\vert c \vert} \sum\limits_{x \in c} x$\\
+	\hspace{10mm} $x_0 = \frac{1}{\vert c \vert} \sum\limits_{x_i \in c} x_i$\\
 	\vspace{2mm}
 	\hspace{5mm} ${U = U \setminus c}$, ${C = C \cup \left\{ c \right\}}$
 \end{frame}
 
 \begin{frame}{Алгоритм FOREL}
-	\begin{itemize}
+	\begin{itemize} [<+- | alert@+>]
 		\item[+] Наглядность
 		\item[+] Сходимость
+		\bigbreak
 		\item[--] Зависимость от выбора $x_0$
 		\item[--] Плохо работает, если изначальная выборка плохо делится на кластеры
 	\end{itemize}
 \end{frame}
+
+% можно какую-нибудь иллюстрацию придумать
 
 \begin{frame}{Метод $k$-средних}
 	\alert{Идея}:  минимизировать меру ошибки\\
@@ -480,7 +485,7 @@
 \section{Устранение недостатков}
 
 \begin{frame}{Устранение недостатков}
-	\begin{itemize}
+	\begin{itemize} [<+- | alert@+>]
 		\item[--] Несколько случайных кластеризаций
 		\item[--] Постепенное наращивание числа $k$
 		\item[--] Использование k-means++
@@ -488,20 +493,20 @@
 \end{frame}
 
 \begin{frame}{k-means++}
-	\begin{itemize}
-		\item[--] Выбрать первый центроид случайным образом
-		\item[--] Для каждой точки найти значение квадрата расстояния до ближайшего центроида.
-		\item[--] Выбрать из этих точек следующий центроид так, чтобы вероятность выбора точки была пропорциональна вычисленному для неё квадрату расстояния
-	\end{itemize}
+	\begin{enumerate}
+		\item Выбрать первый центроид случайным образом
+		\item Для каждой точки найти значение квадрата расстояния до ближайшего центроида.
+		\item Выбрать из этих точек следующий центроид так, чтобы вероятность выбора точки была пропорциональна вычисленному для неё квадрату расстояния
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}{X-means}
 	\alert{Идея}:\\
-	\begin{itemize}
-		\item[--] Получать на вход не k, а диапазон, в котором может находиться k.
-		\item[--] Запустить k-means на самом маленьком значении из диапазона.
-		\item[--] Разбивать пополам полученные кластеры и проверять, не улучшилась ли кластеризация.
-	\end{itemize}
+	\begin{enumerate}
+		\item Получать на вход не k, а диапазон, в котором может находиться k.
+		\item Запустить k-means на самом маленьком значении из диапазона.
+		\item Разбить пополам полученные кластеры и проверить, не улучшилась ли кластеризация.
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}{X-means}
@@ -510,19 +515,22 @@
 %	  \includegraphics[height=140pt, keepaspectratio = true]{images/x-means}  
 %	    \includegraphics[height=140pt, keepaspectratio = true]{images/x-means-1}
 %	\end{figure}
+https://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf
 \end{frame}
 
 \begin{frame}{X-means}
-  \centering  
-  Как проверить, что кластеризация улучшилась?
+  \begin{center}
+    Как проверить, что кластеризация улучшилась?
+  \end{center}
 \end{frame}
 
+% понять, как про это говорить
 \begin{frame}{Байесовский информационный критерий}
-	$BIC_j = L_j(X)  + \frac{d}{2} \log(n)$\\
+	$BIC_j = L_j(X)  + \frac{d}{2} \log(l)$\\
 	\bigbreak
 	$L_j$ -- логарифмическая функция правдоподобия для $j$-й модели \\
 	$d$ -- длина вектора параметров\\
-	$n$ -- количество объектов в выборке\\
+	$l$ -- количество объектов в выборке\\
 \end{frame}
 
 \section{Недостатки k-means}
