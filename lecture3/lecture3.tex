@@ -55,7 +55,6 @@
 	$a: X \rightarrow Y$ -- алгоритм кластеризации
 \end{frame}
 
-
 \section{Степени свободы в постановке задачи}
 
 \begin{frame}{Степени свободы в постановке задачи}
@@ -84,7 +83,6 @@
     \includegraphics[height=0.6 \textheight, keepaspectratio = true]{images/cluster1}  
 	\end{center}
 \end{frame}
-
 
 \begin{frame}{Ленты}
 	\begin{center}
@@ -115,6 +113,8 @@
 	  \includegraphics[height=0.6 \textheight, keepaspectratio = true]{images/cluster6}  
 	\end{center}
 \end{frame}
+
+\section{Чувствительность к выбору метрики}
 
 \begin{frame}{Чувствительность к выбору метрики}
 	\begin{center}
@@ -154,124 +154,6 @@
 	$${\frac{\sum\limits_{a(x_i) \neq a(x_j)} \rho(x_i, x_j)}{\sum\limits_{a(x_i) \neq a(x_j)} 1} \rightarrow \max}$$
 \end{frame}
 
-
-\begin{frame}{Методы кластеризации}
-	\begin{enumerate} [-]
-		\item Иерархические
-		\item Графовые 
-		\item Статистические 
-	\end{enumerate}
-\end{frame}
-
-\section{Иерархическая кластеризация}
-
-\begin{frame}{Агломеративный алгоритм Ланса-Уильямса}
-	\alert{Идея}:\\
-	\begin{enumerate}
-		\item Считаем каждую точку кластером. 
-		\item Затем объединяем ближайшие точки в новый кластер. 
-		\item Повторяем.
-	\end{enumerate}
-\end{frame}
-
-
-\begin{frame}{Алгоритм Ланса-Уильямса}
-	${C_1 = \left\{ \left\{ x_1\right\}, \left\{x_2 \right\}, \dots, \left\{x_l \right\} \right\}}$\\
-	for ${t=2, \dots, l }$:\\
-	\hspace{5mm} ${(U, V) = \arg\min\limits_{U \neq V} \rho(U, V)}$\\
-	\hspace{5mm} $W = U \cup V$\\
-	\hspace{5mm} ${C_t = C_{t-1} \cup \left\{ W \right\}\setminus \left\{U, V \right\} }$\\
-	\hspace{5mm} foreach ${S \in C_t}$\\
-	\hspace{10mm}   compute $\rho(W, S)$\\
-\end{frame}
-
-
-\begin{frame}{Алгоритм Ланса-Уильямса}
-  \begin{center}
-    Чего-то не хватает?  
-  \end{center}
-\end{frame}
-
-\begin{frame}\frametitle{Формула Ланса-Уильямса}
-	\begin{minipage}[t]{0.45\linewidth}
-    \vspace{15mm}
- 		${ W = \left\{ U \cup V \right\} }$\\	
-		\bigbreak		
-		\alert{Знаем}:\\
-		${\rho(U, S), \rho(V, S), \rho(U, V)}$
-		\bigbreak				
-		Расстояние $\rho(W, S)$?\\	
-	\end{minipage}%
-	\begin{minipage}[t]{0.55\linewidth}
-	  \begin{figure}[htbp]
-	    \includegraphics[height=150pt, keepaspectratio = true]{images/lans-formula}  
-	  \end{figure}
-  \end{minipage}%
-\end{frame}
-
-\begin{frame}{Формула Ланса-Уильямса}
-	${ W = \left\{ U \cup V \right\} }$\\
-	\bigbreak
-	${\rho(U \cup V, S) = \alpha_U \rho(U, S) + \alpha_V \rho(V, S) + }$ \\
-	\hspace{30mm} ${ + \beta \rho(U, V) + \gamma \vert \rho(U, S) - \rho(V, S)\vert}$\\
-	\bigbreak
-	${\alpha_U, \alpha_V, \beta, \gamma}$ -- числовые параметры
-\end{frame}
-
-\begin{frame}{Параметры}
-	Значения параметров
-	${\alpha_U, \alpha_V, \beta, \gamma}$ ?
-\end{frame}
-
-\begin{frame}{Расстояние ближнего соседа}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans1}  
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Расстояние ближнего соседа}
-	Расстояние ближнего соседа:\\
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans1}  
-	\end{figure}
-	${\alpha_U = \alpha_V = \frac{1}{2}}$ \\${\beta = 0}$ \\${\gamma = -\frac{1}{2}}$
-\end{frame}
-
-\begin{frame}{Расстояние дальнего соседа}
-	Расстояние дальнего соседа:\\
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans2}  
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Расстояние дальнего соседа}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans2}  
-	\end{figure}
-	${\alpha_U = \alpha_V = \frac{1}{2}}$ \\${\beta = 0}$ \\${\gamma = \frac{1}{2}}$
-\end{frame}
-
-\begin{frame}{Групповое среднее}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans3}  
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Групповое среднее}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans3}  
-	\end{figure}
-	${\alpha_U = \frac{\vert U \vert}{\vert W \vert}}$\\${\alpha_V = \frac{\vert V \vert}{\vert W \vert}}$ \\${\beta = \gamma = 0}$
-\end{frame}
-
-\begin{frame}{Расстояние Уорда}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans4}  
-	\end{figure}
-
-  ${\alpha_U = \frac{\vert S \vert + \vert U \vert}{\vert S \vert + \vert W \vert}}$\\${\alpha_V = \frac{\vert S \vert + \vert V \vert}{\vert S \vert + \vert W \vert}}$ \\${\beta = \frac{ -\vert S \vert}{\vert S \vert + \vert W \vert}}$ \\${\gamma = 0}$
-\end{frame}
-
 \section{Визуализация кластеров}
 
 \begin{frame}{Диаграмма вложения}
@@ -303,48 +185,12 @@
   $$\rho_2 \leq \rho_3 \leq \dots \leq \rho_l$$
 \end{frame}
 
-\section{Графовые алгоритмы}
-
-\begin{frame}{Графовые алгоритмы}
-  \begin{center}
-    Какие есть две очевидные идеи?
-  \end{center}    
-\end{frame}
-
-\begin{frame}{Графовые алгоритмы}
-	Идеи:\\
-	\begin{enumerate}
-		\item Выделение связных компонент
-		\item Минимальное покрывающее дерево
+\begin{frame}{Методы кластеризации}
+	\begin{enumerate} [-]
+    \item Статистические 				
+		\item Графовые 
+		\item Иерархические
 	\end{enumerate}
-\end{frame}
-
-\begin{frame}{Выделение связных компонент}
-	\begin{enumerate}
-		\item Рисуем полный граф с весами, равными расстоянию между объектами
-		\item Выбираем лимит расстояния $r$ и выкидываем все ребра длиннее $r$
-		\item Компоненты связности полученного графа -- наши кластеры
-	\end{enumerate}
-\end{frame}
-
-\begin{frame}{Выделение связных компонент}
-  \begin{center}
-    Как искать \alert{компоненты связности}?
-  \end{center}
-\end{frame}
-
-\begin{frame}{Минимальное покрывающее дерево}
-	Минимальное остовное дерево -- дерево, содержащее все вершины графа и имеющее минимальный суммарный вес ребер.\\
-\end{frame}
-
-\begin{frame}{Минимальное покрывающее дерево}
-  Как использовать минимальное остовное дерево для разбиения на кластеры?
-\end{frame}
-
-\begin{frame}{Минимальное покрывающее дерево}
-	Строим минимальное остовное дерево, а потом выкидываем из него ребра максимального веса.\\
-	\bigbreak
-	Сколько ребер выбросим -- столько кластеров получим.
 \end{frame}
 
 \section{Статистические алгоритмы}
@@ -563,6 +409,159 @@ https://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf
 %	\end{figure}
 \end{frame}
 
+\section{Графовые алгоритмы}
+
+\begin{frame}{Графовые алгоритмы}
+  \begin{center}
+    Какие есть две очевидные идеи?
+  \end{center}    
+\end{frame}
+
+\begin{frame}{Графовые алгоритмы}
+	Идеи:\\
+	\begin{enumerate}
+		\item Выделение связных компонент
+		\item Минимальное покрывающее дерево
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Выделение связных компонент}
+	\begin{enumerate}
+		\item Рисуем полный граф с весами, равными расстоянию между объектами
+		\item Выбираем лимит расстояния $r$ и выкидываем все ребра длиннее $r$
+		\item Компоненты связности полученного графа -- наши кластеры
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Выделение связных компонент}
+  \begin{center}
+    Как искать \alert{компоненты связности}?
+  \end{center}
+\end{frame}
+
+\begin{frame}{Минимальное покрывающее дерево}
+	Минимальное остовное дерево -- дерево, содержащее все вершины графа и имеющее минимальный суммарный вес ребер.\\
+\end{frame}
+
+\begin{frame}{Минимальное покрывающее дерево}
+  Как использовать минимальное остовное дерево для разбиения на кластеры?
+\end{frame}
+
+\begin{frame}{Минимальное покрывающее дерево}
+	Строим минимальное остовное дерево, а потом выкидываем из него ребра максимального веса.\\
+	\bigbreak
+	Сколько ребер выбросим -- столько кластеров получим.
+\end{frame}
+
+\section{Иерархическая кластеризация}
+
+\begin{frame}{Агломеративный алгоритм Ланса-Уильямса}
+	\alert{Идея}:\\
+	\begin{enumerate}
+		\item Считаем каждую точку кластером. 
+		\item Затем объединяем ближайшие точки в новый кластер. 
+		\item Повторяем.
+	\end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Алгоритм Ланса-Уильямса}
+	${C_1 = \left\{ \left\{ x_1\right\}, \left\{x_2 \right\}, \dots, \left\{x_l \right\} \right\}}$\\
+	for ${t=2, \dots, l }$:\\
+	\hspace{5mm} ${(U, V) = \arg\min\limits_{U \neq V} \rho(U, V)}$\\
+	\hspace{5mm} $W = U \cup V$\\
+	\hspace{5mm} ${C_t = C_{t-1} \cup \left\{ W \right\}\setminus \left\{U, V \right\} }$\\
+	\hspace{5mm} foreach ${S \in C_t}$\\
+	\hspace{10mm}   compute $\rho(W, S)$\\
+\end{frame}
+
+
+\begin{frame}{Алгоритм Ланса-Уильямса}
+  \begin{center}
+    Чего-то не хватает?  
+  \end{center}
+\end{frame}
+
+\begin{frame}\frametitle{Формула Ланса-Уильямса}
+	\begin{minipage}[t]{0.45\linewidth}
+    \vspace{15mm}
+ 		${ W = \left\{ U \cup V \right\} }$\\	
+		\bigbreak		
+		\alert{Знаем}:\\
+		${\rho(U, S), \rho(V, S), \rho(U, V)}$
+		\bigbreak				
+		Расстояние $\rho(W, S)$?\\	
+	\end{minipage}%
+	\begin{minipage}[t]{0.55\linewidth}
+	  \begin{figure}[htbp]
+	    \includegraphics[height=150pt, keepaspectratio = true]{images/lans-formula}  
+	  \end{figure}
+  \end{minipage}%
+\end{frame}
+
+\begin{frame}{Формула Ланса-Уильямса}
+	${ W = \left\{ U \cup V \right\} }$\\
+	\bigbreak
+	${\rho(U \cup V, S) = \alpha_U \rho(U, S) + \alpha_V \rho(V, S) + }$ \\
+	\hspace{30mm} ${ + \beta \rho(U, V) + \gamma \vert \rho(U, S) - \rho(V, S)\vert}$\\
+	\bigbreak
+	${\alpha_U, \alpha_V, \beta, \gamma}$ -- числовые параметры
+\end{frame}
+
+\begin{frame}{Параметры}
+	Значения параметров
+	${\alpha_U, \alpha_V, \beta, \gamma}$ ?
+\end{frame}
+
+\begin{frame}{Расстояние ближнего соседа}
+	\begin{figure}[htbp]
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans1}  
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Расстояние ближнего соседа}
+	Расстояние ближнего соседа:\\
+	\begin{figure}[htbp]
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans1}  
+	\end{figure}
+	${\alpha_U = \alpha_V = \frac{1}{2}}$ \\${\beta = 0}$ \\${\gamma = -\frac{1}{2}}$
+\end{frame}
+
+\begin{frame}{Расстояние дальнего соседа}
+	Расстояние дальнего соседа:\\
+	\begin{figure}[htbp]
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans2}  
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Расстояние дальнего соседа}
+	\begin{figure}[htbp]
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans2}  
+	\end{figure}
+	${\alpha_U = \alpha_V = \frac{1}{2}}$ \\${\beta = 0}$ \\${\gamma = \frac{1}{2}}$
+\end{frame}
+
+\begin{frame}{Групповое среднее}
+	\begin{figure}[htbp]
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans3}  
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Групповое среднее}
+	\begin{figure}[htbp]
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans3}  
+	\end{figure}
+	${\alpha_U = \frac{\vert U \vert}{\vert W \vert}}$\\${\alpha_V = \frac{\vert V \vert}{\vert W \vert}}$ \\${\beta = \gamma = 0}$
+\end{frame}
+
+\begin{frame}{Расстояние Уорда}
+	\begin{figure}[htbp]
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans4}  
+	\end{figure}
+
+  ${\alpha_U = \frac{\vert S \vert + \vert U \vert}{\vert S \vert + \vert W \vert}}$\\${\alpha_V = \frac{\vert S \vert + \vert V \vert}{\vert S \vert + \vert W \vert}}$ \\${\beta = \frac{ -\vert S \vert}{\vert S \vert + \vert W \vert}}$ \\${\gamma = 0}$
+\end{frame}
+
 \begin{frame}[standout]
   Вопросы?
 \end{frame}
@@ -570,7 +569,14 @@ https://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf
 \appendix
 
 \begin{frame}{На следующей лекции}
-  \TODO{what next}
+  	\begin{enumerate} [--]
+		\item Деревья принятия решений
+		\item Виды правил
+		\item Поиск информативных закономерностей		
+		\item Подрезание деревьев	
+		\item Oblivious деревья
+		\item Random forest
+	\end{enumerate}
 \end{frame}
 
 \end{document}
