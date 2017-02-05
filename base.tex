@@ -16,8 +16,9 @@
 \usepgfplotslibrary{dateplot}
 
 \usepackage{xspace}
-\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
 \newcommand{\TODO}[1]{\textbf{\textcolor{red}{TODO: #1}}}
+
+\newcommand{\foot} [1] {\setbeamertemplate{frame footer} {\footnotesize\textcolor{gray} {#1}}}
 
 \algblockdefx{MRepeat}{EndRepeat}{\textbf{repeat}}{}
 \algnotext{EndRepeat}

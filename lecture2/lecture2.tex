@@ -12,7 +12,7 @@
 
 \section{Мотивирующий пример}
 
-{\setbeamertemplate{frame footer}{\href{https://www.kaggle.com/abcsds/pokemon}{Pokemon with stats (https://www.kaggle.com/abcsds/pokemon)}}
+{\foot{\href{https://www.kaggle.com/abcsds/pokemon}{Pokemon with stats (https://www.kaggle.com/abcsds/pokemon)}}
 \begin{frame}{Мотивирующий пример}
 	\begin{figure}
 	    \centering
@@ -93,7 +93,7 @@
 	Number of Pokemons = 800
 \end{frame}
 
-{\setbeamertemplate{frame footer}{\href{https://github.com/ktisha/ML2017/tree/master/notebooks}{Репозиторий с материалами (https://github.com/ktisha/ML2017))}}
+{\foot{\href{https://github.com/ktisha/ML2017/tree/master/notebooks}{Репозиторий с материалами (https://github.com/ktisha/ML2017))}}
 \begin{frame}{Типы покемонов}
   \begin{center}
 	  \includegraphics[width=\linewidth,height=0.8 \textheight,keepaspectratio]{images/pokemons_by_type}
@@ -148,7 +148,7 @@
 
 \section{Функции расстояния}
 
-{\setbeamertemplate{frame footer}{Euclidean distance (metric)}
+{\foot{Euclidean distance (metric)}
 \begin{frame}{Евклидово расстояние}
 	${\rho (u, v) = \sqrt{\sum\limits_{j=1}^n |u^j - v^j|^2}}$, \hspace{5mm} ${u, v \in X^{l}}$\\
 	\bigbreak
@@ -159,7 +159,7 @@
 \end{frame}
 }
 
-{\setbeamertemplate{frame footer}{Манхэттенское расстояние, Taxicab distance}
+{\foot{Манхэттенское расстояние, Taxicab distance}
 \begin{frame}{Расстояние городских кварталов}
 	${\rho (u, v) = \sum\limits_{j=1}^n |u^j - v^j|}$, \hspace{5mm} ${u, v \in X^{l}}$\\
 	\bigbreak
@@ -170,7 +170,7 @@
 \end{frame}
 }
 
-{\setbeamertemplate{frame footer}{Minkowski distance}
+{\foot{Minkowski distance}
 \begin{frame}{Расстояние Минковского}
 	Обобщение евклидова расстояния и расстояния городских кварталов
 	\bigbreak
@@ -183,7 +183,7 @@
 \end{frame}
 }
 
-{\setbeamertemplate{frame footer}{Редакционное расстояние, дистанция редактирования, Edit distance }
+{\foot{Редакционное расстояние, дистанция редактирования, Edit distance }
 \begin{frame}{Расстояние Левенштейна}
 	Минимальное количество операций вставки одного символа, удаления одного символа и замены одного символа на другой, необходимых для превращения одной строки в другую.
 \end{frame}
@@ -220,7 +220,7 @@
 
 \begin{frame}{Метрический алгоритм классификации}
 	${a(u, X^l) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} w(i, u)}$\\
-	\vspace{5mm}
+	\bigbreak
 	$w(i, u)$ - вес $i$-го соседа $u$, неотрицателен\\
 \end{frame}
 
@@ -386,7 +386,7 @@
 
 \begin{frame}\frametitle{Метрический алгоритм классификации}
 	${a(u, X^l) = \arg\max\limits_{y \in Y} \underbrace{\sum\limits_{y_i = y} w(i, u)}_{\Gamma_y(u)} }$\\
-	\vspace{5mm}
+	\bigbreak
 	$w(i, u)$ - вес $i$-го соседа $u$, неотрицателен\\
 	$\Gamma_y(u)$ - оценка близости объекта $u$ к классу ${y}$
 \end{frame}
@@ -413,7 +413,7 @@
 	\end{enumerate}
 \end{frame}
 
-{\setbeamertemplate{frame footer}{\textcolor{gray}{картинка с machinelearning.ru}}
+{\foot{картинка с machinelearning.ru}
 \begin{frame}{Типы объектов}
   \begin{center}
     \includegraphics[width=\textwidth, keepaspectratio]{images/margin}
@@ -466,7 +466,7 @@
 
 \begin{frame}\frametitle{k-d дерево}
 	\alert{Идея}: разложим множество по поторому будем искать в бинарное дерево с простыми условиями и конкретными точками в узлах.
-	\vspace{5mm}
+	\bigbreak
 	\begin{enumerate}
 		\item По циклу, или рандомно выбираем ось.
 		\item Ищем медиану (точку, разбивающую множество на как можно более равные части).
@@ -501,9 +501,9 @@
 
 \begin{frame}\frametitle{Locality Sensitive Hash}
 	\alert{Проблема}: Сколько сравнений нам понадобится  для того, чтобы найти похожие среди $N$ документов?\\
-	\vspace{5mm}
+	\bigbreak
 	$C = \frac{N(N-1)}{2}$\\
-	\vspace{5mm}
+	\bigbreak
 	$N = 10^6 \Rightarrow C = 5*10^{11}$
 \end{frame}
 
