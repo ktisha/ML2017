@@ -205,18 +205,19 @@
 \end{frame}
 
 \begin{frame}{Алгоритм FOREL}
-	Input: X, R\\
-	${U = X, C = 0}$\\\vspace{2mm}
-	while ${U \neq 0}$:\\
-	\hspace{5mm} выбрать случайную точку $x_0$\\
-	\vspace{2mm}
-	\hspace{5mm} Повторять пока $x_0$ не стабилизируется:\\
-	\vspace{2mm}
-	\hspace{10mm} ${c = \left\{ x \in X \vert \rho(x, x_0) < R \right\}}$ \\
-	\vspace{2mm}
-	\hspace{10mm} $x_0 = \frac{1}{\vert c \vert} \sum\limits_{x_i \in c} x_i$\\
-	\vspace{2mm}
-	\hspace{5mm} ${U = U \setminus c}$, ${C = C \cup \left\{ c \right\}}$
+	\begin{algorithmic}[1]
+        \Function{forel}{$X$, $R$}
+            \State ${U \gets X}$, $C \gets 0$
+            \While{${U \neq 0}$}                
+                \State выбрать случайную точку $x_0$
+                \MRepeat [пока $x_0$ не стабилизируется] 
+                		\State ${c = \left\{ x \in X \vert \rho(x, x_0) < R \right\}}$
+                		\State $x_0 = \frac{1}{\vert c \vert} \sum\limits_{x_i \in c} x_i$
+                	\EndRepeat
+    		        \State ${U = U \setminus c}$, ${C = C \cup \left\{ c \right\}}$
+            \EndWhile            
+        \EndFunction
+    \end{algorithmic}
 \end{frame}
 
 \begin{frame}{Алгоритм FOREL}
@@ -240,50 +241,44 @@
 \end{frame}
 
 \begin{frame}{Метод $k$-средних}
-	Инициализировать центры $k$ кластеров \\
-	\vspace{2mm}
-	Пока $c_i$ не перестанет меняться:\\
-	\hspace{5mm} $c_i = \arg\min\limits_{c \in C} \rho(x_i, \mu_c)$ \hspace{5mm} $i = 1,\dots, l$\\
-	\vspace{2mm}\hspace{5mm} ${\mu_c = \frac{\sum\limits_{c_i = c} f_j(x_i)}{\sum\limits_{c_i = c} 1} }$ \hspace{10mm} $j = 1,\dots, n$, $c \in C$\\
-	\vspace{2mm}
+	\begin{algorithmic}[1]
+        \Function{kmeans}{$k$}
+            \State Инициализировать $\mu_i$, $i = 1 \dots k$
+            \MRepeat [пока $c_i$ не перестанет меняться] 
+                \State $c_i = \arg\min\limits_{c \in C} \rho(x_i, \mu_c)$ \hspace{5mm} $i = 1,\dots, l$
+                \State ${\mu_c = \frac{\sum\limits_{c_i = c} f_j(x_i)}{\sum\limits_{c_i = c} 1} }$ \hspace{10mm} $j = 1,\dots, n$, $c \in C$
+             \EndRepeat
+        \EndFunction
+    \end{algorithmic}    
+	\bigbreak
+	\bigbreak
 	$\mu_c$ -- новое положение центров кластеров\\
 	$c_i$ -- принадлежность $x_i$ к кластеру\\
 	$\rho(x_i, \mu_c)$ -- расстояние от $x_i$ до центра кластера $\mu_c$
 \end{frame}
 
 \begin{frame}{Метод $k$-средних}
-  \TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=190pt, keepaspectratio = true]{images/k-means-1}   
-%	\end{figure}
+	\begin{center}
+	  \includegraphics[width= \textwidth, keepaspectratio = true]{images/kmeans1}   
+	\end{center}
 \end{frame}
 
 \begin{frame}{Метод $k$-средних}
-\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=190pt, keepaspectratio = true]{images/k-means-2}   
-%	\end{figure}
+	\begin{center}
+	  \includegraphics[width= \textwidth, keepaspectratio = true]{images/kmeans2}   
+	\end{center}
 \end{frame}
 
 \begin{frame}{Метод $k$-средних}
-\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=190pt, keepaspectratio = true]{images/k-means-3}   
-%	\end{figure}
+	\begin{center}
+	  \includegraphics[width= \textwidth, keepaspectratio = true]{images/kmeans3}   
+	\end{center}
 \end{frame}
 
 \begin{frame}{Метод $k$-средних}
-\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=190pt, keepaspectratio = true]{images/k-means-4}   
-%	\end{figure}
-\end{frame}
-
-\begin{frame}{Метод $k$-средних}
-\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=190pt, keepaspectratio = true]{images/k-means-5}   
-%	\end{figure}
+	\begin{center}
+	  \includegraphics[width= \textwidth, keepaspectratio = true]{images/kmeans4}   
+	\end{center}
 \end{frame}
 
 \begin{frame}{Особенности метода $k$-средних}
@@ -294,39 +289,64 @@
 \end{frame}
 
 \begin{frame}{Чувствительность к начальному выбору $\mu_c$}
-\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=180pt, keepaspectratio = true]{images/local_min2}  
-%	\end{figure}
+	\begin{center}
+	  \includegraphics[width= \textwidth, keepaspectratio = true]{images/localmin1}  
+	\end{center}
 \end{frame}
 
 \begin{frame}{Чувствительность к начальному выбору $\mu_c$}
-\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=180pt, keepaspectratio = true]{images/local_min4}  
-%	\end{figure}
+	\begin{center}
+	  \includegraphics[width= \textwidth, keepaspectratio = true]{images/localmin2}  
+	\end{center}
 \end{frame}
 
 \begin{frame}{Чувствительность к начальному выбору $\mu_c$}
-\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=180pt, keepaspectratio = true]{images/local_min6}  
-%	\end{figure}
+	\begin{center}
+	  \includegraphics[width= \textwidth, keepaspectratio = true]{images/localmin3}  
+	\end{center}
 \end{frame}
 
 \begin{frame}{Чувствительность к начальному выбору $\mu_c$}
-\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=180pt, keepaspectratio = true]{images/local_min7}  
-%	\end{figure}
+	\begin{center}
+	  \includegraphics[width= \textwidth, keepaspectratio = true]{images/localmin4}  
+	\end{center}
 \end{frame}
 
 \begin{frame}{Необходимость задавать $k$}
-\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=180pt, keepaspectratio = true]{images/k_means_k}  
-%	\end{figure}
+	\begin{center}
+	  \includegraphics[width= \textwidth, keepaspectratio = true]{images/k_means_k}  
+	\end{center}
 \end{frame}
+
+\begin{frame}{Необходимость задавать $k$}
+	\begin{center}
+	  \includegraphics[width= \textwidth, keepaspectratio = true]{images/k_means_k4}  
+	\end{center}
+\end{frame}
+
+\begin{frame}{Необходимость задавать $k$}
+	\begin{center}
+	  \includegraphics[width= \textwidth, keepaspectratio = true]{images/k_means_k7}  
+	\end{center}
+\end{frame}
+
+\section{Интересные результаты}
+
+{\setbeamertemplate{frame footer}{\href{https://www.reddit.com/r/pokemonconspiracies/comments/2uu7lc/arcanine_was_meant_to_be_a_legendary/
+}{Pokemon Conspiracies}}
+\begin{frame}{Интересные результаты}
+	\begin{center}
+	  	\includegraphics[keepaspectratio = true]{images/Arcanine}  \\
+	  	Arcanine
+	\end{center}
+\end{frame}
+
+\begin{frame}{Интересные результаты}
+	\begin{center}
+	  \includegraphics[width= \textwidth, height=0.8 \textheight, keepaspectratio = true]{images/legendary_arcanine}  
+	\end{center}
+\end{frame}
+}
 
 \section{Устранение недостатков}
 
@@ -339,6 +359,7 @@
 \end{frame}
 
 \begin{frame}{k-means++}
+	\alert{Идея}:\\
 	\begin{enumerate}
 		\item Выбрать первый центроид случайным образом
 		\item Для каждой точки найти значение квадрата расстояния до ближайшего центроида.
@@ -346,6 +367,7 @@
 	\end{enumerate}
 \end{frame}
 
+{\setbeamertemplate{frame footer}{\href{https://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf}{https://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf}}
 \begin{frame}{X-means}
 	\alert{Идея}:\\
 	\begin{enumerate}
@@ -354,59 +376,62 @@
 		\item Разбить пополам полученные кластеры и проверить, не улучшилась ли кластеризация.
 	\end{enumerate}
 \end{frame}
+}
 
-\begin{frame}{X-means}
-\TODO{картинка}
+%\begin{frame}{X-means}
+%\TODO{картинка}
 %	\begin{figure}[htbp]
 %	  \includegraphics[height=140pt, keepaspectratio = true]{images/x-means}  
 %	    \includegraphics[height=140pt, keepaspectratio = true]{images/x-means-1}
 %	\end{figure}
-https://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf
-\end{frame}
+%https://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf
+%\end{frame}
 
-\begin{frame}{X-means}
-  \begin{center}
-    Как проверить, что кластеризация улучшилась?
-  \end{center}
-\end{frame}
+% Слишком сложно?
+%\begin{frame}{X-means}
+%  \begin{center}
+%    Как проверить, что кластеризация улучшилась?
+%  \end{center}
+%\end{frame}
 
-% понять, как про это говорить
-\begin{frame}{Байесовский информационный критерий}
-	$BIC_j = L_j(X)  + \frac{d}{2} \log(l)$\\
-	\bigbreak
-	$L_j$ -- логарифмическая функция правдоподобия для $j$-й модели \\
-	$d$ -- длина вектора параметров\\
-	$l$ -- количество объектов в выборке\\
-\end{frame}
+%\begin{frame}{Байесовский информационный критерий}
+%	$BIC_j = L_j(X)  + \frac{d}{2} \log(l)$\\
+%	\bigbreak
+%	$L_j$ -- логарифмическая функция правдоподобия для $j$-й модели \\
+%	$d$ -- длина вектора параметров\\
+%	$l$ -- количество объектов в выборке\\
+%\end{frame}
 
 \section{Недостатки k-means}
 
 \begin{frame}{"Не сферические данные"}
-  \TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=180pt, keepaspectratio = true]{images/non_spherical-1}  
-%	\end{figure}
+	\begin{center}
+	  \includegraphics[width=\textwidth, keepaspectratio = true]{images/non_spherical-1}  
+	\end{center}
 \end{frame}	
 
 \begin{frame}{"Не сферические данные"}
-	\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=180pt, keepaspectratio = true]{images/non_spherical-2}  
-%	\end{figure}
+	\begin{center}
+	  \includegraphics[width=\textwidth, keepaspectratio = true]{images/non_spherical-2}  
+	\end{center}
+\end{frame}	
+
+\begin{frame}{"Не сферические данные"}
+	\begin{center}
+	  \includegraphics[width=\textwidth, keepaspectratio = true]{images/non_spherical-3}  
+	\end{center}
+\end{frame}	
+
+\begin{frame}{Разноразмерные кластеры}
+	\begin{center}
+	  \includegraphics[width=\textwidth, height=0.8 \textheight, keepaspectratio = true]{images/different_sizes-1}  
+	\end{center}
 \end{frame}
 
 \begin{frame}{Разноразмерные кластеры}
-\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=180pt, keepaspectratio = true]{images/different_sizes-1}  
-%	\end{figure}
-\end{frame}
-
-\begin{frame}{Разноразмерные кластеры}
-\TODO{картинка}
-%	\begin{figure}[htbp]
-%	  \includegraphics[height=180pt, keepaspectratio = true]{images/different_sizes-2}  
-%	\end{figure}
+	\begin{center}
+	  \includegraphics[width=\textwidth, height=0.8 \textheight, keepaspectratio = true]{images/different_sizes-2}  
+	\end{center}
 \end{frame}
 
 \section{Графовые алгоритмы}
@@ -428,7 +453,7 @@ https://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf
 \begin{frame}{Выделение связных компонент}
 	\begin{enumerate}
 		\item Рисуем полный граф с весами, равными расстоянию между объектами
-		\item Выбираем лимит расстояния $r$ и выкидываем все ребра длиннее $r$
+		\item Выбираем лимит расстояния $r$ и выкидываем все ребра\\ длиннее $r$
 		\item Компоненты связности полученного графа -- наши кластеры
 	\end{enumerate}
 \end{frame}
@@ -466,16 +491,21 @@ https://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf
 
 
 \begin{frame}{Алгоритм Ланса-Уильямса}
-	${C_1 = \left\{ \left\{ x_1\right\}, \left\{x_2 \right\}, \dots, \left\{x_l \right\} \right\}}$\\
-	for ${t=2, \dots, l }$:\\
-	\hspace{5mm} ${(U, V) = \arg\min\limits_{U \neq V} \rho(U, V)}$\\
-	\hspace{5mm} $W = U \cup V$\\
-	\hspace{5mm} ${C_t = C_{t-1} \cup \left\{ W \right\}\setminus \left\{U, V \right\} }$\\
-	\hspace{5mm} foreach ${S \in C_t}$\\
-	\hspace{10mm}   compute $\rho(W, S)$\\
+	\begin{algorithmic}[1]
+        \Function{lance-williams}{$X^l$}
+            \State ${C_1 = \left\{ \left\{ x_1\right\}, \left\{x_2 \right\}, \dots, \left\{x_l \right\} \right\}}$
+            \For {${t=2, \dots, l }$}
+            		\State ${(U, V) = \arg\min\limits_{U \neq V} \rho(U, V)}$
+            		\State $W = U \cup V$
+            		\State ${C_t = C_{t-1} \cup \left\{ W \right\}\setminus \left\{U, V \right\} }$
+            		\For {\textbf{each} ${S \in C_t}$}
+            			\State вычислить $\rho(W, S)$
+            		\EndFor
+            	\EndFor
+        \EndFunction
+    \end{algorithmic}   
 \end{frame}
-
-
+	
 \begin{frame}{Алгоритм Ланса-Уильямса}
   \begin{center}
     Чего-то не хватает?  
@@ -561,6 +591,8 @@ https://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf
 
   ${\alpha_U = \frac{\vert S \vert + \vert U \vert}{\vert S \vert + \vert W \vert}}$\\${\alpha_V = \frac{\vert S \vert + \vert V \vert}{\vert S \vert + \vert W \vert}}$ \\${\beta = \frac{ -\vert S \vert}{\vert S \vert + \vert W \vert}}$ \\${\gamma = 0}$
 \end{frame}
+
+\section{Обучение с частичным привлечением учителя}
 
 \begin{frame}[standout]
   Вопросы?

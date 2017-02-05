@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[russian,english]{babel}
 \usepackage{subfig}
+\usepackage[noend]{algorithm,algpseudocode}
 \usefonttheme[onlymath]{serif}
 
 \usetheme[progressbar=frametitle]{metropolis}
@@ -17,6 +18,11 @@
 \usepackage{xspace}
 \newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
 \newcommand{\TODO}[1]{\textbf{\textcolor{red}{TODO: #1}}}
+
+\algblockdefx{MRepeat}{EndRepeat}{\textbf{repeat}}{}
+\algnotext{EndRepeat}
+
+\algrenewcommand\alglinenumber[1]{\footnotesize #1}
 
 \date{}
 \author{Екатерина Тузова}
