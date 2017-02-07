@@ -93,7 +93,7 @@
 	Number of Pokemons = 800
 \end{frame}
 
-{\foot{\href{https://github.com/ktisha/ML2017/tree/master/notebooks}{Репозиторий с материалами (https://github.com/ktisha/ML2017))}}
+{\foot{\href{https://github.com/ktisha/ML2017/tree/master/notebooks}{Репозиторий с материалами (https://github.com/ktisha/ML2017)}}
 \begin{frame}{Типы покемонов}
   \begin{center}
 	  \includegraphics[width=\linewidth,height=0.8 \textheight,keepaspectratio]{images/pokemons_by_type}
@@ -122,14 +122,12 @@
 \section{Гипотеза компактности}
 
 \begin{frame}{Гипотеза компактности}
-    \centering
- 	Схожие объекты, как правило, лежат в одном классе.\\
-\end{frame}
-
-\begin{frame}{Гипотеза компактности}
+  \centering
 	Схожие объекты, как правило, лежат в одном классе.\\
 	\bigbreak
-	Как определить \alert{схожесть} объектов?\\
+	\uncover<2>{
+    	Как определить \alert{схожесть} объектов?\\
+   }
 \end{frame}
 
 \begin{frame}{Пример}
@@ -139,6 +137,7 @@
 \end{frame}
 
 \begin{frame}{Гипотеза компактности}
+  \centering
 	Схожие объекты, как правило, лежат в одном классе.\\
 	\bigbreak
 	\alert{Схожесть} $=$ Функция расстояния\\
@@ -152,7 +151,7 @@
 \begin{frame}{Евклидово расстояние}
 	${\rho (u, v) = \sqrt{\sum\limits_{j=1}^n |u^j - v^j|^2}}$, \hspace{5mm} ${u, v \in X^{l}}$\\
 	\bigbreak
-	
+	\bigbreak
 	Признаковые описания объектов:\\
 	${u = \left\{ u^1, u^2, ..., u^n \right\}}$ \\
 	${v = \left\{v^1, v^2, ..., v^n \right\} }$ 
@@ -163,7 +162,7 @@
 \begin{frame}{Расстояние городских кварталов}
 	${\rho (u, v) = \sum\limits_{j=1}^n |u^j - v^j|}$, \hspace{5mm} ${u, v \in X^{l}}$\\
 	\bigbreak
-	
+	\bigbreak
 	Признаковые описания объектов:\\
 	${u = \left\{ u^1, u^2, ..., u^n \right\}}$ \\
 	${v = \left\{v^1, v^2, ..., v^n \right\} }$ 
@@ -176,7 +175,7 @@
 	\bigbreak
 	${\rho (u, v) = (\sum\limits_{j=1}^n |u^j - v^j|^q)^{1/q}}$, \hspace{5mm} ${u, v \in X^{l}}$\\
 	\bigbreak
-	
+	\bigbreak
 	Признаковые описания объектов:\\
 	${u = \left\{ u^1, u^2, ..., u^n \right\}}$ \\
 	${v = \left\{v^1, v^2, ..., v^n \right\} }$ 
@@ -213,25 +212,33 @@
 	${x_i}$ -- $i$-й сосед объекта $u$\\
 	${y_i}$ -- класс $i$-го соседа $u$
   \bigbreak
-  \alert{Идея 1}: Посмотрим на ближайшие объекты и отнесем $u$ к доминирующему классу. 
+  \uncover<2,3>{
+    \alert{Идея 1}: Посмотрим на ближайшие объекты и отнесем $u$ к доминирующему классу. 
+    }
+  \uncover<3>{
   \bigbreak
   \alert{Идея 2}: Более близкие объекты важнее для классификации.
+  }
 \end{frame}
 
 \begin{frame}{Метрический алгоритм классификации}
 	${a(u, X^l) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} w(i, u)}$\\
 	\bigbreak
+	\bigbreak	
 	$w(i, u)$ - вес $i$-го соседа $u$, неотрицателен\\
 \end{frame}
 
 \begin{frame}{Метод ближайшего соседа}
+	\boxed{{a(u, X^l) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} w(i, u)}}
+	\bigbreak
 	Объект относится к тому классу, к которому относится ближайший в выборке.\\
 	\bigbreak
 	${w(i, u) = [i=1]}$\\
 \end{frame}
 
 \begin{frame}{Метод ближайшего соседа}
-	Объект относится к тому классу, к которому относится ближайший в выборке.\\
+	\boxed{{a(u, X^l) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} w(i, u)}}
+	\bigbreak
 	${w(i, u) = [i=1]}$\\
 	\bigbreak
 	\begin{itemize} [<+- | alert@+>]
@@ -252,6 +259,8 @@
 \end{frame}
 
 \begin{frame}{Метод k ближайших соседей}
+  \boxed{{a(u, X^l) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} w(i, u)}}
+	\bigbreak
 	${w(i, u) = [i \leq k]}$\\
 	\bigbreak
 	\begin{itemize} [<+- | alert@+>]
@@ -271,6 +280,7 @@
 \end{frame}
 
 \begin{frame}{Вопрос}
+  \centering
 	Правда ли нужно выбрасывать один объект?
 \end{frame}
 
@@ -283,10 +293,11 @@
 \begin{frame}{Метод $k$ взвешенных соседей}
 	${w(i,u) = [i \leq k] * w_i}$, где $w_i$ это вес, зависящий только от номера соседа\\
 	\bigbreak
-	Возможные эвристики:\\
-	\begin{itemize} [<+- | alert@+>]
-	\item[--] ${w_i = \frac{k+1-i}{k}}$ -- линейное убывающие веса\\ % почему плохо?
-	\item[--] ${w_i = q^i}$ -- экспоненциально убывающие веса\\
+	Возможные эвристики:\\	
+
+	\begin{itemize} [<+->]
+	\item ${w_i = \frac{k+1-i}{k}}$ -- линейное убывающие веса\\ % почему плохо?
+	\item ${w_i = q^i}$ -- экспоненциально убывающие веса\\
 	\end{itemize}
 \end{frame}
 
@@ -295,26 +306,22 @@
 	Как более обоснованно задать веса?\\
 \end{frame}
 
-\begin{frame}{Ядерная оценка плотности}
-	\textbf{Метод окна Парзена}\\
-	$K(r)$ -- ядро, невозрастающее, положительное на ${[0, 1]}$\\
-	\bigbreak
-	Фиксированной ширины:\\
-	${a(u, X^l, h, K) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} K(\frac{\rho(u, x_i)}{h})}$ \hspace{5mm} $h$ -- ширина окна\\
-	
-	$\rho(u, x_i)$
-\end{frame}
-
+{\foot{Kernel density estimation. Parzen–Rosenblatt window}
 \begin{frame}{Ядерная оценка плотности}
 	\textbf{Метод окна Парзена}\\
   $K(r)$ -- ядро, невозрастающее, положительное на ${[0, 1]}$\\
   \bigbreak
+  \uncover<2,3>{
 	Фиксированной ширины:\\
 	${a(u, X^l, h, K) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} K(\frac{\rho(u, x_i)}{h})}$  \hspace{5mm}  $h$ -- ширина окна\\
   \bigbreak
-	Переменной ширины:\\
-	${a(u, X^l, k, K) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y}  K(\frac{\rho(u, x_i)}{\rho(u, x_{k})})}$
+  }
+  \uncover<3>{
+    	Переменной ширины:\\
+	  ${a(u, X^l, k, K) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y}  K(\frac{\rho(u, x_i)}{\rho(u, x_{k})})}$
+	}
 \end{frame}
+}
 
 \begin{frame}{Более наглядно}
     \centering
@@ -326,17 +333,14 @@
 \begin{frame}{Выбор метрики}
 	\alert{Идея}: Максимизировать сумму расстояний между объектами разных классов
 	при этом сохраняя сумму расстояний между объектами одного класса небольшой.\\
-\end{frame}
-
-\begin{frame}{Выбор метрики}
-	\alert{Идея}: Максимизировать сумму расстояний между объектами разных классов
-	при этом сохраняя сумму расстояний между объектами одного класса небольшой.\\
 	\bigbreak
-	\begin{center}
-    	${\max \sum\limits_{x_i \in D, x_j \in F} \rho(x_i, x_j) }$ \hspace{5mm} $D \neq F$	
-	\end{center}
+	\uncover<2,3>{
+    $${\max \sum\limits_{x_i \in D, x_j \in F} \rho(x_i, x_j) } \qquad D \neq F$$	
+	}
+	\uncover<3>{
 	\bigbreak
 	$${\sum\limits_{x_i, x_j \in S} \rho^2(x_i, x_j) \leq 1 }$$
+	}
 \end{frame}
 
 \begin{frame}{Проклятие размерности}
@@ -346,6 +350,7 @@
 \end{frame}
 
 \begin{frame}{Пример}
+	\centering
 	Набор признаков объекта генерируется подбрасыванием честной монетки $n$ раз. Соответственно
 	каждый объект описывается вектором $[0, 1]^n$. При таких условиях все объекты будут равноудалены.
 \end{frame}
@@ -363,7 +368,7 @@
 \end{frame}
 
 \begin{frame}{Жадное добавление признаков}
-	\begin{enumerate} 
+	\begin{enumerate} [<+->]
 		\item ${\rho_j(u, x_i) = \vert u^j - x_i^j \vert}$ -- расстояние по j-му признаку\\
 		          $LOO(j) \rightarrow \min$\\
 		\item Добавляем признак и строим $\rho'$\\
@@ -392,11 +397,11 @@
 \end{frame}
 
 \begin{frame}{Отступ}
-	${\Gamma_y(u) = \sum\limits_{y_i = y} w(i, u)}$\\
+	${\Gamma_y(u) = \sum\limits_{y_i = y} w(i, u)}$ -- оценка близости объекта $u$ к классу ${y}$\\
 	\bigbreak
 	Отступ показывает степень \alert{типичности объекта}.\\
 	\bigbreak
-	Отступом объекта ${x_i \in X^l}$ относительно классификатора $a$ называется величина:\\
+	\alert{Отступом} объекта ${x_i \in X^l}$ относительно классификатора $a$ называется величина:\\
 	\bigbreak
 	\centering	
   ${M(x_i) = \Gamma_{y_i}(x_i) - \max\limits_{y \in Y\backslash y_i} \Gamma_y(x_i)}$
@@ -404,7 +409,7 @@
 \end{frame}
 
 \begin{frame}{Типы объектов}
-	\begin{enumerate}
+	\begin{enumerate} [<+->]
 		\item Эталонные
 		\item Надёжно классифицируемые (неинформативные)
 		\item Пограничные	
@@ -467,13 +472,17 @@
 \begin{frame}\frametitle{k-d дерево}
 	\alert{Идея}: разложим множество по поторому будем искать в бинарное дерево с простыми условиями и конкретными точками в узлах.
 	\bigbreak
+	\uncover<2,3> {
 	\begin{enumerate}
 		\item По циклу, или рандомно выбираем ось.
 		\item Ищем медиану (точку, разбивающую множество на как можно более равные части).
 		\item Повторяем 1-2 для каждого из получившихся подмножеств 
 	\end{enumerate}
+	}
+	\uncover<3>{
 	Сложность построения: $O(n\log n)$\\
 	Сложность поиска: в лучшем случае $O(\log n)$, в худшем -- $O(n)$
+	}
 \end{frame}
 
 \begin{frame}\frametitle{2-d дерево}
@@ -483,7 +492,7 @@
 \end{frame}
 
 \begin{frame}\frametitle{k-d дерево. Особенности}
-	\begin{itemize}
+	\begin{itemize} [<+- | alert@ +>]
 	\item[+] Один из наиболее простых методов
 	\item[--] Работает только при малом количестве параметров
 	\item[--] Затратный алгоритм перестроения
@@ -495,21 +504,18 @@
 \end{frame}
 
 \begin{frame}\frametitle{Locality Sensitive Hash}
-	\centering
-	\alert{Проблема}: Сколько сравнений нам понадобится  для того, чтобы найти похожие среди $N$ документов?\\
-\end{frame}
-
-\begin{frame}\frametitle{Locality Sensitive Hash}
 	\alert{Проблема}: Сколько сравнений нам понадобится  для того, чтобы найти похожие среди $N$ документов?\\
 	\bigbreak
+	\uncover<2>{
 	$C = \frac{N(N-1)}{2}$\\
 	\bigbreak
 	$N = 10^6 \Rightarrow C = 5*10^{11}$
+	}
 \end{frame}
 
 \begin{frame}\frametitle{Locality Sensitive Hash}
 	\alert{Идея}: Давайте от каждого документа (строки из нулей и единиц) возьмем хэш $h$:\\
-	\begin{enumerate} [--]
+	\begin{enumerate} [<+->]
 	\item Если документы $C_1$ и $C_2$ похожи, то с большой вероятностью $h(C1) == h(C2)$\\
 	\item Иначе -- с большой вероятностью $h(C1) \neq h(C2)$
 	\end{enumerate}
