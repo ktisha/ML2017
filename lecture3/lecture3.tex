@@ -146,27 +146,27 @@
 
 \begin{frame}{Оценка качества кластеризации}
   \alert{Идея}: Минимизировать среднее внутрикластерное расстояние и при этом максимизировать среднее межкластерное расстояние.
-\end{frame}
-
-\begin{frame}{Оценка качества кластеризации}
-  \alert{Идея}: Минимизировать среднее внутрикластерное расстояние и при этом максимизировать среднее межкластерное расстояние.
 	\bigbreak
+	\pause
 	$${\frac{\sum\limits_{a(x_i) = a(x_j)} \rho(x_i, x_j)}{\sum\limits_{a(x_i) = a(x_j)} 1} \rightarrow \min}$$
 	\bigbreak
+	\pause
 	$${\frac{\sum\limits_{a(x_i) \neq a(x_j)} \rho(x_i, x_j)}{\sum\limits_{a(x_i) \neq a(x_j)} 1} \rightarrow \max}$$
 \end{frame}
 
 \section{Визуализация кластеров}
 
+{\foot{Treemap}
 \begin{frame}{Диаграмма вложения}
   \begin{center}
     \includegraphics[height=0.8 \textheight, keepaspectratio = true]{images/diagram}    
   \end{center}
 \end{frame}
+}
 
 \begin{frame}{Дендрограмма}
   \begin{center}
-    \includegraphics[height=0.8 \textheight, width=0.8 \textwidth, keepaspectratio = true]{images/dendrogram}    
+    \includegraphics[height=\textheight, width=\textwidth, keepaspectratio = true]{images/dendrogram}    
   \end{center}
 \end{frame}
 
@@ -235,9 +235,9 @@
 % можно какую-нибудь иллюстрацию придумать
 
 \begin{frame}{Метод $k$-средних}
-	\alert{Идея}:  минимизировать меру ошибки\\
+	\alert{Идея}: минимизировать меру ошибки\\
 	\bigbreak
-	${E(X, C) = \sum\limits_{i = 1}^n \Vert x_i -\mu_i \Vert^2}$\\
+	$${E(X, C) = \sum\limits_{i = 1}^n \Vert x_i -\mu_i \Vert^2}$$\\
 	\bigbreak
 	$\mu_i$ -- ближайший к $x_i$ центр кластера
 \end{frame}
