@@ -8,8 +8,6 @@
 
 \maketitle
 
-\section{Кто я}
-
 \begin{frame}{Информация по курсу}
   email: machine.teaching@gmail.com \\
   web: \TODO {ссылка на актуальную страницу}\\
@@ -135,20 +133,33 @@
 \end{frame}
 
 \begin{frame}{Разделы AI}
-	\begin{itemize}
-	  \item[--] Работа с естественными языками
-		\item[--] Представление и использование знаний
-		\item[--] Компьютерное зрение
-		\item[--] Машинное обучение
-		\item[--] Биологическое моделирование искусственного интеллекта
-		\item[--] Робототехника
-		\item[--] \ldots
-	\end{itemize}
+  \centering
+  \includegraphics[width=0.8 \linewidth, height=0.8 \textheight, keepaspectratio]{images/ontology}\\
+	Представление и использование знаний
+\end{frame}
+
+\begin{frame}{Разделы AI}
+  \centering
+  \includegraphics[width=0.8 \linewidth, height=0.8 \textheight, keepaspectratio]{images/brain}\\
+	Биологическое моделирование искусственного интеллекта
+\end{frame}
+
+\begin{frame}{Разделы AI}
+  \centering
+  \includegraphics[width=0.8 \linewidth, height=0.8 \textheight, keepaspectratio]{images/vision}\\
+	Компьютерное зрение
+\end{frame}
+
+\begin{frame}{Разделы AI}
+  \centering
+  \includegraphics[width=0.8 \linewidth, height=0.8 \textheight, keepaspectratio]{images/ml}\\
+	Машинное обучение
 \end{frame}
 
 \section{В чем отличия ML от AI?}
 
 \begin{frame}{Что такое машинное обучение?}
+  \includegraphics[width=0.5 \linewidth, height=0.5 \textheight, keepaspectratio]{images/samuel}\\
 	Arthur Samuel (1959). \\
 	\bigbreak
 	Field of study that gives computers the ability to learn without being explicitly programmed.
@@ -156,18 +167,6 @@
 
 \begin{frame}{Пример}
   Чем отличается задача “найти кратчайший путь в графе” от “антиспам фильтр”?
-\end{frame}
-
-\begin{frame}{Что такое машинное обучение?}
-	Tom Mitchell (1998) \\
-	\bigbreak
-	Well-posed Learning Problem: A computer program is said to learn from experience E with respect to some task T and some performance measure P, if its performance on T, as measured by P, improves with experience E\\
-	\bigbreak
-	E.g., Learn to play checkers\\ 
-	\bigbreak
-	T : Play checkers\\
-	P : \% of games won in world tournament\\
-	E : opportunity to play against self\\
 \end{frame}
 
 \section{Где используется ML}
@@ -178,6 +177,7 @@
 	  \item[--] Поисковые системы Google, Яндекс
 	  \item[--] Выделение лиц друзей на фото Facebook
 	  \item[--] Боты в Twitter
+	  \item[--] \dots
 	\end{itemize}
 \end{frame}
 
@@ -240,47 +240,54 @@
 \section{Типы Машинного Обучения}
 
 \begin{frame}{Типы машинного обучения}
-	\begin{itemize}
-	  \item[--] С учителем
-	  \item[--] Без учителя
-	  \item[--] Смешанное
-	\end{itemize}
+	\begin{enumerate}
+	  \item С учителем
+	  \item Без учителя
+	  \item Смешанное
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Обучение с учителем }
+	$X$ - множество объектов \\
+	$Y$ - множество классов \\
+	Обучающая выборка: ${X^l = (x_i, y_i)_{i=1}^l}$ \\ 
+	\bigbreak
+	\bigbreak
+	\alert{Задача}: Построить алгоритм ${a \colon X \rightarrow Y}$, способный классифицировать произвольный объект ${x \in X}$.
 \end{frame}
 
 \begin{frame}{Обучение с учителем. Классификация}
-  \TODO {picture}
+  \begin{center}
+    Классификация (${Y={1,2,..,K}}$ конечно) — множество $X$ разбивается на $K$ классов. Требуется предсказать к какому классу он принадлежит. 
+  \end{center}
+\end{frame}
+
+\begin{frame}{Обучение с учителем. Классификация}
+  \centering
+  \includegraphics[width=0.9 \linewidth, height=0.9 \textheight, keepaspectratio]{images/mnist}\\
 \end{frame}
 
 \begin{frame}{Обучение с учителем. Регрессия}
-  \TODO {picture}
+  \begin{center}
+    Восстановление регрессии ${(Y=\mathbb{R})}$ — требуется найти функцию $f$ из определенного класса, которая аппроксимирует $f^*$.
+  \end{center}
 \end{frame}
 
-\begin{frame}{Обучение с учителем }
-	Множество объектов $X$ \\
-	Множество допустимых ответов $Y$\\
-	Обучающая выборка - совокупность пар ${X^l = (x_i,y_i)_{i=1}^l}$ \\
-	Целевая функция ${y^*:X \rightarrow Y}$\\
-	\bigbreak
-	\alert{Задача}:\\
-	Найти решающую функцию ${a: X \rightarrow Y}$  \\
-	Решающая функция должна приближать целевую на всем множестве ${X}$
-\end{frame}
-
-\begin{frame}{Обучение с учителем}
-  \TODO {пример}
-\end{frame}
-
-\begin{frame}{Обучение с учителем }
-	\begin{itemize}
-	  \item[--] Классификация (${Y={1,2,..,K}}$ конечно) — множество $X$ разбивается на $K$ классов. Требуется предсказать к какому классу он принадлежит. 
-	  \item[--] Восстановление регрессии ${(Y=\mathbb{R})}$ — требуется найти функцию $f$ из определенного класса, которая аппроксимирует $f^*$
-	\end{itemize}
+\begin{frame}{Обучение с учителем. Регрессия}
+  \centering
+  \includegraphics[width=0.7 \linewidth, height=0.7 \textheight, keepaspectratio]{images/regression}\\
 \end{frame}
 
 \section{Обучение без учителя}
 
 \begin{frame}{Обучение без учителя}
-  \TODO {пример}
+  \centering
+  \includegraphics[width=0.9 \linewidth, height=0.9 \textheight, keepaspectratio]{images/clustering1}\\
+\end{frame}
+
+\begin{frame}{Обучение без учителя}
+  \centering
+  \includegraphics[width=0.9 \linewidth, height=0.9 \textheight, keepaspectratio]{images/clustering}\\
 \end{frame}
 
 \begin{frame}{Типы признаков}
@@ -317,6 +324,12 @@
 	Christopher M. Bishop "Pattern Recognition and Machine Learning"
 	G. James, D. Witten, T. Hastie, R. Tibshirani: "An Introduction to Statistical Learning" 	
 \end{frame}
+
+\begin{frame}[standout]
+  Вопросы?
+\end{frame}
+
+\appendix
 
 \begin{frame}{На следующей лекции}
 	\begin{itemize}
