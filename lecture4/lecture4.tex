@@ -48,8 +48,10 @@
 	${X^l = \left( x_i, y_i \right)_{i=1}^l}$ - обучающая выборка.\\
 	\bigbreak
 	\alert{Логическая закономерность} -- предикат ${\beta: X \rightarrow \left\{ 0, 1 \right\} }$, который удовлетворяет двум требованиям:\\
+	\pause
 	\begin{enumerate} 
 		\item Интерпретируемость
+		\pause
 		\item Информативность относительно одного из классов ${c \in Y}$
 	\end{enumerate}
 \end{frame}
@@ -88,14 +90,13 @@
 	\includegraphics[width=\textwidth, height=0.8 \textheight, keepaspectratio]{images/decisiontree}
 \end{frame}
 
-\begin{frame}{Информативность}
-  \alert{Идея}: Максимизировать количество правильно распознанных объектов класса $c$ и при этом минимизировать количество объектов, ошибочно классифицированных как класс $c$
-\end{frame}
 
 \begin{frame}{Информативность}
   \alert{Идея}: Максимизировать количество правильно распознанных объектов класса $c$ и при этом минимизировать количество объектов, ошибочно классифицированных как класс $c$
+  \pause
 	\bigbreak
 	$${ tp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i = c \right\} \rightarrow \max }$$\\
+	\pause
   \bigbreak
 	$${ fp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i \neq c \right\} \rightarrow \min }$$\\		
 \end{frame}
@@ -137,10 +138,10 @@
 \section{Виды правил}
 
 \begin{frame}{Виды правил}
-	\begin{itemize} [<+- | alert@+>]
-	\item[--] Пороговое условие (decision stump)\\
+	\begin{itemize} [<+->]
+	\item[--] Пороговое условие\\
 	$\beta(x) = \left[f_j(x) \leq a_j \right]$ или  $\left[a_j \leq f_j(x) \leq b_j \right]$
-	\item[--] Конъюнкция $J$ пороговых условий
+	\item[--] Конъюнкция из $J$ пороговых условий \\
 	$\beta(x) = \bigwedge\limits_{j \in J} \left[a_j \leq f_j(x) \leq b_j \right]$
 	\item[--] Синдром -- выполнение не менее $d$ условий из $J$
 	$\beta(x) = \left[\sum\limits_{j \in J} \left[a_j \leq f_j(x) \leq b_j \right] \geq d \right]$
@@ -153,14 +154,7 @@
 	${ tp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i = c \right\} \rightarrow \max  }$ 
 	${ fp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i \neq c \right\} \rightarrow \min}$ \\
 	\bigbreak
-\end{frame}
-
-\begin{frame}{Оценивание информативности}
-	\alert{Идея}: Хотим получить один критерий из двух:\\
-	\bigbreak
-	${ tp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i = c \right\} \rightarrow \max  }$ 
-	${ fp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i \neq c \right\} \rightarrow \min}$ \\
-	\bigbreak
+	\pause
 	Очевидные свертки:\\
 	\begin{enumerate}
 		\item $I(tp, fp) = \frac{tp}{tp+fp} \rightarrow \max$
@@ -241,11 +235,8 @@
 \end{frame}
 
 \begin{frame}{Критерий Парето}
-  Парето-фронт -- множество недоминируемых закономерностей (правее и ниже точек нет)
-  \TODO{картинка}
-%\begin{figure}[htbp]
-%  \includegraphics[height=150pt, keepaspectratio = true]{images/pareto}   
-%\end{figure}
+  \includegraphics[height=150pt, keepaspectratio = true]{images/pareto}   \\
+  Парето-фронт -- множество недоминируемых закономерностей
 \end{frame}
 
 \section{Как собрать классификатор из закономерностей?}
@@ -253,14 +244,9 @@
 \begin{frame}{Решающий список}
 	\alert{Идея}:\\
 	Возьмем $\beta_1(x), \beta_2(x), \dots, \beta_T(x)$ закономерностей и будем по порядку применять на объекте. 
-	Как только предикат $\beta_i$ сработал -- вернем соответствующий класс $c_i$.
-\end{frame}
-
-\begin{frame}{Решающий список}
-	\alert{Идея}:\\
-	Возьмем $\beta_1(x), \beta_2(x), \dots, \beta_T(x)$ закономерностей и будем по порядку применять на объекте. 
 	Как только предикат $\beta_i$ сработал -- вернем соответствующий класс $c_i$.\\
 	\bigbreak
+	\pause
 	$E(\beta_i, X^l) = \frac{fp(\beta_i)}{fp(\beta_i)+tp(\beta_i)} \rightarrow \min$ -- доля ошибок $\beta_i$ на $X^l$\\
 	\bigbreak
 	Т.к. каждое правило принимает окончательное решение $\Rightarrow$ ошибка правила равна ошибке всего алгоритма
@@ -285,15 +271,6 @@
   \end{algorithmic}    
 \end{frame}
 
-
-\begin{frame}{Наблюдения}
-	\begin{enumerate}[--]
-	\item Низкое качество классификации
-	\item Разные стратегии выбора класса $c_i$
-	\item Подбор параметров
-	\end{enumerate}
-\end{frame}
-
 \begin{frame}{Наблюдения}
 	\begin{enumerate}[--]
 	\item Низкое качество классификации
@@ -301,6 +278,7 @@
 	\item Подбор параметров
 	\end{enumerate}
 	\bigbreak
+	\pause
 	Параметр $E_{max}$ влияет на сложность списка:\\
 	$E_{max} \downarrow$ $\Rightarrow$ $tp(\beta_i) \downarrow$, $T \uparrow$\\
 	$E_{max} \uparrow$ $\Rightarrow$ underfitting
@@ -323,7 +301,7 @@
   \TODO{picture}
 \end{frame}
 
-
+{\foot{Iterative Dichotomizer 3}
 \begin{frame}{Алгоритм построения ID3}
   \begin{algorithmic}[1]
     \Function{LearnID3}{$U$, $\mathcal{B}$}
@@ -343,6 +321,7 @@
     \EndFunction
   \end{algorithmic}    
 \end{frame}
+}
 
 \section{Критерий информативности}
 
@@ -355,20 +334,20 @@
 \end{frame}
 
 \begin{frame}{Плюсы}
-	\begin{enumerate}[+]
-	\item Интерпретируемость и простота классификации
-	\item Допустимы разнотипные данные и данные с пропусками
-	\item Не бывает отказов от классификации
-	\item Трудоёмкость линейна по длине выборки
-	\item Можно варьировать множество $\mathcal{B}$
+	\begin{enumerate}[<+- |alert@+>] 
+	\item[+] Интерпретируемость и простота классификации
+	\item[+] Допустимы разнотипные данные и данные с пропусками
+	\item[+] Не бывает отказов от классификации
+	\item[+] Трудоёмкость линейна по длине выборки
+	\item[+] Можно варьировать множество $\mathcal{B}$
 	\end{enumerate}
 \end{frame}
 
 \begin{frame}{Минусы}
-	\begin{enumerate}[-]
-	\item Жадный ID3 сильно переобучается
-	\item Высокая чувствительность к шуму, к составу выборки, к критерию информативности
-	\item Чем дальше $v$ от корня, тем меньше надёжность выбора $\beta_v$ , $c_v$
+	\begin{enumerate} [<+- |alert@+>] 
+	\item[--] Жадный ID3 сильно переобучается
+	\item[--] Высокая чувствительность к шуму, к составу выборки, к критерию информативности
+	\item[--] Чем дальше $v$ от корня, тем меньше надёжность выбора $\beta_v$ , $c_v$
 	\end{enumerate}
 \end{frame}
 
