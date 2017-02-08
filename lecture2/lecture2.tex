@@ -53,11 +53,11 @@
 \end{frame}
 
 \begin{frame}{Признаки}
-	\begin{enumerate} [-]	
-		\item Бинарные (Legendary)
-		\item Номинальные (Type 1, Type 2)
-		\item Порядковые (Generation)
-		\item Количественные (Attack, Defense, ...)
+	\begin{enumerate} [<+->]	
+		\item[--] Бинарные (Legendary)
+		\item[--] Номинальные (Type 1, Type 2)
+		\item[--] Порядковые (Generation)
+		\item[--] Количественные (Attack, Defense, ...)
 	\end{enumerate}
 \end{frame}
 
@@ -199,6 +199,7 @@
 \begin{frame}{Обобщенный метрический классификатор}
 	$u \in X$ - произвольный объект, который собираемся классифицировать.\\
 	\bigbreak
+	\pause
 	Отсортируем объекты из $X^l$ относительно $u$:
 	${\rho(u, x_1) \leq \rho(u, x_2) \leq \dots \leq \rho(u, x_l)}$\\
 	\bigbreak
@@ -222,7 +223,7 @@
 \end{frame}
 
 \begin{frame}{Метрический алгоритм классификации}
-	${a(u, X^l) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} w(i, u)}$\\
+	$${a(u, X^l) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} w(i, u)}$$\\
 	\bigbreak
 	\bigbreak	
 	$w(i, u)$ - вес $i$-го соседа $u$, неотрицателен\\
@@ -291,6 +292,8 @@
 \end{frame}
 
 \begin{frame}{Метод $k$ взвешенных соседей}
+  \boxed{{a(u, X^l) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} w(i, u)}}
+  \bigbreak
 	${w(i,u) = [i \leq k] * w_i}$, где $w_i$ это вес, зависящий только от номера соседа\\
 	\bigbreak
 	Возможные эвристики:\\	
@@ -431,7 +434,7 @@
 	Выбрать оптимальное подмножество эталонов $\Omega\subseteq X^l$\\ 
     \bigbreak
 	Классификатор будет иметь вид:\\
-	${a(u, \Omega) = \arg\max\limits_{y \in Y} \sum\limits_{x_i \in \Omega} [y_i = y]w(i, u) }$\\
+	$${a(u, \Omega) = \arg\max\limits_{y \in Y} \sum\limits_{x_i \in \Omega} [y_i = y]w(i, u) }$$\\
 \end{frame}
 
 \begin{frame}{Алгоритм STOLP}
