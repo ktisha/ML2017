@@ -10,7 +10,7 @@
 
 \begin{frame}{Информация по курсу}
   email: machine.teaching@gmail.com \\
-  web: \TODO {ссылка на актуальную страницу}\\
+  web: \href{http://mit.spbau.ru/sewiki/index.php/Машинное_обучение_2017}{http://mit.spbau.ru/sewiki/index.php/Машинное\_обучение\_2017}\\
 \end{frame}
 
 \section{Правила игры}
@@ -19,10 +19,10 @@
   \begin{enumerate} [-]  
     \item 13 лекций
     \item 12 опросов по 5 баллов в начале лекции
-    \item 6 домашних заданий по 20 баллов при сдаче в первую неделю, 10 баллов при сдаче во вторую неделю
+    \item 8 домашних заданий по 20 баллов при сдаче в первую неделю, 10 баллов при сдаче во вторую неделю
+    \item Экзамен 180 баллов
     \bigbreak
-    \TODO{Посчитать баллы}
-    \item Зачет по курсу $=$ \alert{120 баллов}
+    \item Оценки за курс: \alert{300 баллов} -- отлично, \alert{250 баллов} -- хорошо, \alert{200 баллов} -- удовлетворительно
   \end{enumerate}  
 \end{frame}
 
@@ -39,26 +39,26 @@
   Чем отличается задача \alert{найти кратчайший путь в графе} от\\  \alert{антиспам фильтр}?
 \end{frame}
 
-\section{Использование машинного обучения}
+\section{Применение машинного обучения}
 
 {\foot{Recommender system}
 \begin{frame}{Рекомендации}
   \centering
-  \includegraphics[width=0.9 \linewidth, height=0.9 \textheight, keepaspectratio]{images/recommendations}\\
+  \includegraphics[width=\linewidth, height=\textheight, keepaspectratio]{images/recommendations}\\
 \end{frame}
 }
 
 {\foot{Information retrieval}
 \begin{frame}{Информационный поиск}
   \centering
-  \includegraphics[width=0.9 \linewidth, height=0.9 \textheight, keepaspectratio]{images/similar_image}\\
+  \includegraphics[width=\linewidth, height=\textheight, keepaspectratio]{images/similar_image}\\
 \end{frame}
 }
 
 {\foot{Image captioning}
 \begin{frame}{Подпись изображений}
   \centering
-  \includegraphics[width=0.9 \linewidth, height=0.9 \textheight, keepaspectratio]{images/image_captioning}\\
+  \includegraphics[width=\linewidth, height=\textheight, keepaspectratio]{images/image_captioning}\\
 \end{frame}
 }
 
@@ -113,26 +113,30 @@
 \section{Немного истории}
 
 \begin{frame}{История ML}
-  \TODO{сделать историю }
 	\begin{itemize} [<+->]
-	  \item[--] 50-70 гг. -- Базы знаний, полнотекстовый поиск, распознавание образов, нейронные сети, К ближайших соседей.
-	  \item[--] 1973г. -- “Зима” искусственного интеллекта
-	  \item[--] 80-90гг.  -- Первые конференции, развитие практического применения
-	  \item[--] 90-00гг. -- Метод опорных векторов, бустинг
-	  \item[--] Рандомизированный решающий лес (начало 2000х)
-	  \item[--] Обучение Марковских случайных полей (2000е)
-	  \item[--] Глубокое обучение (2006)
+	  \item[1955] Arthur Samuel создает первую самообучающуюся шашечную программу для IBM 701
+	  \item[1958] Frank Rosenblatt создает первую искусственную нейронную сеть
+	  \item[1963] Larry Roberts сформулировал тезисы компьютерного зрения
+	  \item[1973] James Lighthill. "Искусственный интеллект: Общий обзор"
+	  \item[1986] David Rumelhart и Ronald Williams заново открыт и популяризирован алгоритм обратного распространения ошибки
+	  \item[1997] Компьютер Deep Blue обыграл чемпиона мира по шахматам Гарри Каспарова
+	  \item[2006] Geoffrey Hinton ввел в обиход термин «Deep learning» 
+	  \item[2011] Суперкомпьютер IBM Watson одержал победу в телевикторине Jeopardy!
+	  \item[2014] Facebook изобрел алгоритм DeepFace для распознавания лиц
+	  \item[2016] Программа AlphaGo обыграла чемпиона мира по игре в го Lee Se-dol в четырех партиях из пяти
 	\end{itemize}
 \end{frame}
 
+{\foot{Moravec's paradox}
 \begin{frame}{Зима AI}
 	\begin{itemize} [<+->]
 	  \item[--] Проблема комбинаторного взрыва
 	  \item[--] Низкая производительность компьютеров
 	  \item[--] Проблема представлений знаний “здравого мысла”
-	  \item[--] Парадокс Моравеца
+	  \item[--] Парадокс Моравека
 	\end{itemize}
 \end{frame}
+}
 
 \section{Типы машинного обучения}
 
@@ -140,7 +144,7 @@
 	\begin{enumerate}
 	  \item С учителем
 	  \item Без учителя
-	  \item С частичным участием учителя
+	  \item С частичным привлечением учителя
 	  \item Обучение с подкреплением
 	  \item Активное обучение
 	\end{enumerate}
@@ -220,6 +224,58 @@
 	\alert{Задача}: Обнаружить внутренние взаимосвязи, зависимости, закономерности, существующие между объектами.
 \end{frame}
 }
+
+\section{Обучение с частичным привлечением учителя}
+
+{\foot{Semi-supervised learning}
+\begin{frame}{С частичным привлечением учителя}
+  $X$ - множество объектов \\
+	$Y$ - множество ответов \\
+	Обучающая выборка: ${X^l = (x_i, y_i)_{i=1}^l}$, ${X^u = \left\{x_i\right\}_{i=1}^u}$ \\  
+	\bigbreak
+	\bigbreak
+	\alert{Задача}: Построить алгоритм ${a \colon X \rightarrow Y}$
+\end{frame}
+}
+
+\section{Обучение с подкреплением}
+
+{\foot{Reinforcement learning}
+\begin{frame} {Обучение с подкреплением}
+  $S$ -- множество состояний окружения\\
+  $A$ -- множество действий агента\\
+  $R$ -- множество "выигрышей"
+  \bigbreak
+	\bigbreak
+	\alert{Задача}: Построить алгоритм ${a \colon S \rightarrow A}$, который максимизирует общий "выигрыш"
+\end{frame}
+}
+
+{\foot{Reinforcement learning}
+\begin{frame} {Обучение с подкреплением}
+  \centering
+  \includegraphics[width=0.9 \linewidth, height=0.9 \textheight, keepaspectratio]{images/roomba}\\
+\end{frame}
+
+\section{Активное обучение}
+
+{\foot{Active learning}
+\begin{frame}{Активное обучение}
+  $X$ - множество объектов \\
+	$Y$ - множество классов \\
+	Обучающая выборка: ${X^l = (x_i, y_i)_{i=1}^l}$ \\ 
+	Получение дополнительных ответов $y_i$ \alert{дорого}.
+	\bigbreak
+	\bigbreak
+	\alert{Задача}: Построить алгоритм ${a \colon X \rightarrow Y}$, использовав как можно меньше дополнительных элементов.
+\end{frame}
+}
+
+{\foot{Active learning}
+\begin{frame}{Активное обучение}
+  \centering
+  \includegraphics[width=0.9 \linewidth, height=0.9 \textheight, keepaspectratio]{images/active}\\
+\end{frame}
 
 \section{Типы признаков}
 
