@@ -91,4 +91,15 @@
   $\lambda_{ys} = \left[ y \neq s \right]$, то $R(a)$ -- вероятность ошибки алгоритма $a(x)$
 \end{frame}
 
+{\foot{Optimal Bayes Classifier}
+\begin{frame}{Оптимальный Байесовский классификатор}
+  Минимум среднего риска $R(a)$ достигается при:\\
+  $$a(x) = \arg\min\limits_{s \in Y} \sum \limits_{y \in Y} \lambda_{ys} P_y p(x|y)$$\\
+  \bigbreak
+  \pause
+  Пусть величина штрафа зависит только от класса $y$, т.е. $\lambda_{yy} = 0$ и $\lambda_{ys} = \lambda_y$, тогда оптимальный алгоритм:\\
+  $$a(x) = \arg\max\limits_{y \in Y} \lambda_y P_y p(x|y)$$
+\end{frame}
+}
+
 \end{document}
