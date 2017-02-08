@@ -404,7 +404,7 @@
 %	$l$ -- количество объектов в выборке\\
 %\end{frame}
 
-\section{Недостатки k-means}
+\section{Когда k-means работает плохо}
 
 \begin{frame}{"Не сферические данные"}
 	\begin{center}
@@ -549,27 +549,15 @@
 	\begin{figure}[htbp]
 	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans1}  
 	\end{figure}
-\end{frame}
-
-\begin{frame}{Расстояние ближнего соседа}
-	Расстояние ближнего соседа:\\
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans1}  
-	\end{figure}
+	\pause
 	${\alpha_U = \alpha_V = \frac{1}{2}}$ \\${\beta = 0}$ \\${\gamma = -\frac{1}{2}}$
 \end{frame}
 
 \begin{frame}{Расстояние дальнего соседа}
-	Расстояние дальнего соседа:\\
 	\begin{figure}[htbp]
 	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans2}  
 	\end{figure}
-\end{frame}
-
-\begin{frame}{Расстояние дальнего соседа}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans2}  
-	\end{figure}
+	\pause
 	${\alpha_U = \alpha_V = \frac{1}{2}}$ \\${\beta = 0}$ \\${\gamma = \frac{1}{2}}$
 \end{frame}
 
@@ -577,12 +565,7 @@
 	\begin{figure}[htbp]
 	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans3}  
 	\end{figure}
-\end{frame}
-
-\begin{frame}{Групповое среднее}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/lans3}  
-	\end{figure}
+	\pause
 	${\alpha_U = \frac{\vert U \vert}{\vert W \vert}}$\\${\alpha_V = \frac{\vert V \vert}{\vert W \vert}}$ \\${\beta = \gamma = 0}$
 \end{frame}
 
