@@ -230,18 +230,13 @@
 \end{frame}
 
 \begin{frame}{Метод ближайшего соседа}
-	\boxed{{a(u, X^l) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} w(i, u)}}
-	\bigbreak
-	Объект относится к тому классу, к которому относится ближайший в выборке.\\
-	\bigbreak
-	${w(i, u) = [i=1]}$\\
-\end{frame}
-
-\begin{frame}{Метод ближайшего соседа}
+  Объект относится к тому классу, к которому относится ближайший в выборке.\\
+  	\bigbreak
 	\boxed{{a(u, X^l) = \arg\max\limits_{y \in Y} \sum\limits_{y_i = y} w(i, u)}}
 	\bigbreak
 	${w(i, u) = [i=1]}$\\
 	\bigbreak
+	\pause
 	\begin{itemize} [<+- | alert@+>]
 		\item[+] Простота
 		\item[+] Интерпретируемость решения
@@ -296,6 +291,7 @@
   \bigbreak
 	${w(i,u) = [i \leq k] * w_i}$, где $w_i$ это вес, зависящий только от номера соседа\\
 	\bigbreak
+	\pause
 	Возможные эвристики:\\	
 
 	\begin{itemize} [<+->]
