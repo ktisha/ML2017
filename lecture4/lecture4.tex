@@ -57,11 +57,11 @@
 \end{frame}
 
 \begin{frame}{Логические закономерности}
-	${X^l = \left( x_i, y_i \right)_{i=1}^l}$ - обучающая выборка.\\
+	${X^l = \left( x_i, y_i \right)_{i=1}^l}$ -- обучающая выборка.\\
 	\bigbreak
   Предикат ${\beta: X \rightarrow \left\{ 0, 1 \right\} }$\\
 	\bigbreak
-	\alert{Алгоритм}: $a(X, \beta) \rightarrow y$
+	\alert{Задача}: Построить алгоритм $a(X, \beta) \rightarrow y$, способный классифицировать произвольный объект ${x \in X}$.
 \end{frame}
 
 \begin{frame}{Интерпретируемость}
@@ -157,7 +157,7 @@
 	\pause
 	Очевидные свертки:\\
 	\begin{enumerate}
-		\item $I(tp, fp) = \frac{tp}{tp+fp} \rightarrow \max$
+		\item $I(tp, fp) = Precision = \frac{tp}{tp+fp} \rightarrow \max$
 		\item $I(tp, fp) = tp-fp \rightarrow \max$
 		\item $I(tp, fp) = tp-Cfp \rightarrow \max$			
 	\end{enumerate}
@@ -179,6 +179,28 @@
 	  5 & 0 & 5 & \textcolor{red}{5} & \textcolor{red}{1}\\  
 	  \hline 
 	\end{tabular}
+\end{frame}
+
+\begin{frame}{Точность и полнота}
+	${ tp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i = c \right\} \rightarrow \max  }$ 
+	${ fp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i \neq c \right\} \rightarrow \min}$ \\
+	\bigbreak
+	\pause
+	$Precision = \frac{tp}{tp+fp}$\\
+	\bigbreak
+	$Recall = \frac{tp}{|\left\{ x_i: X , y_i = c \right\}|}$
+\end{frame}
+
+\begin{frame}{ROC-кривая}
+  \centering
+  \includegraphics[height=0.7 \textheight, keepaspectratio = true]{images/roc}   \\
+  Receiver-operating characteristic
+\end{frame}
+
+\begin{frame}{AUC-кривая}
+  \centering
+  \includegraphics[height=0.7 \textheight, keepaspectratio = true]{images/auc}   \\
+  Area under the ROC curve
 \end{frame}
 
 \section{Критерии информативности}
@@ -235,6 +257,7 @@
 \end{frame}
 
 \begin{frame}{Критерий Парето}
+  \centering
   \includegraphics[height=150pt, keepaspectratio = true]{images/pareto}   \\
   Парето-фронт -- множество недоминируемых закономерностей
 \end{frame}

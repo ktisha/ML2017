@@ -251,7 +251,7 @@
                 \State ${\mu_c = \frac{\sum\limits_{c_i = c} f_j(x_i)}{\sum\limits_{c_i = c} 1} }$ \hspace{10mm} $j = 1,\dots, n$, $c \in C$
              \EndRepeat
         \EndFunction
-    \end{algorithmic}    
+  \end{algorithmic}    
 	\bigbreak
 	\bigbreak
 	$\mu_c$ -- новое положение центров кластеров\\
@@ -434,6 +434,42 @@
 	\begin{center}
 	  \includegraphics[width=\textwidth, height=0.8 \textheight, keepaspectratio = true]{images/different_sizes-2}  
 	\end{center}
+\end{frame}
+
+{\foot{Affinity Propagation}
+\begin{frame}{Метод распространения близости}
+  \alert{Идея}: Позволим объектам обновлять информацию друг о друге, для того, чтобы выбрать центр кластера.\\
+  \pause
+  \bigbreak
+  $s(i, k)$ -- "похожесть" объекта $x_i$ на $x_k$, $s(k, k) < 0$.\\
+  $r(i, k)$ -- "ответственность", $x_i$ решает насколько $x_k$ подходит для того, чтобы быть центром кластера.\\
+  $a(i,k)$ -- "доступность", $x_k$ решает насколько $x_i$ подходит для его кластера.\\
+  \bigbreak
+\end{frame}
+}
+
+\begin{frame}{Метод распространения близости}
+	\begin{algorithmic}[1]
+        \Function{affinity\_propagation}{$S$}
+            \State $R \gets 0$, $A \gets 0$            
+            \MRepeat [пока $c_i$ не перестанет меняться] 
+                \State $r(i, k) = s(i,k) - \max\limits_{j \neq k} (a(i,j) + s(i,j))$
+                \State $i \neq k: a(i,k) = \min(0, r(k,k) + \sum\limits_{j \neq i, j\neq k} \max(0, r(i,j)))$
+                \State $a(k,k) = \sum\limits_{j \neq k} \max(0, r(i,j))$
+                \State $c_i = \arg\max\limits_{k} (a(i,k) + r(i,k))$                
+             \EndRepeat
+        \EndFunction
+  \end{algorithmic}    
+\end{frame}
+
+\begin{frame}{Метод распространения близости}
+  \begin{enumerate}[<+- | alert@+>]
+    \item[+] Не нужно задавать количество кластеров
+    \item[+] "Выбросы" выделяются в отдельные кластеры
+    \bigbreak
+    \item[--] Долгое время работы
+    \item[--] Часто нуждается в постобработке
+  \end{enumerate}
 \end{frame}
 
 \section{Графовые алгоритмы}
