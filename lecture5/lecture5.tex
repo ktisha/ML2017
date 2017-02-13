@@ -102,4 +102,198 @@
 \end{frame}
 }
 
+{\foot{Maximum a posteriori estimation}
+\begin{frame}{Принцип максимума апостериорной вероятности}
+  Апостериорная вероятность класса $y$ для объекта $x$:
+  $$P(y|x) = \frac{p(x,y)}{p(x)} = \frac{P_yp(x|y)}{\sum\limits_{s \in Y} P_s p(x|s) \propto P_y p(x|y)}$$
+  \pause
+  Тогда оптимальный алгоритм выглядит так:
+  $$a(x) = \arg\max\limits_{y \in Y} \lambda_y P(y|x)$$
+\end{frame}
+}
+
+\begin{frame}{Классификация по Байесу}
+  $$a(x) = \arg\max\limits_{y \in Y} \lambda_y P(y|x)$$\\
+  \bigbreak
+  Если $\lambda_y = 1$, то алгоритм максимизирует апостериорную вероятность для объекта $x$.
+\end{frame}
+
+\section{Наивность}
+
+\begin{frame}{Вопрос}
+  \centering
+  Чего еще не хватает для \alert{работающего} классификатора?
+\end{frame}
+
+\begin{frame} {На полпути к классификатору}
+  \begin{enumerate} [<+->]
+    \item Что представляют из себя $X$ и $Y$ для сообщений из списков рассылки
+    \item Выбрать функции правдоподобия $p(x|y)$
+    \item Научиться оценивать априорные вероятности классов $\hat{P}_y$ и функции правдоподобия $\hat{p}(x|y)$ из данных
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Векторизация с использованием словаря}
+  $V = {v_1, \dots, v_{|V|}}$ -- упорядоченное множество слов\\
+  \bigbreak
+  Сообщение можно представить в виде вектора, в котором на $j$-ой позиции стоит $1$, если $v_d$ встречается в сообщении, и $0$ в противном случае\\
+  \bigbreak
+  $X\equiv {0, 1}^{|V|}$ , а $Y$ это множество идентификаторов рассылки
+\end{frame}
+
+\begin{frame}{Пример}
+  V = {who, I, let, dogs, out, the}\\
+  \pause
+  Сообщение «Who let the dogs out? Who, who, who, who?» будет векторизовано как [1, 0, 1, 1, 1, 1].\\
+  \pause
+  Как будет векторизовано предложение «Well, if I am a dog, the party is on [...]»?
+\end{frame}
+
+\begin{frame}{Функция правдоподобия}
+  \centering 
+  Как определить функцию правдоподобия для сообщения, представленного в виде бинарного вектора?
+\end{frame}
+
+\begin{frame} {Функция правдоподобия}
+  \alert{Идея}: Будем использовать дискретное распределение на множестве $X$, то есть сопоставим вероятность $\theta_{yx}$ каждому значению $x \in X$, тогда\\
+  $$p(x|y) = \theta_{yx}$$\\
+  \bigbreak
+  \pause
+  Какие проблемы у такой функции правдоподобия?
+\end{frame}
+
+\begin{frame} {Функция правдоподобия}
+  Предположим, что все признаки (компоненты вектора $x$) независимы \alert{при условии} $y$, тогда:\\
+  $$p(x|y) = \prod\limits_{d=1}^{|V|} p(x_d | y)$$\\
+  \pause
+  \bigbreak
+  Полученный классификатор называют \alert{наивным} Байесовским классификатором из-за наивности сделанного предположения\\
+  $$a(x) = \arg\max_{y \in Y} \lambda_y P_y \prod\limits_{d=1}^{|V|} p(x_d | y)$$
+\end{frame}
+
+{\foot{Daniel Bernoulli}
+\begin{frame} {Распределение Бернулли}
+  Распределение Бернулли -- дискретное распределение на множестве ${0, 1}$ с параметром $\theta \in [0, 1]$ — вероятностью \alert{успеха} и функцией вероятности:\\
+  $$Ber(x; \theta) = \theta^x (1 - \theta)^{1-x}$$
+  \bigbreak
+  \pause
+  $$p(x|y) = \prod\limits_{d=1}^{|V|} \theta_{yd}^x (1 - \theta_{yd})^{1-x}$$\\
+
+\end{frame}
+}
+
+\begin{frame}{Метод максимального правдоподобия}
+  Метод позволяет оценивать параметры функций правдоподобия по выборке $X^l$.\\
+  $$L(\theta) = \sum\limits_{i=1}^{l} \ln p(x_i;\theta) \rightarrow \max\limits_{\theta}$$
+  Как записать условие оптимума?
+\end{frame}
+
+\begin{frame}{Метод максимального правдоподобия}
+  $$\frac{\partial }{\partial \theta} L(\theta) = \sum\limits_{i=1}^{l} \frac{\partial }{\partial \theta} \ln p(x_i, \theta) = \sum\limits_{i=1}^{l} \frac{x_i}{\theta} + \frac{1-x_i}{\theta-1} = 0$$\\
+  \pause
+  $$\Rightarrow \hat{\theta}_{ML} = \frac{1}{l} \sum\limits_{i=1}^{l} x_i$$
+\end{frame}
+
+\begin{frame}{Наивный Байесовски классификатор}
+  $$\hat{P}_y = \frac{\sum\limits_{i=1}^l [y_i = y]}{l} \qquad \hat{\theta}_{yd} = \frac{\sum\limits_{i=1}^l [y_i = y] x_{id}}{\sum\limits_{i=1}^l [y_i = y]}$$\\
+  \bigbreak
+  \pause
+  $$a(x) = \arg\max\limits_{y \in Y} \lambda_y \hat{P}_y \prod\limits_{d=1}^{|V|} Ber(x_{id}; \hat{\theta_{yd}})$$
+\end{frame}
+
+\begin{frame}{Пример}
+  \centering
+  \begin{tabular}{ l |c |r r r}
+    $y \in Y$ & $\hat{P}_y$ & password & program & PGP \\
+    \hline
+    sci.crypt & 0.4 & 0.8 & 0 & 1 \\
+    comp.graphics & 0.6 & 0.2 & 0.6 & 0\\
+  \end{tabular}\\
+  \bigbreak
+  \pause
+  Какой класс будет назначен сообщению \\«How should I add PGP support to my program?», \\если $\forall y \in Y (\lambda_y = 1)$? 
+  \bigbreak
+  \pause
+  \begin{equation*}
+    \begin{split}
+    a(x) &= \arg\max\limits_{y \in Y} \hat{P}(y | x = [0, 1, 1]) \\
+    & = \arg\max\limits_{y \in Y} \left\{\hat{p}(\text{sci.crypt}|x), \hat{p}(\text{comp.graphics}|x)\right\} \\
+    & =  \arg\max\limits_{y \in Y} \left\{0, 0\right\}
+    \end{split}
+  \end{equation*}
+\end{frame}
+
+\begin{frame} {Аддитивное сглаживание}
+  \alert{Идея}: Введем параметр $\alpha \geq 0$ и добавим его в ОМП для распределения Бернулли.\\
+  $$\hat{\theta}_{yd}^* = \frac{\sum\limits_{i=1}^{l} [y_i = y] x_{id} + \alpha}{\sum\limits_{i=1}^{l} [y_i = y] + 2 \alpha}$$
+  \bigbreak
+  Если в обучающей выборке много представителей класса $y$, содержащих слово $v_d$, то $\hat{\theta}_{yd}^*$ будет стремиться к ОМП, в обратном случае $\hat{\theta}_{yd}^* \approx \frac{1}{2}$
+\end{frame}
+
+\begin{frame} {Фреквентистский и Байесовский подходы}
+  Фреквентистский подход предполагает, что параметры распределения некоторой случайной величины -- это фиксированные (но, возможно, неизвестные) значения.\\
+  \pause
+  \bigbreak
+  Байесовский подход считает все величины случайными, то есть у параметров тоже есть распределение:\\
+  $$p(x|\theta) = Ber(x|\theta) \qquad p(\theta) = Beta(\theta|\alpha, \beta)$$\\
+  Таким образом, при Байесовском подходе нас интересует не точечная оценка параметра $\hat{\theta}$, а его апостериорное распределение:\\
+  \pause
+  $$p(\theta|x) = \frac{p(\theta) p(x|\theta)}{\int p(\theta) p(x|\theta) d\theta} \propto p(\theta) p(x|\theta) $$
+\end{frame}
+
+\begin{frame}{Сопряжённое априорное распределение}
+  \alert{Наблюдение}: Часто можно выбрать априорное распределение $p(\theta)$ таким образом, чтобы апостериорное распределение $p(\theta|x)$ имело тот же вид, что и априорное, только с другими параметрами.\\
+  \bigbreak
+  \pause
+  Семейство распределений $p(\theta|\alpha)$ называется априорным сопряжённым для семейства функций правдоподобия $p(x|\theta)$, если апостериорное распределение $p(\theta|x, \alpha)$ остаётся в том же семействе:\\
+  $$p(\theta|x, \alpha) \propto p(\theta) p(x|\theta)  = p(\theta|\alpha^*)$$\\
+  \bigbreak
+  $\alpha$ и $\alpha^*$ -- это \alert{гипер}параметры, то есть параметры распределения параметров.
+\end{frame}
+
+\begin{frame}{Бета-распределение}
+  \centering
+  \includegraphics[width=0.7 \textwidth, keepaspectratio]{images/Beta}
+  $$p(\theta|\alpha, \beta) = \frac{\theta^{\alpha-1} (1-\theta)^{\beta-1}}{B(\alpha, \beta)} \qquad B(\alpha, \beta) = \int\limits_0^1 \theta^{\alpha-1} (1-\theta)^{\beta-1} d\theta$$
+\end{frame}
+
+\begin{frame}{И снова про аддитивное сглаживание}
+  Бета-распределение является априорным сопряжённым для распределения Бернулли\\  
+  \begin{equation*}
+    \begin{split}
+    p(\theta | x, \alpha, \beta) & \propto p(\theta|\alpha, \beta) p(x|\theta) \\
+      & \propto (\theta^{\alpha-1} (1-\theta)^{\beta-1})(\theta^x (1-\theta)^{1-x}) \\
+      & \propto \theta^{(\alpha+x)-1} (1-\theta)^{\beta+1-x}-1 = Beta(\theta| \alpha^*, \beta^*)
+    \end{split}
+  \end{equation*}
+\end{frame}
+
+\begin{frame}{Оценка параметра $\theta$}
+  \begin{equation*}
+    \begin{split}
+      \hat{theta} &= \int\limits_{0}^1 \theta p(\theta|x, \alpha, \beta) d\theta  = \mathbb{E} [Beta(\theta|\alpha^*, \beta^*)]\\
+      & = \frac{\alpha^*}{\alpha^*+\beta^*} = \frac{\alpha+x}{\alpha + \beta + 1}
+    \end{split}
+  \end{equation*}\\
+  Если $\alpha = \beta$, то $\hat{\theta}$ в точности совпадает со сглаженной оценкой $\hat{\theta^*}$
+  
+\end{frame}
+
+\begin{frame}[standout]
+  Вопросы?
+\end{frame}
+
+\appendix
+
+\begin{frame}{На следующей лекции}
+  	\begin{enumerate} [--]
+		\item Байесовские методы классификации
+		\item Вероятностная постановка задачи
+		\item Оптимальный байесов классификатор
+		\item Наивность
+		\item Максимальное правдоподобие
+		\item Разные распределенияd
+	\end{enumerate}
+\end{frame}
+
 \end{document}
