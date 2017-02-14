@@ -114,8 +114,8 @@
 
 \begin{frame}{История ML}
 	\begin{itemize} [<+->]
-	  \item[1955] Arthur Samuel создает первую самообучающуюся шашечную программу для IBM 701
 	  \item[1958] Frank Rosenblatt создает первую искусственную нейронную сеть
+	  \item[1959] Arthur Samuel создает первую самообучающуюся шашечную программу для IBM 701
 	  \item[1963] Larry Roberts сформулировал тезисы компьютерного зрения
 	  \item[1973] James Lighthill. "Искусственный интеллект: Общий обзор"
 	  \item[1986] David Rumelhart и Ronald Williams заново открыт и популяризирован алгоритм обратного распространения ошибки
@@ -238,24 +238,12 @@
 \end{frame}
 }
 
-\section{Обучение с подкреплением}
-
-{\foot{Reinforcement learning}
-\begin{frame} {Обучение с подкреплением}
-  $S$ -- множество состояний окружения\\
-  $A$ -- множество действий агента\\
-  $R$ -- множество "выигрышей"
-  \bigbreak
-	\bigbreak
-	\alert{Задача}: Построить алгоритм ${a \colon S \rightarrow A}$, который максимизирует общий "выигрыш"
+{\foot{Semi-supervised learning}
+\begin{frame}{С частичным привлечением учителя}
+  \centering
+  \includegraphics[width=0.9 \linewidth, height=0.9 \textheight, keepaspectratio]{images/semi}\\
 \end{frame}
 }
-
-{\foot{Reinforcement learning}
-\begin{frame} {Обучение с подкреплением}
-  \centering
-  \includegraphics[width=0.9 \linewidth, height=0.9 \textheight, keepaspectratio]{images/roomba}\\
-\end{frame}
 
 \section{Активное обучение}
 
@@ -276,6 +264,27 @@
   \centering
   \includegraphics[width=0.9 \linewidth, height=0.9 \textheight, keepaspectratio]{images/active}\\
 \end{frame}
+}
+
+\section{Обучение с подкреплением}
+
+{\foot{Reinforcement learning}
+\begin{frame} {Обучение с подкреплением}
+  $S$ -- множество состояний окружения\\
+  $A$ -- множество действий агента\\
+  $R$ -- множество "выигрышей"
+  \bigbreak
+	\bigbreak
+	\alert{Задача}: Построить алгоритм ${a \colon S \rightarrow A}$, который максимизирует общий "выигрыш"
+\end{frame}
+}
+
+{\foot{Reinforcement learning}
+\begin{frame} {Обучение с подкреплением}
+  \centering
+  \includegraphics[width=0.9 \linewidth, height=0.9 \textheight, keepaspectratio]{images/roomba}\\
+\end{frame}
+}
 
 \section{Типы признаков}
 
@@ -308,8 +317,9 @@
 \begin{frame}{Что читать/смотреть}
   \href{http://www.machinelearning.ru/wiki/images/6/6d/Voron-ML-1.pdf}{Курс К. В. Воронцова}\\
 	\href{https://yandexdataschool.ru/edu-process/courses/machine-learning}{Видеолекции ШАД}\\
-	Christopher M. Bishop "Pattern Recognition and Machine Learning"
-	G. James, D. Witten, T. Hastie, R. Tibshirani: "An Introduction to Statistical Learning" 	
+	Christopher M. Bishop "Pattern Recognition and Machine Learning"\\
+	G. James, D. Witten, T. Hastie, R. Tibshirani: "An Introduction to Statistical Learning" 	\\
+	\href{http://work.caltech.edu/telecourse.html}{Professor Yaser Abu-Mostafa MOOC}
 \end{frame}
 
 \begin{frame}[standout]
