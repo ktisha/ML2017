@@ -35,13 +35,14 @@
 }
 
 \begin{frame}{Датасет}
-    \centering
+  \centering
 	\includegraphics[width=\textwidth]{images/pokemons}
 \end{frame}
 
 \begin{frame}{Мотивация}
-    \centering
-	\includegraphics[width=\textwidth, height=0.8 \textheight, keepaspectratio]{images/distance}
+  \begin{center}
+	  \includegraphics[width=\textwidth, height=0.8 \textheight, keepaspectratio]{images/distance}
+	  \end{center}
 \end{frame}
 
 \begin{frame}{Логические закономерности}
@@ -191,21 +192,29 @@
 	$Recall = \frac{tp}{|\left\{ x_i: X , y_i = c \right\}|}$
 \end{frame}
 
+{\foot{ Receiver-operating characteristic}
 \begin{frame}{ROC-кривая}
   \centering
   \includegraphics[height=0.7 \textheight, keepaspectratio = true]{images/roc}   \\
-  Receiver-operating characteristic
 \end{frame}
+}
 
+{\foot{Area under the ROC curve}
 \begin{frame}{AUC-кривая}
   \centering
-  \includegraphics[height=0.7 \textheight, keepaspectratio = true]{images/auc}   \\
-  Area under the ROC curve
+  \includegraphics[height=0.7 \textheight, keepaspectratio = true]{images/auc}   \\  
+\end{frame}
+}
+
+\begin{frame}{Критерий Парето}
+  \centering
+  \includegraphics[height=150pt, keepaspectratio = true]{images/pareto}   \\
+  Парето-фронт -- множество недоминируемых закономерностей
 \end{frame}
 
 \section{Критерии информативности}
 
-\begin{frame}{Энтропийный информационный критерий}
+\begin{frame}{Критерий информационного выигрыша}
   \begin{align*} 
 		IGain(tp,fp) &= h(\frac{P}{l}) - \frac{tp+tp}{l}h(\frac{tp}{tp+fp}) - \\
 		&- \frac{l-tp-fp}{l}h(\frac{P-tp}{l-tp-fp}) \rightarrow \max \\
@@ -248,18 +257,12 @@
   \end{algorithmic}    
 \end{frame}
 
-\begin{frame}
-	\begin{enumerate}[--]
-		\item Генетические алгоритмы
-		\item Метод ветвей и границ	
-		\item Стохастический локальный поиск	
+\begin{frame}{Примеры}
+	\begin{enumerate}[<+- |alert@+>]
+		\item[--] Генетические алгоритмы
+		\item[--] Метод ветвей и границ	
+		\item[--] Стохастический локальный поиск	
 	\end{enumerate}
-\end{frame}
-
-\begin{frame}{Критерий Парето}
-  \centering
-  \includegraphics[height=150pt, keepaspectratio = true]{images/pareto}   \\
-  Парето-фронт -- множество недоминируемых закономерностей
 \end{frame}
 
 \section{Как собрать классификатор из закономерностей?}
@@ -395,6 +398,13 @@
 			\hspace{20mm} Заменить поддерево $v$ поддеревом $R_v$\\
 			\hspace{20mm} Заменить $v$ листом $c_v = \min\limits_{c \in Y} r_c(v)$\\
 \end{frame}
+
+{\foot{Oblivious Decision Trees}
+\begin{frame}{Небрежные решающие деревья}
+  \alert{Идея}: На одном уровне – одинаковые признаки.
+  \TODO{картинка}
+\end{frame}
+}
 
 \begin{frame}{Композиция деревьев}
 	\begin{enumerate} [--]
