@@ -34,6 +34,20 @@
 	\end{figure}
 \end{frame}
 
+\begin{frame}{Алгоритм}
+	\begin{algorithmic}[1]
+        \Function{perceptron}{$X$, $\eta$}
+            \State Инициализировать ${w_0, \dots, w_n}$
+            \MRepeat [пока $w$ изменяются] 
+               \For {$i = 1, \dots, n$}
+                 \State $w = w - \eta (a(x_i) - y_i) x_i$
+               \EndFor
+           	\EndRepeat
+        \EndFunction
+    \end{algorithmic}
+\end{frame}
+
+
 \begin{frame}\frametitle{Линейные алгоритмы классификации и регрессии}
 	Задача классификации: \\
 	$Y = \left\{ \pm1 \right\}, \hspace{10mm} a(x,w) = \sign \langle w, x_i \rangle $\\
