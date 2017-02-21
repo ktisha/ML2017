@@ -434,30 +434,40 @@
 
 {\foot{Prototype selection}
 \begin{frame}{Отбор эталонных объектов}
-	\alert{Задача}:\\
-	Выбрать оптимальное подмножество эталонов $\Omega\subseteq X^l$\\ 
+	\alert{Задача}: Выбрать оптимальное подмножество эталонов $\Omega\subseteq X^l$\\ 
     \bigbreak
 	Классификатор будет иметь вид:\\
 	$${a(u, \Omega) = \arg\max\limits_{y \in Y} \sum\limits_{x_i \in \Omega} [y_i = y]w(i, u) }$$\\
 \end{frame}
 }
 
-\begin{frame}{Алгоритм STOLP}
+\begin{frame}{Condensed Nearest Neighbor}
 	\begin{enumerate}
-		\item Исключить выбросы и пограничные объекты
-		\item Найти по одному эталону в каждом классе
-		\item Добавлять эталоны, пока есть отрицательные отступы	
+	  \item Исключить выбросы и пограничные объекты
+	  \item Найти по одному эталону в каждом классе
+		\item Добавлять каждый следующий объект $x$ в $\Omega$, если классификация с текущим набором эталонов ошибается на нём
+		\item Продолжать до тех пор пока $\Omega$ не перестанет пополняться
 	\end{enumerate}
 \end{frame}
 
-\begin{frame}{Алгоритм STOLP}
+\begin{frame}{Condensed Nearest Neighbor}
+  \centering
+  \includegraphics[width=\textwidth, height=0.8 \textheight, keepaspectratio]{images/cnn-original}
+\end{frame}
+
+\begin{frame}{Condensed Nearest Neighbor}
+  \centering
+  \includegraphics[width=\textwidth, height=0.8 \textheight, keepaspectratio]{images/cnn}
+\end{frame}
+
+\begin{frame}{Condensed Nearest Neighbor}
 	\begin{itemize} [<+- | alert@+>]
-	\item[+] Сокращается число хранимых объектов
-	\item[+] Сокращается время классификации
-	\item[+] Объекты разделяются по величине отступа
-	\bigbreak
-	\item[--] Выбор параметра для определения выбросов
-	\item[--] Не высокая эффективность
+    	\item[+] Сокращается число хранимых объектов
+	  \item[+] Сокращается время классификации
+	  \item[+] Объекты разделяются по величине отступа
+	  \bigbreak
+	  \item[--] Очень медленный
+	  \item[--] Классификация на тестовом наборе может отличаться
 	\end{itemize}
 \end{frame}
 
