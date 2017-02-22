@@ -40,6 +40,21 @@
 	\includegraphics[width=\textwidth]{images/pokemons}
 \end{frame}
 
+\begin{frame}{Распределения}
+  \centering
+	\includegraphics[width=\textwidth]{images/attack_defense}
+	
+	Number of Pokemons = 800
+\end{frame}
+
+{\foot{\href{https://github.com/ktisha/ML2017/tree/master/notebooks}{Репозиторий с материалами (https://github.com/ktisha/ML2017)}}
+\begin{frame}{Типы покемонов}
+  \begin{center}
+	  \includegraphics[width=\linewidth,height=0.8 \textheight,keepaspectratio]{images/pokemons_by_type}
+  \end{center}
+\end{frame}
+}
+
 \section{Какие признаки есть в датасете?}
 
 \begin{frame}
@@ -86,20 +101,10 @@
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Распределения}
-  \centering
-	\includegraphics[width=\textwidth]{images/attack_defense}
-	
-	Number of Pokemons = 800
+\begin{frame}{Датасет}
+    \centering
+	\includegraphics[width=\textwidth]{images/pokemons-legendary}
 \end{frame}
-
-{\foot{\href{https://github.com/ktisha/ML2017/tree/master/notebooks}{Репозиторий с материалами (https://github.com/ktisha/ML2017)}}
-\begin{frame}{Типы покемонов}
-  \begin{center}
-	  \includegraphics[width=\linewidth,height=0.8 \textheight,keepaspectratio]{images/pokemons_by_type}
-  \end{center}
-\end{frame}
-}
 
 \begin{frame}{Задача классификации}
 	$X$ - множество объектов \\
@@ -114,7 +119,6 @@
 	$X$ - покемоны \\
 	$Y$ - легендарность \\
 	Обучающая выборка: ${X^l = (x_i, y_i)_{i=1}^l}$ \\ 
-	$l = 800$ покемонов в выборке\\
 	\bigbreak
 	\alert{Задача}: Построить алгоритм ${a \colon X \rightarrow Y}$, способный определить, является ли покемон легендарным.
 \end{frame}
@@ -233,7 +237,7 @@
 	\bigbreak
 	\pause
 	\begin{itemize} [<+- | alert@+>]
-		\item[+] Простота
+		\item[+] Простота реализации (lazy learning)
 		\item[+] Интерпретируемость решения
 	  \bigbreak
 		\item[--	] Неустойчивость к шуму
@@ -373,6 +377,8 @@
 	В противном случае признак с наибольшими числовыми значениями будет доминировать в метрике.
 \end{frame}
 
+\section{Отбор признаков}
+
 \begin{frame}{Жадное добавление признаков}
 	\begin{enumerate} [<+->]
 		\item ${\rho_j(u, x_i) = \vert u^j - x_i^j \vert}$ -- расстояние по j-му признаку\\
@@ -443,7 +449,7 @@
 
 \begin{frame}{Condensed Nearest Neighbor}
 	\begin{enumerate}
-	  \item Исключить выбросы и пограничные объекты
+	  \item Исключить ошибочные, шумовые и пограничные объекты
 	  \item Найти по одному эталону в каждом классе
 		\item Добавлять каждый следующий объект $x$ в $\Omega$, если классификация с текущим набором эталонов ошибается на нём
 		\item Продолжать до тех пор пока $\Omega$ не перестанет пополняться
@@ -550,11 +556,22 @@
 	\end{enumerate}
 \end{frame}
 
-\begin{frame}\frametitle{Locality Sensitive Hash}
+\begin{frame}\frametitle{Min Hash}
 	\begin{figure}[htbp]
 	\centering
 	\includegraphics[height=190pt]{images/min-hash1}  
 	\end{figure}
+\end{frame}
+
+\begin{frame}\frametitle{Что почитать по этой лекции}
+  \begin{itemize}
+    \item Tom Mitchell "Machine Learning". Chapter 8
+    \item \href{http://www.ccas.ru/voron/download/MetricAlgs.pdf}{К. Воронцов "Лекции по метрическим алгоритмам классификации"}
+    \item \href{https://arxiv.org/pdf/1007.0085.pdf}{Обзор методов поиска ближайших соседей}
+    \item \href{http://infolab.stanford.edu/~ullman/mmds/book.pdf}{Ullman, Leskovec, Rajaraman "Mining of Massive Datasets" Chapter 3.4—3.8}
+      
+  \end{itemize}
+
 \end{frame}
 
 \begin{frame}\frametitle{Что происходит сейчас в области knn}
