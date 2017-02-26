@@ -57,6 +57,10 @@
 	$a: X \rightarrow Y$ -- алгоритм кластеризации
 \end{frame}
 
+\section{Гипотеза компактности}
+
+\section{Какие функции расстояния мы знаем?}
+
 \section{Степени свободы в постановке задачи}
 
 \begin{frame}{Степени свободы в постановке задачи}
@@ -86,12 +90,6 @@
 	\end{center}
 \end{frame}
 
-\begin{frame}{Ленты}
-	\begin{center}
-	  \includegraphics[height=0.6 \textheight, keepaspectratio = true]{images/cluster2}  
-	\end{center}
-\end{frame}
-
 \begin{frame}{С центром}
 	\begin{center}
 	  \includegraphics[height=0.6 \textheight, keepaspectratio = true]{images/cluster3}  
@@ -101,6 +99,12 @@
 \begin{frame}{С перемычками}
 	\begin{center}
 	  \includegraphics[height=0.6 \textheight, keepaspectratio = true]{images/cluster4}  
+	\end{center}
+\end{frame}
+
+\begin{frame}{Ленты}
+	\begin{center}
+	  \includegraphics[height=0.6 \textheight, keepaspectratio = true]{images/cluster2}  
 	\end{center}
 \end{frame}
 
@@ -142,50 +146,17 @@
 	\end{center}
 \end{frame}
 
-\section{Оценка качества кластеризации}
-
-\begin{frame}{Оценка качества кластеризации}
-  \alert{Идея}: Минимизировать среднее внутрикластерное расстояние и при этом максимизировать среднее межкластерное расстояние.
-	\bigbreak
-	\pause
-	$${\frac{\sum\limits_{a(x_i) = a(x_j)} \rho(x_i, x_j)}{\sum\limits_{a(x_i) = a(x_j)} 1} \rightarrow \min}$$
-	\bigbreak
-	\pause
-	$${\frac{\sum\limits_{a(x_i) \neq a(x_j)} \rho(x_i, x_j)}{\sum\limits_{a(x_i) \neq a(x_j)} 1} \rightarrow \max}$$
-\end{frame}
-
-\section{Визуализация кластеров}
-
-{\foot{Treemap}
-\begin{frame}{Диаграмма вложения}
-  \begin{center}
-    \includegraphics[height=0.8 \textheight, keepaspectratio = true]{images/diagram}    
-  \end{center}
-\end{frame}
-}
-
-\begin{frame}{Дендрограмма}
-  \begin{center}
-    \includegraphics[height=\textheight, width=\textwidth, keepaspectratio = true]{images/dendrogram}    
-  \end{center}
-\end{frame}
-
-\begin{frame}{Дендрограмма}
-  \begin{center}
-    \includegraphics[height=0.8 \textheight, width=0.8 \textwidth, keepaspectratio = true]{images/dendrogram1}    
-  \end{center}
-\end{frame}
-
-\begin{frame}{Вопрос}
-  \centering  
-  Может ли так случиться, что дендрограмма имеет самопересечения?
-\end{frame}
-
-\begin{frame}{Свойство монотонности}
-  Кластеризация монотонна, если на каждом шаге расстояние $\rho$ между объединяемыми кластерами не уменьшается.\\
-  \bigbreak  
-  $$\rho_2 \leq \rho_3 \leq \dots \leq \rho_l$$
-\end{frame}
+%\section{Оценка качества кластеризации}
+%
+%\begin{frame}{Оценка качества кластеризации}
+%  \alert{Идея}: Минимизировать среднее внутрикластерное расстояние и при этом максимизировать среднее межкластерное расстояние.
+%	\bigbreak
+%	\pause
+%	$${\frac{\sum\limits_{a(x_i) = a(x_j)} \rho(x_i, x_j)}{\sum\limits_{a(x_i) = a(x_j)} 1} \rightarrow \min}$$
+%	\bigbreak
+%	\pause
+%	$${\frac{\sum\limits_{a(x_i) \neq a(x_j)} \rho(x_i, x_j)}{\sum\limits_{a(x_i) \neq a(x_j)} 1} \rightarrow \max}$$
+%\end{frame}
 
 \begin{frame}{Методы кластеризации}
 	\begin{enumerate} [-]
@@ -197,64 +168,67 @@
 
 \section{Статистические алгоритмы}
 
-\begin{frame}{Алгоритм FOREL}
-  \alert{Идея}:\\
-	\begin{itemize}
-		\item[--] Выделить все точки выборки $x_i$, попадающие внутрь сферы $\rho(x_i, x_0) \leq R$
-		\item[--] Перенести $x_0$ в центр тяжести выделенных точек
-		\item[--] Повторять пока $x_0$ не стабилизируется
-	\end{itemize}
-\end{frame}
-
-\begin{frame}{Алгоритм FOREL}
-	\begin{algorithmic}[1]
-        \Function{forel}{$X$, $R$}
-            \State ${U \gets X}$, $C \gets 0$
-            \While{${U \neq 0}$}                
-                \State выбрать случайную точку $x_0$
-                \MRepeat [пока $x_0$ не стабилизируется] 
-                		\State ${c = \left\{ x \in X \vert \rho(x, x_0) < R \right\}}$
-                		\State $x_0 = \frac{1}{\vert c \vert} \sum\limits_{x_i \in c} x_i$
-                	\EndRepeat
-    		        \State ${U = U \setminus c}$, ${C = C \cup \left\{ c \right\}}$
-            \EndWhile            
-        \EndFunction
-    \end{algorithmic}
-\end{frame}
-
-\begin{frame}{Алгоритм FOREL}
-	\begin{itemize} [<+- | alert@+>]
-		\item[+] Наглядность
-		\item[+] Сходимость
-		\bigbreak
-		\item[--] Зависимость от выбора $x_0$
-		\item[--] Плохо работает, если изначальная выборка плохо делится на кластеры
-	\end{itemize}
-\end{frame}
+%\begin{frame}{Алгоритм FOREL}
+%  \alert{Идея}:\\
+%	\begin{itemize}
+%		\item[--] Выделить все точки выборки $x_i$, попадающие внутрь сферы $\rho(x_i, x_0) \leq R$
+%		\item[--] Перенести $x_0$ в центр тяжести выделенных точек
+%		\item[--] Повторять пока $x_0$ не стабилизируется
+%	\end{itemize}
+%\end{frame}
+%
+%\begin{frame}{Алгоритм FOREL}
+%	\begin{algorithmic}[1]
+%        \Function{forel}{$X$, $R$}
+%            \State ${U \gets X}$, $C \gets 0$
+%            \While{${U \neq 0}$}                
+%                \State выбрать случайную точку $x_0$
+%                \MRepeat [пока $x_0$ не стабилизируется] 
+%                		\State ${c = \left\{ x \in X \vert \rho(x, x_0) < R \right\}}$
+%                		\State $x_0 = \frac{1}{\vert c \vert} \sum\limits_{x_i \in c} x_i$
+%                	\EndRepeat
+%    		        \State ${U = U \setminus c}$, ${C = C \cup \left\{ c \right\}}$
+%            \EndWhile            
+%        \EndFunction
+%    \end{algorithmic}
+%\end{frame}
+%
+%\begin{frame}{Алгоритм FOREL}
+%	\begin{itemize} [<+- | alert@+>]
+%		\item[+] Наглядность
+%		\item[+] Сходимость
+%		\bigbreak
+%		\item[--] Зависимость от выбора $x_0$
+%		\item[--] Плохо работает, если изначальная выборка плохо делится на кластеры
+%	\end{itemize}
+%\end{frame}
 
 % можно какую-нибудь иллюстрацию придумать
 
+{\foot{k-means}
 \begin{frame}{Метод $k$-средних}
-	\alert{Идея}: минимизировать меру ошибки\\
+	\alert{Идея}: Мы можем искать центры кластеров путем усреднения вектора признаков объектов.
+	\pause
 	\bigbreak
-	$${E(X, C) = \sum\limits_{i = 1}^n \Vert x_i -\mu_i \Vert^2}$$\\
+	$${\sum\limits_{i = 1}^l \Vert x_i -\mu_i \Vert^2 \rightarrow \min}$$\\
 	\bigbreak
 	$\mu_i$ -- ближайший к $x_i$ центр кластера
 \end{frame}
+}
 
 \begin{frame}{Метод $k$-средних}
 	\begin{algorithmic}[1]
         \Function{kmeans}{$k$}
             \State Инициализировать $\mu_i$, $i = 1 \dots k$
-            \MRepeat [пока $c_i$ не перестанет меняться] 
-                \State $c_i = \arg\min\limits_{c \in C} \rho(x_i, \mu_c)$ \hspace{5mm} $i = 1,\dots, l$
-                \State ${\mu_c = \frac{\sum\limits_{c_i = c} f_j(x_i)}{\sum\limits_{c_i = c} 1} }$ \hspace{10mm} $j = 1,\dots, n$, $c \in C$
+            \MRepeat [пока $\mu_c$ не перестанет меняться] 
+                \State $c_i = \arg\min\limits_{c \in 1\dots k} \rho(x_i, \mu_c)$ \hspace{5mm} $i = 1,\dots, l$\\
+                
+                \State ${\mu_{c} = \frac{\sum\limits_{j=1,\dots, n} [c_i = c] x_i^j}{\sum\limits_{c_i = c} n} }$ \hspace{10mm} $c \in 1 \dots k$
              \EndRepeat
         \EndFunction
   \end{algorithmic}    
 	\bigbreak
-	\bigbreak
-	$\mu_c$ -- новое положение центров кластеров\\
+	$\mu_{c}$ -- новое положение центров кластеров\\
 	$c_i$ -- принадлежность $x_i$ к кластеру\\
 	$\rho(x_i, \mu_c)$ -- расстояние от $x_i$ до центра кластера $\mu_c$
 \end{frame}
@@ -332,32 +306,15 @@
 	\end{center}
 \end{frame}
 
-\section{Интересные результаты}
-
-{\foot{\href{https://www.reddit.com/r/pokemonconspiracies/comments/2uu7lc/arcanine_was_meant_to_be_a_legendary/
-}{Pokemon Conspiracies}}
-\begin{frame}{Интересные результаты}
-	\begin{center}
-	  	\includegraphics[keepaspectratio = true]{images/Arcanine}  \\
-	  	Arcanine
-	\end{center}
-\end{frame}
-
-\begin{frame}{Интересные результаты}
-	\begin{center}
-	  \includegraphics[width= \textwidth, height=0.8 \textheight, keepaspectratio = true]{images/legendary_arcanine}  
-	\end{center}
-\end{frame}
-}
-
 \section{Устранение недостатков}
 
-\begin{frame}{Устранение недостатков}
-	\begin{itemize} [<+- | alert@+>]
-		\item[--] Несколько случайных кластеризаций
-		\item[--] Постепенное наращивание числа $k$
-		\item[--] Использование k-means++
-	\end{itemize}
+\begin{frame}{Инициализация $\mu_c$}
+  \begin{itemize} [<+->]
+    \item Случайным образом
+    \item Взять наиболее удалённые объекты выборки
+    \item Несколько случайных кластеризаций
+    \item Использование k-means++
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{k-means++}
@@ -403,6 +360,24 @@
 %	$d$ -- длина вектора параметров\\
 %	$l$ -- количество объектов в выборке\\
 %\end{frame}
+
+\section{Интересные результаты}
+
+{\foot{\href{https://www.reddit.com/r/pokemonconspiracies/comments/2uu7lc/arcanine_was_meant_to_be_a_legendary/
+}{Pokemon Conspiracies}}
+\begin{frame}{Интересные результаты}
+	\begin{center}
+	  	\includegraphics[keepaspectratio = true]{images/Arcanine}  \\
+	  	Arcanine
+	\end{center}
+\end{frame}
+
+\begin{frame}{Интересные результаты}
+	\begin{center}
+	  \includegraphics[width= \textwidth, height=0.8 \textheight, keepaspectratio = true]{images/legendary_arcanine}  
+	\end{center}
+\end{frame}
+}
 
 \section{Когда k-means работает плохо}
 
@@ -532,11 +507,11 @@
 	\begin{algorithmic}[1]
         \Function{lance-williams}{$X^l$}
             \State ${C_1 = \left\{ \left\{ x_1\right\}, \left\{x_2 \right\}, \dots, \left\{x_l \right\} \right\}}$
-            \For {${t=2, \dots, l }$}
+            \For {${i=2, \dots, l }$}
             		\State ${(U, V) = \arg\min\limits_{U \neq V} \rho(U, V)}$
             		\State $W = U \cup V$
-            		\State ${C_t = C_{t-1} \cup \left\{ W \right\}\setminus \left\{U, V \right\} }$
-            		\For {\textbf{each} ${S \in C_t}$}
+            		\State ${C_i = C_{i-1} \cup \left\{ W \right\}\setminus \left\{U, V \right\} }$
+            		\For {\textbf{each} ${S \in C_i}$}
             			\State вычислить $\rho(W, S)$
             		\EndFor
             	\EndFor
@@ -613,6 +588,39 @@
   ${\alpha_U = \frac{\vert S \vert + \vert U \vert}{\vert S \vert + \vert W \vert}}$\\${\alpha_V = \frac{\vert S \vert + \vert V \vert}{\vert S \vert + \vert W \vert}}$ \\${\beta = \frac{ -\vert S \vert}{\vert S \vert + \vert W \vert}}$ \\${\gamma = 0}$
 \end{frame}
 
+\section{Визуализация кластеров}
+
+{\foot{Treemap}
+\begin{frame}{Диаграмма вложения}
+  \begin{center}
+    \includegraphics[height=0.8 \textheight, keepaspectratio = true]{images/diagram}    
+  \end{center}
+\end{frame}
+}
+
+\begin{frame}{Дендрограмма}
+  \begin{center}
+    \includegraphics[height=\textheight, width=\textwidth, keepaspectratio = true]{images/dendrogram}    
+  \end{center}
+\end{frame}
+
+\begin{frame}{Дендрограмма}
+  \begin{center}
+    \includegraphics[height=0.8 \textheight, width=0.8 \textwidth, keepaspectratio = true]{images/dendrogram1}    
+  \end{center}
+\end{frame}
+
+\begin{frame}{Вопрос}
+  \centering  
+  Может ли так случиться, что дендрограмма имеет самопересечения?
+\end{frame}
+
+\begin{frame}{Свойство монотонности}
+  Кластеризация монотонна, если на каждом шаге расстояние $\rho$ между объединяемыми кластерами не уменьшается.\\
+  \bigbreak  
+  $$\rho_2 \leq \rho_3 \leq \dots \leq \rho_l$$
+\end{frame}
+
 \section{Обучение с частичным привлечением учителя}
 
 \begin{frame}[standout]
@@ -620,6 +628,13 @@
 \end{frame}
 
 \appendix
+
+\begin{frame}\frametitle{Что почитать по этой лекции}
+  \begin{itemize}
+    \item Christopher M. Bishop "Pattern Recognition and Machine Learning" Chapter 9
+    \item G. James, D. Witten, T. Hastie, R. Tibshirani "An Introduction to Statistical Learning" Chapter 10.3
+  \end{itemize}
+\end{frame}
 
 \begin{frame}\frametitle{Что происходит сейчас в области}
   ICML'16: \href{https://arxiv.org/pdf/1602.03258.pdf}{Interactive Bayesian Hierarchical Clustering}\\
