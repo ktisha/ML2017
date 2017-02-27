@@ -174,58 +174,58 @@
   Парето-фронт -- множество недоминируемых закономерностей
 \end{frame}
 
-%\section{Критерии информативности}
-%
-%\begin{frame}{Критерий информационного выигрыша}
-%  \begin{align*} 
-%		IGain(tp,fp) &= h(\frac{P}{l}) - \frac{tp+tp}{l}h(\frac{tp}{tp+fp}) - \\
-%		&- \frac{l-tp-fp}{l}h(\frac{P-tp}{l-tp-fp}) \rightarrow \max \\
-%	\end{align*} 
-%	$h(q) = -q\log_2q - (1-q)\log_2(1-q)$
-%	\bigbreak	
-%	$P$ - общее количество объектов искомого класса\\
-%	$N$ -- количество остальных объектов
-%\end{frame}
-%
-%\begin{frame}{Критерий Джини}
-%	$$IGini(tp,fp)=IGain(tp,fp) $$\\
-%	\bigbreak
-%	$h(q)=4q(1-q)$
-%	\bigbreak
-%	$P$ - общее количество объектов искомого класса\\
-%	$N$ -- количество остальных объектов
-%\end{frame}
-%
-%{\foot{Fisher’s Exact Test}
-%\begin{frame}{Точный тест Фишера}
-%	$$IStat(tp,fp) = -\frac{1}{l}\log_2\frac{C_P^{tp}C_N^{fp}}{C_{P+N}^{tp+fp}} \rightarrow \max$$\\
-%	\bigbreak
-%	$P$ - общее количество объектов искомого класса\\
-%	$N$ -- количество остальных объектов
-%\end{frame}
-%}
-%
-%\begin{frame}{Поиск информативных закономерностей}
-%  \begin{algorithmic}[1]
-%    \Function{find\_regularity}{$X^l$}
-%    \State Выбрать начальное множество $\mathscr{B}$
-%    \MRepeat [пока правила улучшаются] 
-%      \State $\mathscr{B}'=$ множество модификаций правил $\beta \in \mathscr{B}$
-%      \State Удалить слишком похожие правила из $\mathscr{B} \cup \mathscr{B}'$
-%      \State Оценить инфомативность правил $\beta \in \mathscr{B}'$
-%      \State $\mathscr{B}=$ наиболее информативные правила из $\mathscr{B} \cup \mathscr{B}'$
-%    \EndRepeat
-%  \EndFunction
-%  \end{algorithmic}    
-%\end{frame}
-%
-%\begin{frame}{Примеры}
-%	\begin{enumerate}[<+- |alert@+>]
-%		\item[--] Генетические алгоритмы
-%		\item[--] Метод ветвей и границ	
-%		\item[--] Стохастический локальный поиск	
-%	\end{enumerate}
-%\end{frame}
+\section{Критерии информативности}
+
+\begin{frame}{Критерий информационного выигрыша}
+  \begin{align*} 
+		IGain(tp,fp) &= h(\frac{P}{l}) - \frac{tp+tp}{l}h(\frac{tp}{tp+fp}) - \\
+		&- \frac{l-tp-fp}{l}h(\frac{P-tp}{l-tp-fp}) \rightarrow \max \\
+	\end{align*} 
+	$h(q) = -q\log_2q - (1-q)\log_2(1-q)$
+	\bigbreak	
+	$P$ - общее количество объектов искомого класса\\
+	$N$ -- количество остальных объектов
+\end{frame}
+
+\begin{frame}{Критерий Джини}
+	$$IGini(tp,fp)=IGain(tp,fp) $$\\
+	\bigbreak
+	$h(q)=4q(1-q)$
+	\bigbreak
+	$P$ - общее количество объектов искомого класса\\
+	$N$ -- количество остальных объектов
+\end{frame}
+
+{\foot{Fisher’s Exact Test}
+\begin{frame}{Точный тест Фишера}
+	$$IStat(tp,fp) = -\frac{1}{l}\log_2\frac{C_P^{tp}C_N^{fp}}{C_{P+N}^{tp+fp}} \rightarrow \max$$\\
+	\bigbreak
+	$P$ - общее количество объектов искомого класса\\
+	$N$ -- количество остальных объектов
+\end{frame}
+}
+
+\begin{frame}{Поиск информативных закономерностей}
+  \begin{algorithmic}[1]
+    \Function{find\_regularity}{$X^l$}
+    \State Выбрать начальное множество $\mathscr{B}$
+    \MRepeat [пока правила улучшаются] 
+      \State $\mathscr{B}'=$ множество модификаций правил $\beta \in \mathscr{B}$
+      \State Удалить слишком похожие правила из $\mathscr{B} \cup \mathscr{B}'$
+      \State Оценить инфомативность правил $\beta \in \mathscr{B}'$
+      \State $\mathscr{B}=$ наиболее информативные правила из $\mathscr{B} \cup \mathscr{B}'$
+    \EndRepeat
+  \EndFunction
+  \end{algorithmic}    
+\end{frame}
+
+\begin{frame}{Примеры}
+	\begin{enumerate}[<+- |alert@+>]
+		\item[--] Генетические алгоритмы
+		\item[--] Метод ветвей и границ	
+		\item[--] Стохастический локальный поиск	
+	\end{enumerate}
+\end{frame}
 
 \section{Как собрать классификатор из закономерностей?}
 
@@ -383,6 +383,22 @@
 \end{frame}
 
 \appendix
+
+\begin{frame}\frametitle{Что почитать по этой лекции}
+  \begin{itemize}
+    \item G. James, D. Witten, T. Hastie, R. Tibshirani "An Introduction to Statistical Learning" Chapter 8
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Что происходит сейчас в области}
+  ICML'16: \href{https://arxiv.org/pdf/1602.03258.pdf}{Interactive Bayesian Hierarchical Clustering}\\
+  \bigbreak
+  ICML'16: \href{https://arxiv.org/pdf/1602.01198.pdf}{k-variates++: more pluses in the k-means++}\\
+  \bigbreak
+  NIPS'16: \href{https://arxiv.org/pdf/1606.02404}{Clustering with Same-Cluster Queries}\\
+  \bigbreak
+  NIPS'16: \href{https://las.inf.ethz.ch/files/bachem16fast.pdf}{Fast and Provably Good Seedings for k-Means}\\
+\end{frame}
 
 \begin{frame}{На следующей лекции}
   	\begin{enumerate} [--]
