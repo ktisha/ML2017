@@ -1,5 +1,6 @@
 \documentclass[10pt]{beamer}
 \input{../base}
+\usepackage{mathrsfs}
 
 \title{Лекция 4}
 \subtitle{Деревья принятия решений}
@@ -72,25 +73,10 @@
 	\end{enumerate}
 \end{frame}
 
-\begin{frame}{Примеры}
-	Медицинская диагностика:	
-		\begin{enumerate} [-]
-			\item Температура выше $n^\circ$
-			\item Есть ли кашель
-		\end{enumerate}
-	\bigbreak
-	Кредитный скоринг:	
-		\begin{enumerate} [-]
-			\item Заработная плата выше, чем $n$ руб.
-			\item Кредит не больше, чем $m$ руб.
-		\end{enumerate}
-\end{frame}
-
 \begin{frame}{Интерпретируемость}
     \centering
 	\includegraphics[width=\textwidth, height=0.8 \textheight, keepaspectratio]{images/decisiontree}
 \end{frame}
-
 
 \begin{frame}{Информативность}
   \alert{Идея}: Максимизировать количество правильно распознанных объектов класса $c$ и при этом минимизировать количество объектов, ошибочно классифицированных как класс $c$
@@ -100,30 +86,6 @@
 	\pause
   \bigbreak
 	$${ fp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i \neq c \right\} \rightarrow \min }$$\\		
-\end{frame}
-
-\begin{frame}{Поиск закономерности}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/bongard6}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Поиск закономерности}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/bongard40}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Поиск закономерности}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/bongard47}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Поиск закономерности}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/bongard55}   
-	\end{figure}
 \end{frame}
 
 \begin{frame}{Основные вопросы}
@@ -212,58 +174,58 @@
   Парето-фронт -- множество недоминируемых закономерностей
 \end{frame}
 
-\section{Критерии информативности}
-
-\begin{frame}{Критерий информационного выигрыша}
-  \begin{align*} 
-		IGain(tp,fp) &= h(\frac{P}{l}) - \frac{tp+tp}{l}h(\frac{tp}{tp+fp}) - \\
-		&- \frac{l-tp-fp}{l}h(\frac{P-tp}{l-tp-fp}) \rightarrow \max \\
-	\end{align*} 
-	$h(q) = -q\log_2q - (1-q)\log_2(1-q)$
-	\bigbreak	
-	$P$ - общее количество объектов искомого класса\\
-	$N$ -- количество остальных объектов
-\end{frame}
-
-\begin{frame}{Критерий Джини}
-	$$IGini(tp,fp)=IGain(tp,fp) $$\\
-	\bigbreak
-	$h(q)=4q(1-q)$
-	\bigbreak
-	$P$ - общее количество объектов искомого класса\\
-	$N$ -- количество остальных объектов
-\end{frame}
-
-{\foot{Fisher’s Exact Test}
-\begin{frame}{Точный тест Фишера}
-	$$IStat(tp,fp) = -\frac{1}{l}\log_2\frac{C_P^{tp}C_N^{fp}}{C_{P+N}^{tp+fp}} \rightarrow \max$$\\
-	\bigbreak
-	$P$ - общее количество объектов искомого класса\\
-	$N$ -- количество остальных объектов
-\end{frame}
-}
-
-\begin{frame}{Поиск информативных закономерностей}
-  \begin{algorithmic}[1]
-    \Function{find\_regularity}{$X^l$}
-    \State Выбрать начальное множество $\mathcal{B}$
-    \MRepeat [пока правила улучшаются] 
-      \State $\mathcal{B}'=$ множество модификаций правил $\beta \in \mathcal{B}$
-      \State Удалить слишком похожие правила из $\mathcal{B} \cup \mathcal{B}'$
-      \State Оценить инфомативность правил $\beta \in \mathcal{B}'$
-      \State $\mathcal{B}=$ наиболее информативные правила из $\mathcal{B} \cup \mathcal{B}'$
-    \EndRepeat
-  \EndFunction
-  \end{algorithmic}    
-\end{frame}
-
-\begin{frame}{Примеры}
-	\begin{enumerate}[<+- |alert@+>]
-		\item[--] Генетические алгоритмы
-		\item[--] Метод ветвей и границ	
-		\item[--] Стохастический локальный поиск	
-	\end{enumerate}
-\end{frame}
+%\section{Критерии информативности}
+%
+%\begin{frame}{Критерий информационного выигрыша}
+%  \begin{align*} 
+%		IGain(tp,fp) &= h(\frac{P}{l}) - \frac{tp+tp}{l}h(\frac{tp}{tp+fp}) - \\
+%		&- \frac{l-tp-fp}{l}h(\frac{P-tp}{l-tp-fp}) \rightarrow \max \\
+%	\end{align*} 
+%	$h(q) = -q\log_2q - (1-q)\log_2(1-q)$
+%	\bigbreak	
+%	$P$ - общее количество объектов искомого класса\\
+%	$N$ -- количество остальных объектов
+%\end{frame}
+%
+%\begin{frame}{Критерий Джини}
+%	$$IGini(tp,fp)=IGain(tp,fp) $$\\
+%	\bigbreak
+%	$h(q)=4q(1-q)$
+%	\bigbreak
+%	$P$ - общее количество объектов искомого класса\\
+%	$N$ -- количество остальных объектов
+%\end{frame}
+%
+%{\foot{Fisher’s Exact Test}
+%\begin{frame}{Точный тест Фишера}
+%	$$IStat(tp,fp) = -\frac{1}{l}\log_2\frac{C_P^{tp}C_N^{fp}}{C_{P+N}^{tp+fp}} \rightarrow \max$$\\
+%	\bigbreak
+%	$P$ - общее количество объектов искомого класса\\
+%	$N$ -- количество остальных объектов
+%\end{frame}
+%}
+%
+%\begin{frame}{Поиск информативных закономерностей}
+%  \begin{algorithmic}[1]
+%    \Function{find\_regularity}{$X^l$}
+%    \State Выбрать начальное множество $\mathscr{B}$
+%    \MRepeat [пока правила улучшаются] 
+%      \State $\mathscr{B}'=$ множество модификаций правил $\beta \in \mathscr{B}$
+%      \State Удалить слишком похожие правила из $\mathscr{B} \cup \mathscr{B}'$
+%      \State Оценить инфомативность правил $\beta \in \mathscr{B}'$
+%      \State $\mathscr{B}=$ наиболее информативные правила из $\mathscr{B} \cup \mathscr{B}'$
+%    \EndRepeat
+%  \EndFunction
+%  \end{algorithmic}    
+%\end{frame}
+%
+%\begin{frame}{Примеры}
+%	\begin{enumerate}[<+- |alert@+>]
+%		\item[--] Генетические алгоритмы
+%		\item[--] Метод ветвей и границ	
+%		\item[--] Стохастический локальный поиск	
+%	\end{enumerate}
+%\end{frame}
 
 \section{Как собрать классификатор из закономерностей?}
 
@@ -280,7 +242,7 @@
 
 \begin{frame}{Жадный алгоритм для решающего списка}
   \begin{algorithmic}[1]
-    \Function{decision\_list}{$X^l$, $\mathcal{B}$, $T_{max}$, $I_{min}$, $E_{max}$, $l_0$}
+    \Function{decision\_list}{$X^l$, $\mathscr{B}$, $T_{max}$, $I_{min}$, $E_{max}$, $l_0$}
       \State $U \gets X^l$
 	    \For {\textbf{each} $i = 1,2,\dots,T_{max}$}
 	      \State Выбрать класс $c_i$
@@ -314,7 +276,7 @@
 \begin{frame}{Бинарное решающее дерево}
 	Бинарное решающее дерево -- алгоритм классификации $a(x, \beta)$, задающийся бинарным деревом:\\
 	\begin{enumerate}[--]
-	\item $\forall v \in V_{inner} \rightarrow \beta_v: X \rightarrow \left\{ 0,1\right\}$, $\beta \in \mathcal{B}$
+	\item $\forall v \in V_{inner} \rightarrow \beta_v: X \rightarrow \left\{ 0,1\right\}$, $\beta \in \mathscr{B}$
 	\item $\forall v \in V_{leaf} \rightarrow $ имя класса $c_v \in Y$\\
 	
 	\begin{figure}[htbp]
@@ -324,25 +286,25 @@
 \end{frame}
 
 \begin{frame}{Пример решающего дерева}
-  \TODO{picture}
+	  \includegraphics[height=\textheight, width=\textwidth, keepaspectratio = true]{images/pokemons-tree}   
 \end{frame}
 
 {\foot{Iterative Dichotomizer 3}
 \begin{frame}{Алгоритм построения ID3}
   \begin{algorithmic}[1]
-    \Function{LearnID3}{$U$, $\mathcal{B}$}
+    \Function{LearnID3}{$U$, $\mathscr{B}$}
        \If {все объекты из $U$ лежат в одном классе $c \in Y$}
          \State \Return {новый лист $v$, $c_v = c$}
        \EndIf
-       \State $\beta^* = \max\limits_{\beta \in \mathcal{B}} I(\beta, U)$
+       \State $\beta^* = \max\limits_{\beta \in \mathscr{B}} I(\beta, U)$
        \State $U_0 = \left\{ x \in U : \beta^*(x) = 0\right\}$	
        \State $U_1 = \left\{ x \in U : \beta^*(x) = 1\right\}$	
        \If {$U_0 = \oslash$ или $U_1 = \oslash$}
          \State \Return {$v$, $c_v$ = Majority(U)}
        \EndIf
        \State Создать новую внутреннюю вершину $v$: $\beta_v = \beta^*$
-       \State $L_v =$ LearnID3 ($U_0$, $\mathcal{B}$)
-       \State $R_v =$ LearnID3 ($U_1$, $\mathcal{B}$)
+       \State $L_v =$ LearnID3 ($U_0$, $\mathscr{B}$)
+       \State $R_v =$ LearnID3 ($U_1$, $\mathscr{B}$)
        \State \Return $v$
     \EndFunction
   \end{algorithmic}    
@@ -355,17 +317,13 @@
   $$I(\beta,X^l)= \# \left\{ (x_i, x_j): \beta(x_i) = \beta(x_j), y_i = y_j \right\}$$
 \end{frame}
 
-\begin{frame}{Критерий Донского}
-  $$I(\beta,X^l)= \# \left\{ (x_i, x_j): \beta(x_i) \neq \beta(x_j), y_i \neq y_j \right\}$$
-\end{frame}
-
 \begin{frame}{Плюсы}
 	\begin{enumerate}[<+- |alert@+>] 
 	\item[+] Интерпретируемость и простота классификации
 	\item[+] Допустимы разнотипные данные и данные с пропусками
 	\item[+] Не бывает отказов от классификации
 	\item[+] Трудоёмкость линейна по длине выборки
-	\item[+] Можно варьировать множество $\mathcal{B}$
+	\item[+] Можно варьировать множество $\mathscr{B}$
 	\end{enumerate}
 \end{frame}
 
@@ -378,9 +336,10 @@
 \end{frame}
 
 \begin{frame}{Переобучение}
-\TODO{picture}
+  \includegraphics[height=190pt, keepaspectratio = true]{images/overfitting}   
 \end{frame}
 
+{\foot{pruning}
 \begin{frame}{Подрезание дерева C4.5}
   $X^k$ -- независимая контрольная выборка, $k \approx 0.5l$\\
 	Для всех $v \in V_{inner}$:\\
@@ -398,28 +357,16 @@
 			\hspace{20mm} Заменить поддерево $v$ поддеревом $R_v$\\
 			\hspace{20mm} Заменить $v$ листом $c_v = \min\limits_{c \in Y} r_c(v)$\\
 \end{frame}
+}
 
 {\foot{Oblivious Decision Trees}
 \begin{frame}{Небрежные решающие деревья}
-  \alert{Идея}: На одном уровне – одинаковые признаки.
-  \TODO{картинка}
+  \alert{Идея}: Сделаем дерево сбалансированным. Для этого нужно для всех узлов одного уровня использовать одинаковое условие ветвления.
 \end{frame}
 }
 
 \begin{frame}{Композиция деревьев}
-	\begin{enumerate} [--]
-		\item Можно использовать результаты нескольких	алгоритмов, а не одного.
-		\item Часто композиция алгоритмов может давать не худший или даже лучший результат
-  \end{enumerate}
-\end{frame}
-
-\section{Почему это работает?}
-
-\begin{frame}{Почему это работает}
-	\begin{enumerate} [--]
-		\item Ошибки алгоритмов взаимно компенсируются	
-		\item На одних объектах хорошо работают одни алгоритмы, на других -- другие	
-	\end{enumerate}
+  \alert{Идея}: Можно использовать результаты нескольких	алгоритмов, а не одного.
 \end{frame}
 
 \begin{frame}{Random forest}
