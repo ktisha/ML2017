@@ -120,27 +120,27 @@
 	\end{center}
 \end{frame}
 
-\section{Чувствительность к выбору метрики}
+\section{Чувствительность к нормировке признаков}
 
-\begin{frame}{Чувствительность к выбору метрики}
+\begin{frame}{Чувствительность к нормировке}
 	\begin{center}
 	  \includegraphics[height=0.8 \textheight, keepaspectratio = true]{images/weight_height1}  
 	\end{center}
 \end{frame}
 
-\begin{frame}{Чувствительность к выбору метрики}
+\begin{frame}{Чувствительность к нормировке}
 	\begin{center}
 	  \includegraphics[height=0.8 \textheight, keepaspectratio = true]{images/weight_height2}  
 	\end{center}
 \end{frame}
 
-\begin{frame}{Чувствительность к выбору метрики}
+\begin{frame}{Чувствительность к нормировке}
 	\begin{center}
 	  \includegraphics[height=0.8 \textheight, keepaspectratio = true]{images/weight_height3}  
 	\end{center}
 \end{frame}
 
-\begin{frame}{Чувствительность к выбору метрики}
+\begin{frame}{Чувствительность к нормировке}
 	\begin{center}
 	  \includegraphics[height=0.8 \textheight, keepaspectratio = true]{images/weight_height4}  
 	\end{center}
@@ -418,7 +418,7 @@
   \bigbreak
   $s(i, k)$ -- "похожесть" объекта $x_i$ на $x_k$, $s(k, k) < 0$.\\
   $r(i, k)$ -- "ответственность", $x_i$ решает насколько $x_k$ подходит для того, чтобы быть центром кластера.\\
-  $a(i,k)$ -- "доступность", $x_k$ решает насколько $x_i$ подходит для его кластера.\\
+  $a(i,k)$ -- "доступность", $x_k$ решает насколько подходит для того, чтобы быть центром кластера $x_i$.\\
   \bigbreak
 \end{frame}
 }
@@ -429,8 +429,8 @@
             \State $R \gets 0$, $A \gets 0$            
             \MRepeat [пока $c_i$ не перестанет меняться] 
                 \State $r(i, k) = s(i,k) - \max\limits_{j \neq k} (a(i,j) + s(i,j))$
-                \State $i \neq k: a(i,k) = \min(0, r(k,k) + \sum\limits_{j \neq i, j\neq k} \max(0, r(i,j)))$
-                \State $a(k,k) = \sum\limits_{j \neq k} \max(0, r(i,j))$
+                \State $a(k,k) = \sum\limits_{j \neq k} \max(0, r(j,k))$
+                \State $i \neq k: a(i,k) = \min(0, r(k,k) + \sum\limits_{j \neq k} \max(0, r(j,k)))$
                 \State $c_i = \arg\max\limits_{k} (a(i,k) + r(i,k))$                
              \EndRepeat
         \EndFunction
