@@ -105,7 +105,12 @@
 {\foot{Maximum a posteriori estimation}
 \begin{frame}{Принцип максимума апостериорной вероятности}
   Апостериорная вероятность класса $y$ для объекта $x$:
-  $$P(y|x) = \frac{p(x,y)}{p(x)} = \frac{P_yp(x|y)}{\sum\limits_{s \in Y} P_s p(x|s) \propto P_y p(x|y)}$$
+      $$
+    P(y|x)
+    = \dfrac{p(x, y)}{p(x)}
+    = \dfrac{P_y p(x|y)}{\sum\limits_{s \in Y} P_s p(x|s)}
+    \propto P_y p(x|y)
+    $$
   \pause
   Тогда оптимальный алгоритм выглядит так:
   $$a(x) = \arg\max\limits_{y \in Y} \lambda_y P(y|x)$$
@@ -138,14 +143,16 @@
   \bigbreak
   Сообщение можно представить в виде вектора, в котором на $j$-ой позиции стоит $1$, если $v_d$ встречается в сообщении, и $0$ в противном случае\\
   \bigbreak
-  $X\equiv {0, 1}^{|V|}$ , а $Y$ это множество идентификаторов рассылки
+  $X\equiv \{0, 1\}^{|V|}$ , а $Y$ это множество идентификаторов рассылки
 \end{frame}
 
 \begin{frame}{Пример}
   V = {who, I, let, dogs, out, the}\\
   \pause
+  \bigbreak
   Сообщение «Who let the dogs out? Who, who, who, who?» будет векторизовано как [1, 0, 1, 1, 1, 1].\\
   \pause
+  \bigbreak
   Как будет векторизовано предложение «Well, if I am a dog, the party is on [...]»?
 \end{frame}
 
