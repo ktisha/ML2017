@@ -74,8 +74,9 @@
 \end{frame}
 
 \begin{frame}{Интерпретируемость}
-    \centering
-	\includegraphics[width=\textwidth, height=0.8 \textheight, keepaspectratio]{images/decisiontree}
+\TODO{пример из датасета}
+%    \centering
+%	\includegraphics[width=\textwidth, height=0.8 \textheight, keepaspectratio]{images/decisiontree}
 \end{frame}
 
 \begin{frame}{Информативность}
@@ -90,7 +91,6 @@
 
 \begin{frame}{Основные вопросы}
 	\begin{enumerate}
-		\item Как изобретать признаки? 
 		\item Какого вида закономерности $\beta(x)$ нужны?
 		\item Как определять информативность? 
 		\item Как выбирать закономерности?
@@ -103,13 +103,15 @@
 \begin{frame}{Виды правил}
 	\begin{itemize} [<+->]
 	\item[--] Пороговое условие\\
-	$\beta(x) = \left[f_j(x) \leq a_j \right]$ или  $\left[a_j \leq f_j(x) \leq b_j \right]$
+	$\beta(x) = \left[x^j \leq a_j \right]$ или  $\left[a_j \leq x^j \leq b_j \right]$
 	\item[--] Конъюнкция из $J$ пороговых условий \\
-	$\beta(x) = \bigwedge\limits_{j \in J} \left[a_j \leq f_j(x) \leq b_j \right]$
+	$\beta(x) = \bigwedge\limits_{j \in J} \left[a_j \leq x^j \leq b_j \right]$
 	\item[--] Синдром -- выполнение не менее $d$ условий из $J$
-	$\beta(x) = \left[\sum\limits_{j \in J} \left[a_j \leq f_j(x) \leq b_j \right] \geq d \right]$
+	$\beta(x) = \left[\sum\limits_{j \in J} \left[a_j \leq x^j \leq b_j \right] \geq d \right]$
 	\end{itemize}
 \end{frame}
+
+\section{Критерии информативности}
 
 \begin{frame}{Оценивание информативности}
 	\alert{Идея}: Хотим получить один критерий из двух:\\
@@ -121,7 +123,7 @@
 	Очевидные свертки:\\
 	\begin{enumerate}
 		\item $I(tp, fp) = Precision = \frac{tp}{tp+fp} \rightarrow \max$
-		\item $I(tp, fp) = tp-fp \rightarrow \max$
+		\item $I(tp, fp) = Accuracy = tp-fp \rightarrow \max$
 		\item $I(tp, fp) = tp-Cfp \rightarrow \max$			
 	\end{enumerate}
 \end{frame}
@@ -144,56 +146,24 @@
 	\end{tabular}
 \end{frame}
 
-\begin{frame}{Точность и полнота}
-	${ tp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i = c \right\} \rightarrow \max  }$ 
-	${ fp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i \neq c \right\} \rightarrow \min}$ \\
-	\bigbreak
-	\pause
-	$Precision = \frac{tp}{tp+fp}$\\
-	\bigbreak
-	$Recall = \frac{tp}{|\left\{ x_i: X , y_i = c \right\}|}$
+\begin{frame}{Энтропия Шеннона}
+  $$H = - \sum\limits_{i=1}^{C} p_i \log_2 p_i$$\\
+  $p_i$ -- процентное соотношение $i$-го класса в разделении\\
+  \pause
+  \TODO{картинка с примером из датасета }
 \end{frame}
-
-{\foot{ Receiver-operating characteristic}
-\begin{frame}{ROC-кривая}
-  \centering
-  \includegraphics[height=0.7 \textheight, keepaspectratio = true]{images/roc}   \\
-\end{frame}
-}
-
-{\foot{Area under the ROC curve}
-\begin{frame}{AUC-кривая}
-  \centering
-  \includegraphics[height=0.7 \textheight, keepaspectratio = true]{images/auc}   \\  
-\end{frame}
-}
-
-\begin{frame}{Критерий Парето}
-  \centering
-  \includegraphics[height=150pt, keepaspectratio = true]{images/pareto}   \\
-  Парето-фронт -- множество недоминируемых закономерностей
-\end{frame}
-
-\section{Критерии информативности}
 
 \begin{frame}{Критерий информационного выигрыша}
+  $$H = \sum\limits_{i=1}^{C} p_i \log_2 p_i$$\\
   \begin{align*} 
-		IGain(tp,fp) &= h(\frac{P}{l}) - \frac{tp+tp}{l}h(\frac{tp}{tp+fp}) - \\
-		&- \frac{l-tp-fp}{l}h(\frac{P-tp}{l-tp-fp}) \rightarrow \max \\
+		IGain(X, x^j) &= H(X) - \sum \limits_{v \in vals(x^j)} \frac{\vert\{x \in X| x^j=v\}\vert}{\vert X \vert} H(\{x \in X| x^j=v\})\\
 	\end{align*} 
-	$h(q) = -q\log_2q - (1-q)\log_2(1-q)$
-	\bigbreak	
-	$P$ - общее количество объектов искомого класса\\
-	$N$ -- количество остальных объектов
 \end{frame}
 
 \begin{frame}{Критерий Джини}
-	$$IGini(tp,fp)=IGain(tp,fp) $$\\
+	$$IGini(tp,fp)=$$\\
 	\bigbreak
-	$h(q)=4q(1-q)$
-	\bigbreak
-	$P$ - общее количество объектов искомого класса\\
-	$N$ -- количество остальных объектов
+  \TODO{определение}
 \end{frame}
 
 {\foot{Fisher’s Exact Test}
@@ -401,5 +371,35 @@
 		\item Разные распределения
 	\end{enumerate}
 \end{frame}
+\begin{frame}{Точность и полнота}
+	${ tp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i = c \right\} \rightarrow \max  }$ 
+	${ fp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i \neq c \right\} \rightarrow \min}$ \\
+	\bigbreak
+	\pause
+	$Precision = \frac{tp}{tp+fp}$\\
+	\bigbreak
+	$Recall = \frac{tp}{|\left\{ x_i: X , y_i = c \right\}|}$
+\end{frame}
+
+{\foot{ Receiver-operating characteristic}
+\begin{frame}{ROC-кривая}
+  \centering
+  \includegraphics[height=0.7 \textheight, keepaspectratio = true]{images/roc}   \\
+\end{frame}
+}
+
+{\foot{Area under the ROC curve}
+\begin{frame}{AUC-кривая}
+  \centering
+  \includegraphics[height=0.7 \textheight, keepaspectratio = true]{images/auc}   \\  
+\end{frame}
+}
+
+\begin{frame}{Критерий Парето}
+  \centering
+  \includegraphics[height=150pt, keepaspectratio = true]{images/pareto}   \\
+  Парето-фронт -- множество недоминируемых закономерностей
+\end{frame}
+
 
 \end{document}
