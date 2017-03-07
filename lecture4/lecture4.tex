@@ -63,7 +63,8 @@
 	\bigbreak
   Предикат ${\beta: X \rightarrow \left\{ 0, 1 \right\} }$\\
 	\bigbreak
-	\alert{Задача}: Построить алгоритм $a(X, \beta) \rightarrow y$, способный классифицировать произвольный объект ${x \in X}$.
+	\alert{Задача}: Найти множество логических закономерностей $\mathscr{B}$ по $X^l$.\\
+	Построить алгоритм $a(X, \mathscr{B}) \rightarrow y$, способный классифицировать произвольный объект ${x \in X}$.
 \end{frame}
 
 \begin{frame}{Интерпретируемость}
@@ -74,9 +75,8 @@
 \end{frame}
 
 \begin{frame}{Интерпретируемость}
-\TODO{пример из датасета}
-%    \centering
-%	\includegraphics[width=\textwidth, height=0.8 \textheight, keepaspectratio]{images/decisiontree}
+  \centering
+	\includegraphics[width=\textwidth, height=0.8 \textheight, keepaspectratio]{images/beta1}
 \end{frame}
 
 \begin{frame}{Информативность}
@@ -111,92 +111,6 @@
 	\end{itemize}
 \end{frame}
 
-\section{Критерии информативности}
-
-\begin{frame}{Оценивание информативности}
-	\alert{Идея}: Хотим получить один критерий из двух:\\
-	\bigbreak
-	${ tp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i = c \right\} \rightarrow \max  }$ 
-	${ fp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i \neq c \right\} \rightarrow \min}$ \\
-	\bigbreak
-	\pause
-	Очевидные свертки:\\
-	\begin{enumerate}
-		\item $I(tp, fp) = Precision = \frac{tp}{tp+fp} \rightarrow \max$
-		\item $I(tp, fp) = Accuracy = tp-fp \rightarrow \max$
-		\item $I(tp, fp) = tp-Cfp \rightarrow \max$			
-	\end{enumerate}
-\end{frame}
-
-\begin{frame}{Пример свертки двух критериев}
-	Пусть число примеров искомого класса 200 и число остальных объектов 100\\
-	\bigbreak
-	\begin{tabular}{|r l|l|l|l|}
-	  \hline 
-	  $tp$ & $fp$ & $tp-fp$ & $tp-5fp$ & $\frac{tp}{tp+fp}$\\ 
-	  \hline \hline
-	  50 & 0 & \textcolor{red}{50} & 50 & 1\\
-	  \hline
-	  100 & 50 & \textcolor{red}{50} & -150 & 0.6\\
-	  \hline \hline
-	  50 & 9 & 41 & \textcolor{red}{5} & \textcolor{red}{0.84}\\
-	  \hline  
-	  5 & 0 & 5 & \textcolor{red}{5} & \textcolor{red}{1}\\  
-	  \hline 
-	\end{tabular}
-\end{frame}
-
-\begin{frame}{Энтропия Шеннона}
-  $$H = - \sum\limits_{i=1}^{C} p_i \log_2 p_i$$\\
-  $p_i$ -- процентное соотношение $i$-го класса в разделении\\
-  \pause
-  \TODO{картинка с примером из датасета }
-\end{frame}
-
-\begin{frame}{Критерий информационного выигрыша}
-  $$H = \sum\limits_{i=1}^{C} p_i \log_2 p_i$$\\
-  \begin{align*} 
-		IGain(X, x^j) &= H(X) - \sum \limits_{v \in vals(x^j)} \frac{\vert\{x \in X| x^j=v\}\vert}{\vert X \vert} H(\{x \in X| x^j=v\})\\
-	\end{align*} 
-\end{frame}
-
-\begin{frame}{Критерий Джини}
-	$$IGini(tp,fp)=$$\\
-	\bigbreak
-  \TODO{определение}
-\end{frame}
-
-{\foot{Fisher’s Exact Test}
-\begin{frame}{Точный тест Фишера}
-	$$IStat(tp,fp) = -\frac{1}{l}\log_2\frac{C_P^{tp}C_N^{fp}}{C_{P+N}^{tp+fp}} \rightarrow \max$$\\
-	\bigbreak
-	$P$ - общее количество объектов искомого класса\\
-	$N$ -- количество остальных объектов
-\end{frame}
-}
-
-\begin{frame}{Поиск информативных закономерностей}
-  \begin{algorithmic}[1]
-    \Function{find\_regularity}{$X^l$}
-    \State Выбрать начальное множество $\mathscr{B}$
-    \MRepeat [пока правила улучшаются] 
-      \State $\mathscr{B}'=$ множество модификаций правил $\beta \in \mathscr{B}$
-      \State Удалить слишком похожие правила из $\mathscr{B} \cup \mathscr{B}'$
-      \State Оценить инфомативность правил $\beta \in \mathscr{B}'$
-      \State $\mathscr{B}=$ наиболее информативные правила из $\mathscr{B} \cup \mathscr{B}'$
-    \EndRepeat
-  \EndFunction
-  \end{algorithmic}    
-\end{frame}
-
-\begin{frame}{Примеры}
-	\begin{enumerate}[<+- |alert@+>]
-		\item[--] Генетические алгоритмы
-		\item[--] Метод ветвей и границ	
-		\item[--] Стохастический локальный поиск	
-	\end{enumerate}
-\end{frame}
-
 \section{Как собрать классификатор из закономерностей?}
 
 \begin{frame}{Решающий список}
@@ -205,43 +119,8 @@
 	Как только предикат $\beta_i$ сработал -- вернем соответствующий класс $c_i$.\\
 	\bigbreak
 	\pause
-	$E(\beta_i, X^l) = \frac{fp(\beta_i)}{fp(\beta_i)+tp(\beta_i)} \rightarrow \min$ -- доля ошибок $\beta_i$ на $X^l$\\
-	\bigbreak
-	Т.к. каждое правило принимает окончательное решение $\Rightarrow$ ошибка правила равна ошибке всего алгоритма
+	Каждое правило принимает окончательное решение $\Rightarrow$ ошибка правила равна ошибке всего алгоритма
 \end{frame}
-
-\begin{frame}{Жадный алгоритм для решающего списка}
-  \begin{algorithmic}[1]
-    \Function{decision\_list}{$X^l$, $\mathscr{B}$, $T_{max}$, $I_{min}$, $E_{max}$, $l_0$}
-      \State $U \gets X^l$
-	    \For {\textbf{each} $i = 1,2,\dots,T_{max}$}
-	      \State Выбрать класс $c_i$
-	      \State $\beta_i = \max\limits_{E(\beta, U) \leq E_{max}} I(\beta, U)$
-	      \If {$I(\beta_i, U) < I_{min}$}
-	        \State \textbf{continue}
-	      \EndIf
-	      \State $U = \left\{ x \in U: \beta_i(x) = 0 \right\}$
-	      \If {$\vert U \vert \leq l_0$}
-	        \Return
-	      \EndIf
-      \EndFor
-    \EndFunction
-  \end{algorithmic}    
-\end{frame}
-
-\begin{frame}{Наблюдения}
-	\begin{enumerate}[--]
-	\item Низкое качество классификации
-	\item Разные стратегии выбора класса $c_i$
-	\item Подбор параметров
-	\end{enumerate}
-	\bigbreak
-	\pause
-	Параметр $E_{max}$ влияет на сложность списка:\\
-	$E_{max} \downarrow$ $\Rightarrow$ $tp(\beta_i) \downarrow$, $T \uparrow$\\
-	$E_{max} \uparrow$ $\Rightarrow$ underfitting
-\end{frame}
-
 
 \begin{frame}{Бинарное решающее дерево}
 	Бинарное решающее дерево -- алгоритм классификации $a(x, \beta)$, задающийся бинарным деревом:\\
@@ -267,24 +146,83 @@
          \State \Return {новый лист $v$, $c_v = c$}
        \EndIf
        \State $\beta^* = \max\limits_{\beta \in \mathscr{B}} I(\beta, U)$
-       \State $U_0 = \left\{ x \in U : \beta^*(x) = 0\right\}$	
-       \State $U_1 = \left\{ x \in U : \beta^*(x) = 1\right\}$	
-       \If {$U_0 = \oslash$ или $U_1 = \oslash$}
-         \State \Return {$v$, $c_v$ = Majority(U)}
+       \State $U_{left} = \left\{ x \in U : \beta^*(x) = 0\right\}$	
+       \State $U_{right} = \left\{ x \in U : \beta^*(x) = 1\right\}$	
+       \If {$U_{left} = \oslash$ или $U_{right} = \oslash$}
+         \State \Return {$v$, $c_v$ = Majority($U$)}
        \EndIf
        \State Создать новую внутреннюю вершину $v$: $\beta_v = \beta^*$
-       \State $L_v =$ LearnID3 ($U_0$, $\mathscr{B}$)
-       \State $R_v =$ LearnID3 ($U_1$, $\mathscr{B}$)
+       \State $L_v =$ LearnID3 ($U_{left}$, $\mathscr{B}$)
+       \State $R_v =$ LearnID3 ($U_{right}$, $\mathscr{B}$)
        \State \Return $v$
     \EndFunction
   \end{algorithmic}    
 \end{frame}
 }
 
-\section{Критерий информативности}
+\section{Критерии информативности}
+
+\begin{frame}{Оценивание информативности}
+	${ tp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i = c \right\} \rightarrow \max  }$ \\
+  ${ tn(\beta) = \# \left\{ x_i: \beta(x_i) = 0 , y_i \neq c \right\} \rightarrow \max  }$ \\
+	${ fp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i \neq c \right\} \rightarrow \min}$ \\
+	${ fn(\beta) = \# \left\{ x_i: \beta(x_i) = 0 , y_i = c \right\} \rightarrow \min}$ \\
+	\bigbreak
+	\pause
+	$Precision = \frac{tp}{tp+fp}$\\
+  $Recall = TPR = \frac{tp}{tp + fn}$\\
+  $FPR = \frac{fp}{fp+tn}$\\
+\end{frame}
+
+\begin{frame}{Precision-Recall}
+	\centering
+	\includegraphics[width=\textwidth, height=0.9 \textheight, keepaspectratio]{images/precisionrecall}
+\end{frame}
+
+{\foot{ Receiver-operating characteristic}
+\begin{frame}{ROC-кривая}
+  \centering
+  \includegraphics[height=0.7 \textheight, keepaspectratio = true]{images/roc}   \\
+  AUC -- Area under the ROC curve
+\end{frame}
+}
+
+\begin{frame}{Пример свертки двух критериев}
+	Пусть число примеров искомого класса 200 и число остальных объектов 100\\
+	\bigbreak
+	\begin{tabular}{|r l|l|l|l|}
+	  \hline 
+	  $tp$ & $fp$ & $tp-fp$ & $tp-5fp$ & $Precision$\\ 
+	  \hline \hline
+	  50 & 0 & \textcolor{red}{50} & 50 & 1\\
+	  \hline
+	  100 & 50 & \textcolor{red}{50} & -150 & 0.6\\
+	  \hline \hline
+	  50 & 9 & 41 & \textcolor{red}{5} & \textcolor{red}{0.84}\\
+	  \hline  
+	  5 & 0 & 5 & \textcolor{red}{5} & \textcolor{red}{1}\\  
+	  \hline 
+	\end{tabular}
+\end{frame}
 
 \begin{frame}{Критерий Джини}
   $$I(\beta,X^l)= \# \left\{ (x_i, x_j): \beta(x_i) = \beta(x_j), y_i = y_j \right\}$$
+\end{frame}
+
+\begin{frame}{Энтропия Шеннона}
+  $$H(U) = - \sum\limits_{i=1}^{C} p_i \log_2 p_i$$\\
+  $p_i$ -- процентное соотношение объектов класса $i$ в выборке $U$\\
+  \pause
+  \bigbreak
+  \includegraphics[width = \textwidth, keepaspectratio = true]{images/entropy}
+\end{frame}
+
+\begin{frame}{Критерий информационного выигрыша}
+  \alert{Прирост информации} -- уменьшение энтропии.
+  $$H = \sum\limits_{i=1}^{C} p_i \log_2 p_i$$\\
+	$$IGain(U, x^j) = H(U) - \sum \limits_{v} \frac{\vert U_v\vert}{\vert U \vert} H(U_v) $$
+  \bigbreak	
+	$$v \in values(x^j) \qquad U_v = \{x \in U| x^j=v\}$$
 \end{frame}
 
 \begin{frame}{Плюсы}
@@ -293,7 +231,6 @@
 	\item[+] Допустимы разнотипные данные и данные с пропусками
 	\item[+] Не бывает отказов от классификации
 	\item[+] Трудоёмкость линейна по длине выборки
-	\item[+] Можно варьировать множество $\mathscr{B}$
 	\end{enumerate}
 \end{frame}
 
@@ -313,8 +250,8 @@
 \begin{frame}{Подрезание дерева C4.5}
   $X^k$ -- независимая контрольная выборка, $k \approx 0.5l$\\
 	Для всех $v \in V_{inner}$:\\
-		\hspace{10mm} $S_v$ = подмножество объектов $X^k$, дошедших до $v$\\
-		\hspace{10mm} Если $S_v = \oslash$:\\
+		\hspace{10mm} $U_v$ = подмножество объектов $X^k$, дошедших до $v$\\
+		\hspace{10mm} Если $U_v = \oslash$:\\
 		  \hspace{20mm} Вернуть новый лист $v$, $c_v$ = Majority(U)\\
 		\hspace{10mm} Вычислить число ошибок четырьмя способами:\\
 			\hspace{20mm} $r(v)$ -- поддеревом, растущим из вершины $v$\\
@@ -332,6 +269,9 @@
 {\foot{Oblivious Decision Trees}
 \begin{frame}{Небрежные решающие деревья}
   \alert{Идея}: Сделаем дерево сбалансированным. Для этого нужно для всех узлов одного уровня использовать одинаковое условие ветвления.
+  \pause
+  \bigbreak
+  \includegraphics[width = \textwidth, keepaspectratio = true]{images/decisiontree}
 \end{frame}
 }
 
@@ -357,7 +297,7 @@
 \begin{frame}\frametitle{Что почитать по этой лекции}
   \begin{itemize}
     \item G. James, D. Witten, T. Hastie, R. Tibshirani "An Introduction to Statistical Learning" Chapter 8
-    \item \href{https://habrahabr.ru/post/321216/}{Хабр про Affinity Propagation}
+    \item \href{http://www.machinelearning.ru/wiki/images/3/3e/Voron-ML-Logic.pdf}{Воронцов "Логические алгоритмы классификации"}
   \end{itemize}
 \end{frame}
 
@@ -370,35 +310,6 @@
 		\item Максимальное правдоподобие
 		\item Разные распределения
 	\end{enumerate}
-\end{frame}
-\begin{frame}{Точность и полнота}
-	${ tp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i = c \right\} \rightarrow \max  }$ 
-	${ fp(\beta) = \# \left\{ x_i: \beta(x_i) = 1 , y_i \neq c \right\} \rightarrow \min}$ \\
-	\bigbreak
-	\pause
-	$Precision = \frac{tp}{tp+fp}$\\
-	\bigbreak
-	$Recall = \frac{tp}{|\left\{ x_i: X , y_i = c \right\}|}$
-\end{frame}
-
-{\foot{ Receiver-operating characteristic}
-\begin{frame}{ROC-кривая}
-  \centering
-  \includegraphics[height=0.7 \textheight, keepaspectratio = true]{images/roc}   \\
-\end{frame}
-}
-
-{\foot{Area under the ROC curve}
-\begin{frame}{AUC-кривая}
-  \centering
-  \includegraphics[height=0.7 \textheight, keepaspectratio = true]{images/auc}   \\  
-\end{frame}
-}
-
-\begin{frame}{Критерий Парето}
-  \centering
-  \includegraphics[height=150pt, keepaspectratio = true]{images/pareto}   \\
-  Парето-фронт -- множество недоминируемых закономерностей
 \end{frame}
 
 
