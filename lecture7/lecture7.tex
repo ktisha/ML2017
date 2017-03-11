@@ -236,10 +236,128 @@
 \begin{frame}{Полная и поточечная ошибка}  
   $$E_{in}(h, X^l) = \frac{1}{l} \sum\limits_{i=1}^l \mathcal{L}(h, x_i)$$\\
   \bigbreak
-  $$E_{out} = \mathbb{E}_x \mathcal{L}(h, x_i) $$
+  $$E_{out} = \mathbb{E}_x \mathcal{L}(h, x) $$
 \end{frame}
 
 \begin{frame}{Шум в наблюдениях}  
+  Что делать, если два абсолютно одинаковых объекта выборки (с точки зрения параметров) имеют разные значения $y$?
+\end{frame}
+
+\begin{frame}{Шум в наблюдениях}  
+  Будем использовать целевое распределение вместо целевой функции:\\
+  $$p(y|x)$$\\
+  Пара $(x, y)$ генерируется распределением:\\
+  $$P_x p(y|x)$$\\
+  Целевая функция выглядит так:\\
+  $f(x) = \mathbb{E}(y|x)$ + шум $y - f(x)$
+\end{frame}
+
+\begin{frame}{Обучение в терминах вероятности}  
+  В идеале хотим достичь $E_{out}(a) = 0$\\
+  \bigbreak
+  Пытаемся достичь $E_{in}(a) \approx E_{out}(a)$ и $E_{in}(a) = 0$
+  \bigbreak
+  \pause
+  Два вопроса:\\
+  \begin{enumerate}
+    \item Можно ли судить о $E_{out}$ по $E_{in}$?
+    \item Как уменьшить $E_{in}$?
+  \end{enumerate}
+\end{frame}
+
+%\begin{frame}{Сложность модели}  
+%  \includegraphics[ width=\textwidth, keepaspectratio]{images/vc}
+%\end{frame}
+
+\section{Какое количество гипотез в нашем пространстве $\mathcal{H}$?}
+
+\begin{frame}{Близость гипотез} 
+  \centering 
+  \includegraphics[ width=0.6 \textwidth, keepaspectratio]{images/hypothesis1}
+\end{frame}
+
+\begin{frame}{Близость гипотез}  
+  \centering
+  \includegraphics[ width=0.6 \textwidth, keepaspectratio]{images/hypothesis}
+\end{frame}
+
+\begin{frame}{Близость гипотез}  
+  $\bigtriangleup E_{out} = $ площадь жёлтой области\\
+  \bigbreak
+  $\bigtriangleup E_{in} = $ изменение меток объектов жёлтой области в выборке\\
+  \bigbreak
+  $\vert E_{in}(h_1) - E_{out}(h1) \vert \approx \vert E_{in}(h_2) - E_{out}(h2) \vert$  
+\end{frame}
+
+\begin{frame}{Вопрос}  
+  \begin{minipage}[t]{0.5\linewidth}
+    \begin{flushleft}
+    Обучающая выборка $x_1, \dots, x_l$ и набор бинарных значений меток $y_1,\dots,y_l$.\\
+    \end{flushleft}
+  \end{minipage}%
+  \begin{minipage}{0.5\linewidth}
+      \centering
+        \includegraphics[width=0.8 \textwidth, keepaspectratio]{images/dich}    
+  \end{minipage}%  
+  \centering  
+  \bigbreak
+  Сколько вариантов $y_1,\dots, y_l$? 
+\end{frame}
+
+\begin{frame}{Дихотомии}  
+  $$P(\vert E_{in}(a) - E_{out}(a) \vert > \varepsilon) \leq 2 M e^{-2\varepsilon^2l}$$  \\
+  Наш набор гипотез $\mathcal{H}$ может породить $\vert \mathcal{H}(x_1,\dots, x_l) \vert$ дихотомий.\\
+  $$\vert \mathcal{H}(x_1,\dots, x_l) \vert \leq 2^l$$\\
+  При этом сам набор гипотез может быть бесконечным.
+\end{frame}
+
+\begin{frame}{Функция роста $m_{\mathcal{H}(l)}$}  
+  \centering
+  \includegraphics[width=\textwidth, keepaspectratio]{images/growth}
+  $$m_{\mathcal{H}(l)} = \max\limits_{x_1,\dots,x_l} \vert \mathcal{H}(x_1,\dots, x_l) \vert$$\\
+  $$m_{\mathcal{H}(l)} \leq 2^l$$\\
+\end{frame}
+
+\begin{frame} {Функция роста $m_{\mathcal{H}(l)}$}
+  Гипотезы:\\  
+  \begin{enumerate}
+    \item Луч на множестве точек: $m_{\mathcal{H}}(l) = l+1 $
+    \item Интервал на множестве точек: $m_{\mathcal{H}}(l) = C_{l+1}^2 + 1$
+    \item Выпуклое множество на множестве точек: $m_{\mathcal{H}}(l) = 2^l$ 
+  \end{enumerate}
+\end{frame}
+
+{\foot{точка поломки, break point}
+\begin{frame}{Точка разрыва}  
+  Если для некоторого $k$ выполняется $m_{\mathcal{H}}(k) < 2^k$, то $k$ называется точкой разрыва.
+\end{frame}
+}
+
+\begin{frame}{Точка разрыва}  
+  \centering
+  Наличие точки разрыва означает наличие полиномиального ограничения на функцию роста $m_{\mathcal{H}}(l)$
+\end{frame}
+
+\begin{frame}{Точка разрыва}  
+  \TODO{доказательство}
+\end{frame}
+
+\begin{frame}{Неравенство Вапника-Червоненкиса}  
+  $$P(E_{in}(a) - E_{out}(a) < \varepsilon) \leq 4 m_{\mathcal{H}}(2l) e^{-\frac{1}{8}\varepsilon^2l}$$\\
+  \bigbreak
+  Размерность $d_{VC} = $ наибольшее l, для которого $m_{\mathcal{H}}(l) = 2^l$. $d_{VC} = k-1$.
+  
+\end{frame}
+
+\begin{frame}{Регуляризация}  
+
+\end{frame}
+
+\begin{frame}{Кроссвалидация}  
+
+\end{frame}
+
+\begin{frame}{Генерация модельных данных}  
 
 \end{frame}
 
