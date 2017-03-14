@@ -24,7 +24,7 @@
 	Целевая функция: $f: X \rightarrow Y$\\
 	\bigbreak
 	Набор гипотез $h: X \rightarrow Y$, $h \in \mathcal{H}$ \\
-	Алгоритм -- лучшая из гипотез $a: g \approx f$
+	Алгоритм -- лучшая из гипотез $a: h \approx f$
 \end{frame}
 
 \begin{frame}{Модель}
@@ -51,7 +51,7 @@
         }
     \node[mynode, text width=3.5cm, right=1cm of learning] (final) 
       {Финальная гипотеза\\
-      \textcolor{blue}{$a: g \approx f$}}
+      \textcolor{blue}{$a: h \approx f$}}
       edge[pil, <-] (learning.east);    
   \end{tikzpicture}
 \end{frame}
@@ -76,7 +76,7 @@
       edge[pil, bend left=15] (learning.west);  
     \node[mynode, text width=3.5cm, right=1cm of learning] (final) 
       {Финальная гипотеза\\
-      \textcolor{blue}{$a: g \approx f$}}
+      \textcolor{blue}{$a: h \approx f$}}
       edge[pil, <-] (learning.east);    
   \end{tikzpicture}
 \end{frame}
@@ -128,7 +128,7 @@
   Каждый шар это объект $x$ из пространства $X$.\\
   Неизвестная целевая функция $f$.\\
   \bigbreak
-  Оранжевый шар -- гипотеза $h$ верна ($h(x) == f(x)$)\\
+  Оранжевый шар -- гипотеза $h$ верна ($h(x) = f(x)$)\\
   Зелёный шар -- гипотеза $h$ не верна ($h(x) \neq f(x)$)\\
   \bigbreak
   По выборке $X^l$ можем оценить $\nu$ -- долю объектов, на которых верна гипотеза.
@@ -154,7 +154,7 @@
       edge[pil, bend left=15] (learning.west);  
     \node[mynode, text width=3.5cm, right=1cm of learning] (final) 
       {Финальная гипотеза\\
-      \textcolor{blue}{$a: g \approx f$}}
+      \textcolor{blue}{$a: h \approx f$}}
       edge[pil, <-] (learning.east);    
       
     \node[mynode, orange, right=1cm of target, text width=5cm] (probability) 
@@ -196,6 +196,8 @@
 
 \begin{frame} {К нашей задаче}
   \includegraphics[width=\textwidth, keepaspectratio]{images/bins}
+  
+  На $h_M$ гипотезе наблюдаем переобучение.
 \end{frame}
 
 \begin{frame} {Решение}
@@ -239,18 +241,18 @@
   $$E_{out} = \mathbb{E}_x \mathcal{L}(h, x) $$
 \end{frame}
 
-\begin{frame}{Шум в наблюдениях}  
-  Что делать, если два абсолютно одинаковых объекта выборки (с точки зрения параметров) имеют разные значения $y$?
-\end{frame}
-
-\begin{frame}{Шум в наблюдениях}  
-  Будем использовать целевое распределение вместо целевой функции:\\
-  $$p(y|x)$$\\
-  Пара $(x, y)$ генерируется распределением:\\
-  $$P_x p(y|x)$$\\
-  Целевая функция выглядит так:\\
-  $f(x) = \mathbb{E}(y|x)$ + шум $y - f(x)$
-\end{frame}
+%\begin{frame}{Шум в наблюдениях}  
+%  Что делать, если два абсолютно одинаковых объекта выборки (с точки зрения параметров) имеют разные значения $y$?
+%\end{frame}
+%
+%\begin{frame}{Шум в наблюдениях}  
+%  Будем использовать целевое распределение вместо целевой функции:\\
+%  $$p(y|x)$$\\
+%  Пара $(x, y)$ генерируется распределением:\\
+%  $$P_x p(y|x)$$\\
+%  Целевая функция выглядит так:\\
+%  $f(x) = \mathbb{E}(y|x)$ + шум $y - f(x)$
+%\end{frame}
 
 \begin{frame}{Обучение в терминах вероятности}  
   В идеале хотим достичь $E_{out}(a) = 0$\\
@@ -265,9 +267,9 @@
   \end{enumerate}
 \end{frame}
 
-%\begin{frame}{Сложность модели}  
-%  \includegraphics[ width=\textwidth, keepaspectratio]{images/vc}
-%\end{frame}
+\begin{frame}{Сложность модели}  
+  \includegraphics[ width=\textwidth, keepaspectratio]{images/vc}
+\end{frame}
 
 \section{Какое количество гипотез в нашем пространстве $\mathcal{H}$?}
 
@@ -304,12 +306,14 @@
   Сколько вариантов $y_1,\dots, y_l$? 
 \end{frame}
 
+{\foot{коэффициент разнообразия}
 \begin{frame}{Дихотомии}  
   $$P(\vert E_{in}(a) - E_{out}(a) \vert > \varepsilon) \leq 2 M e^{-2\varepsilon^2l}$$  \\
   Наш набор гипотез $\mathcal{H}$ может породить $\vert \mathcal{H}(x_1,\dots, x_l) \vert$ дихотомий.\\
   $$\vert \mathcal{H}(x_1,\dots, x_l) \vert \leq 2^l$$\\
   При этом сам набор гипотез может быть бесконечным.
 \end{frame}
+}
 
 \begin{frame}{Функция роста $m_{\mathcal{H}(l)}$}  
   \centering
@@ -338,14 +342,41 @@
   Наличие точки разрыва означает наличие полиномиального ограничения на функцию роста $m_{\mathcal{H}}(l)$
 \end{frame}
 
-\begin{frame}{Точка разрыва}  
-  \TODO{доказательство}
+\begin{frame}{Пример}  
+  \centering
+  \includegraphics[width=\textwidth, height=0.8 \textheight, keepaspectratio]{images/breakpoint}\\
+  Разделим на 2 ситуации относительно $x_l$: \\либо есть только один вариант (+1 или -1), либо оба (+1 и -1)
+\end{frame}
+
+\begin{frame}{Число дихотомий}  
+  $B(l, k)$ -- максимальное число дихотомий для выборки размера $l$ при наличии точки разрыва $k$.\\
+  \bigbreak
+  \begin{itemize}
+    \item $B(l, k) = \alpha  + 2\beta$
+    \item $\alpha + \beta \leq B(l-1, k)$, т.к. $\alpha + \beta$ -- число дихотомий для $l-1$\\
+    \item $\beta \leq B(l-1, k-1)$ 
+  \end{itemize}
+  $\implies B(l, k) \leq B(l-1, k) + B(l-1, k-1)$
+\end{frame}
+
+\begin{frame}{Число дихотомий}  
+  $$B(l, k) \leq \sum\limits_{i=0}^{k-1} C_l^i$$\\
+  Доказывается по индукции.\\
+  Индукционный шаг:
+  $$\sum\limits_{i=0}^{k-1} C_l^i = \sum\limits_{i=0}^{k-1} C_{l-1}^i + \sum\limits_{i=0}^{k-2} C_l^i$$
+\end{frame}
+
+\begin{frame}{Полиномиальное ограничение}  
+  $$m_{\mathcal{H}(l)} \leq \sum\limits_{i=0}^{k-1} C_l^i$$\\
+  Доказывается по индукции.\\
+  Индукционный шаг:
+  $$\sum\limits_{i=0}^{k-1} C_l^i = \sum\limits_{i=0}^{k-1} C_{l-1}^i + \sum\limits_{i=0}^{k-2} C_l^i$$
 \end{frame}
 
 \begin{frame}{Неравенство Вапника-Червоненкиса}  
   $$P(E_{in}(a) - E_{out}(a) < \varepsilon) \leq 4 m_{\mathcal{H}}(2l) e^{-\frac{1}{8}\varepsilon^2l}$$\\
   \bigbreak
-  Размерность $d_{VC} = $ наибольшее l, для которого $m_{\mathcal{H}}(l) = 2^l$. $d_{VC} = k-1$.
+  Размерность $d_{VC} = $ наибольшее $l$, для которого $m_{\mathcal{H}}(l) = 2^l$. $d_{VC} = k-1$.
   
 \end{frame}
 

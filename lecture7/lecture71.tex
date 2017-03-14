@@ -1,0 +1,280 @@
+\documentclass[10pt]{beamer}
+\input{../base}
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning} 
+\tikzset{
+    mynode/.style={rectangle,rounded corners,draw=black, top color=white,very thick, inner sep=1em, text centered},
+    mycircle/.style={circle,draw=black, top color=white,very thick, text centered},
+    pil/.style={ ->, thick, shorten <=2pt, shorten >=2pt,}
+}  
+
+\title{Лекция 7}
+\subtitle{Выбор моделей}
+
+\begin{document}
+
+\maketitle
+
+\section{Разбор летучки}
+
+\begin{frame}{Задача выбора метода обучения}
+  $X$ - множество объектов \\
+	$Y$ - множество классов \\
+	Обучающая выборка: ${X^l = (x_i, y_i)_{i=1}^l}$ \\ 
+	Целевая функция: $f: X \rightarrow Y$\\
+	\bigbreak
+	Набор моделей алгоритмов $A_t: X \rightarrow Y$, $t \in T$ \\
+	Методы обучения $\mu_t: X \times Y \rightarrow A_t$, $t \in T$ \\
+	\bigbreak
+	\alert{Задача}: Найти алгоритм $a \in A_t$  с наилучшей обобщающей способностью
+\end{frame}
+
+\begin{frame}{Модель}
+  \begin{tikzpicture}[node distance=1cm, scale=0.8, transform shape]
+    \node[mynode, text width=5cm] (target) 
+      {Неизвестная целевая функция\\
+      \textcolor{blue}{$f: X \rightarrow Y$}};
+    \node[mynode, text width=3.5cm, below=1cm of target] (training) 
+      {Обучающая выборка\\
+      \textcolor{blue}{${X^l = (x_i, y_i)_{i=1}^l}$}}
+          edge[pil, <-] (target.south);
+    \node[below=1cm of training] (dummy) {}; 
+    \onslide<2, 3>{    
+      \node[mycircle,text width=1.5cm, below=1cm, right=2cm of dummy] (learning) 
+        {Метод обучения\\
+        \textcolor{blue}{$\mu_t$}}
+        edge[pil, <-, bend left=15] (training.south);  
+      }
+    \onslide<3>{   
+      \node[mynode, text width=3cm, below=1cm of dummy] (hypothesis) 
+        {Набор моделей\\
+        \textcolor{blue}{$A_t$}}
+        edge[pil, bend left=15] (learning.west);  
+        }
+    \node[mynode, text width=3.5cm, right=1cm of learning] (final) 
+      {Финальный алгоритм\\
+      \textcolor{blue}{$a \in A_t$}}
+      edge[pil, <-] (learning.east);    
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Модель}
+  \begin{tikzpicture}[node distance=1cm, scale=0.8, transform shape]
+    \node[mynode, text width=5cm] (target) 
+      {Неизвестная целевая функция\\
+      \textcolor{blue}{$f: X \rightarrow Y$}};
+    \node[mynode, text width=3.5cm, below=1cm of target] (training) 
+      {Обучающая выборка\\
+      \textcolor{blue}{${X^l = (x_i, y_i)_{i=1}^l}$}}
+          edge[pil, <-] (target.south);
+    \node[below=1cm of training] (dummy) {}; 
+    \node[mycircle, orange, text width=1.5cm, below=1cm, right=2cm of dummy] (learning) 
+      {Метод обучения\\
+      \textcolor{blue}{$\mu_t$}}
+      edge[pil, <-, bend left=15] (training.south);  
+    \node[mynode, orange, text width=3cm, below=1cm of dummy] (hypothesis) 
+      {Набор моделей\\
+      \textcolor{blue}{$A_t$}}
+      edge[pil, bend left=15] (learning.west);  
+    \node[mynode, text width=3.5cm, right=1cm of learning] (final) 
+      {Финальный алгоритм\\
+      \textcolor{blue}{$a \in A_t$}}
+      edge[pil, <-] (learning.east);    
+  \end{tikzpicture}
+\end{frame}
+
+\section{Пример}
+
+\begin{frame}{Перцептрон}
+  Набор моделей:\\
+  $a(\mathbf{x}) = \sign(\sum\limits_{j=1}^n {\only<2,3>{\color{orange}}w_j} x^j - {\only<2,3>{\color{orange}}w_0})$\\
+  \bigbreak
+  \pause
+  \pause
+  Метод обучения:\\
+  \begin{algorithmic}[1]
+        \Function{perceptron}{$X$}
+            \State Инициализировать ${w_0, \dots, w_n}$
+            \MRepeat [пока $w$ изменяются] 
+               \For {$i = 1, \dots, l$}
+                 \If {$a(x_i) \neq y_i$}
+                   \State $w = w + y_i x_i$
+                 \EndIf  
+               \EndFor
+           	\EndRepeat
+        \EndFunction
+    \end{algorithmic}
+\end{frame}
+
+\begin{frame}{Задача}  
+  \centering
+  Научиться оценивать метод обучения и обобщающую способность алгоритма
+\end{frame}
+
+{\foot{loss function}
+\begin{frame}{Функция потерь}
+  Функция потерь $\mathcal{L}(a, x_i) $ -- характеризует величину ошибки алгоритма $a$ на объекте $x_i$.\\
+  \bigbreak
+  Если $\mathcal{L} (a, x_i) = 0$, то ответ $a(x_i)$ называется корректным.
+\end{frame}
+}
+
+{\foot{loss function}
+\begin{frame}{Функция потерь}
+  Задача классификации:\\
+  $\mathcal{L}(a, x_i) = [a(x_i) \neq y_i]$ -- индикатор ошибки\\
+  \bigbreak
+  Задача регрессии:\\
+  $\mathcal{L}(a, x_i) = \vert a(x_i) - y_i \vert$ -- абсолютное значение ошибки\\
+  $\mathcal{L}(a, x_i) = (a(x_i) - y_i)^2$ -- квадратичная ошибка\\
+\end{frame}
+}
+
+{\foot{функционал средних потерь, Empirical Risk}
+\begin{frame}{Функционал качества}
+  Функционал качества алгоритма $a$ на выборке $X^l$:\\
+  $$Q(a, X^l) = \frac{1}{l} \sum\limits_{i=1}^l \mathcal{L}(a, x_i)$$\\
+  Минимизация эмпирического риска:\\
+  $$\arg\min\limits_{A_t} Q(a, X^l)$$
+\end{frame}
+}
+
+\begin{frame}{Внутренний функционал}  
+  $$Q_{\mu}(X^l) = Q(\mu(X^l), X^l)$$\\
+  \bigbreak
+  Этот функционал оценивает качество обучения на выборке $X^l$\\
+  \bigbreak
+  \pause
+  Какая с этим может быть проблема?
+\end{frame}
+
+\begin{frame}{Простая аналогия}
+  \centering
+  С какой вероятностью монета, подброшенная 10 раз, выпадет одной и той же стороной все 10 раз?
+  \pause
+  \bigbreak
+  \textcolor{blue}{$0.001$}
+\end{frame}
+
+\begin{frame}{Простая аналогия}
+  \centering
+  С какой вероятностью одна из 1000 монет, каждая из которых подброшена 10 раз, выпадет одной и той же стороной все 10 раз?
+  \pause
+  \bigbreak
+  \textcolor{blue}{$0.63$}
+\end{frame}
+
+\begin{frame}{Внешний функционал}  
+  $$Q_{\mu}(X^l) = Q(\mu(X^l), X^l)$$\\
+  \bigbreak
+  Внешний функционал по отложенной выборке:\\
+  $$Q_{\mu}(X^t, X^k) = Q(\mu(X^t), X^k)$$\\
+  \bigbreak
+  \onslide<2>{
+    Какой здесь недостаток?\\
+  }
+  \onslide<3>{
+    Сильная зависимость от разбиения $X^l = X^t \sqcup X^k$
+  }
+\end{frame}
+
+{\foot{Полный скользящий контроль, cross-validation}
+\begin{frame}{Кроссвалидация}  
+  \alert{Идея}: Усреднить по всем $C_l^t$ выборкам $X^l = X^t \sqcup X^k$\\
+  $$CCV(\mu, X^l) = \frac{1}{C_l^t} \sum\limits_{X^t} Q_{\mu}(X^t, X^k)$$\\
+  \bigbreak
+  Во что превратится оценка при $k=1$?
+\end{frame}
+}
+
+\begin{frame}{Недостатки}  
+  \begin{enumerate}
+    \item[--] Оценка вычислительно слишком сложна
+    \item[--] Не учитывает дисперсию $X^k$
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{k-fold кроссвалидация}  
+  \alert{Идея}: Возьмём случайное разбиение $X^l = X_1 \sqcup \dots \sqcup X_k$ на $k$ блоков равной длины.\\
+  $$CV_k(\mu, X^l) = \frac{1}{k} \sum\limits_{i=1}^{k} Q_{\mu}(X^l \setminus X_i, X_i)$$\\
+  \bigbreak
+  \pause
+  Недостатки:  
+  \begin{enumerate}
+    \item[--] Оценка зависит от разбиения на блоки
+    \item[--] Каждый объект только один раз участвует в контроле    
+  \end{enumerate}
+\end{frame}
+
+{\foot{Repeated k-fold cross validation}
+\begin{frame}{Повторяющийся k-fold CV}  
+  \alert{Идея}: Выборка разбивается $t$ раз случайным образом на $k$ блоков\\
+  
+  $$CV_{tk}(\mu, X^l) = \frac{1}{t} \sum\limits_{j=1}^{t} \frac{1}{k} \sum\limits_{i=1}^{k} Q_{\mu}(X^l \setminus X_{ji}, X_{ji})$$\\
+  \bigbreak
+  \pause
+  \begin{enumerate}
+    \item[+] Выбором $t$ можно улучшать точность оценки
+    \item[+] Каждый объект участвует в контроле $t$ раз
+  \end{enumerate}
+\end{frame}
+}
+
+\begin{frame}{Критерий непротиворечивости моделей}  
+  \alert{Идея}: Если модель верна, то алгоритмы, настроенные по разным частям данных, не должны противоречить друг другу.\\
+\end{frame}
+
+{\foot{Learning curve}
+\begin{frame}{Кривая обучения}  
+  \TODO{картинка}
+\end{frame}
+}
+
+\section{Аналитический подход}
+
+\begin{frame}{Как использовать аналитические оценки}  
+  \begin{enumerate}
+    \item Получить верхнюю оценку вероятности переобучения $R_{\varepsilon}$\\
+      $$R_{\varepsilon}(\mu, X^l) = P[Q_{\mu}(X^t, X^k) - Q_{\mu}(X^t) \geq \varepsilon] \leq \eta(\varepsilon, A)$$
+    \item Тогда для любых $X^l$, $A$, $\mu$ и $\eta$ с вероятностью не менее $1-\eta$ справедливо\\
+      $$Q_{\mu}(X^t, X^k) \leq Q_{\mu}(X^t) + \varepsilon(\eta, A)$$
+    \item Будем оптимизивать \\
+      $$Q_{\mu}(X^l) + \varepsilon(\eta, A) \rightarrow \min\limits_{\mu}$$
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Регуляризация}  
+  Регуляризатор -- добавка к внутреннему критерию, обычно штраф за сложность модели.\\
+  \TODO{примеры для линейной модели, ридж, лассо ...}
+\end{frame}
+
+\begin{frame}{Разновидности $L_0$ регуляризации}  
+  \TODO{акаике, байес, vc}
+\end{frame}
+
+\begin{frame}{Выбор модели по нескольким критериям}  
+  \TODO{картинка}
+\end{frame}
+
+\begin{frame}{Генерация модельных данных}  
+
+\end{frame}
+
+\begin{frame}[standout]
+  Вопросы?
+\end{frame}
+
+\appendix
+
+\begin{frame}\frametitle{На следующей лекции}
+	\begin{itemize}
+    	\item[--] Функционалы качества
+    	\item[--] Неравенство Хефдинга
+    	\item[--] Близость гипотез
+    	\item[--] Неравенство Вапника-Червоненкиса
+    	\item[--] Генерация модельных данных    	    	
+	\end{itemize}
+\end{frame}
+\end{document}
+
+\end{document}
