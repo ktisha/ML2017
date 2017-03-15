@@ -71,33 +71,28 @@
 \end{frame}
 
 \begin{frame}{Функционал среднего риска}
-  $\lambda_{ys}$ -- штраф за назначение класса $s$ объекту $y$\\
+  $a: X \rightarrow Y$ разбивает $X$ на непересекающиеся области:\\
+  $$A_s = \{x \in X | a(x) = s \} \quad s \in Y $$\\
+  \bigbreak 
   \pause
+  \alert{Ошибка}: объект $x$ класса $y$ попадает в $A_s$, $s \neq y$\\
   \bigbreak
-  \alert{Полезные} нам значения $\lambda_{ys}$ такие, что $\lambda_{yy} = 0$ и $\lambda_{ys} > 0$ для всех $y \neq s$.
-  \pause
-  \bigbreak
-  Функционал среднего риска алгоритма $a$:\\
-  $$R(a) = \sum\limits_{s \in Y} \sum\limits_{y \in Y} \lambda_{ys} P_y p(A_s|y) \qquad p(A_s|y) = \int\limits_{A_s} p(x|y) dx$$\\
-  $A_s = \left\{ x \in X | a(x) = s \right\}$ -- множество объектов класса $y$, которым алгоритм ошибочно назначил класс $s$
+  Вероятность ошибки: $p(A_s|y) = \int\limits_{A_s} p(x|y) dx$
 \end{frame}
 
 \begin{frame}{Функционал среднего риска}
-  Функционал среднего риска алгоритма $a$:\\
-  $$R(a) = \sum\limits_{s \in Y} \sum\limits_{y \in Y} \lambda_{ys} P_y p(A_s|y) \qquad p(A_s|y) = \int\limits_{A_s} p(x|y) dx$$\\
-  $A_s = \left\{ x \in X | a(x) = s \right\}$ -- множество объектов класса $y$, которым алгоритм ошибочно назначил класс $s$\\
-  \bigbreak
+  \alert{Идея}: Введем $\lambda_{y}$ -- штраф за назначение неправильного класса объекту из $y$\\
   \pause
-  $\lambda_{ys} = \left[ y \neq s \right]$, то $R(a)$ -- вероятность ошибки алгоритма $a(x)$
+  \bigbreak
+  Функционал среднего риска алгоритма $a$:\\
+  $$R(a) = \sum\limits_{s \in Y} \sum\limits_{y \in Y} \lambda_{y} P_y p(A_s|y) \qquad p(A_s|y) = \int\limits_{A_s} p(x|y) dx$$\\
+%  \bigbreak
+%  $\lambda_{y} = \left[ y \neq s \right]$, то $R(a)$ -- вероятность ошибки алгоритма $a(x)$
 \end{frame}
 
 {\foot{Optimal Bayes Classifier}
 \begin{frame}{Оптимальный Байесовский классификатор}
   Минимум среднего риска $R(a)$ достигается при:\\
-  $$a(x) = \arg\min\limits_{s \in Y} \sum \limits_{y \in Y} \lambda_{ys} P_y p(x|y)$$\\
-  \bigbreak
-  \pause
-  Пусть величина штрафа зависит только от класса $y$, т.е. $\lambda_{yy} = 0$ и $\lambda_{ys} = \lambda_y$, тогда оптимальный алгоритм:\\
   $$a(x) = \arg\max\limits_{y \in Y} \lambda_y P_y p(x|y)$$
 \end{frame}
 }
@@ -112,18 +107,12 @@
     \propto P_y p(x|y)
     $$
   \pause
-  Тогда оптимальный алгоритм выглядит так:
-  $$a(x) = \arg\max\limits_{y \in Y} \lambda_y P(y|x)$$
-\end{frame}
-}
-
-\begin{frame}{Классификация по Байесу}
+  Перепишем оптимальный алгоритм с использованием апостериорных вероятностей:\\
   $$a(x) = \arg\max\limits_{y \in Y} \lambda_y P(y|x)$$\\
   \bigbreak
   Если $\lambda_y = 1$, то алгоритм максимизирует апостериорную вероятность для объекта $x$.
 \end{frame}
-
-\section{Наивность}
+}
 
 \begin{frame}{Вопрос}
   \centering
@@ -161,21 +150,18 @@
   Как определить функцию правдоподобия для сообщения, представленного в виде бинарного вектора?
 \end{frame}
 
-\begin{frame} {Функция правдоподобия}
-  \alert{Идея}: Будем использовать дискретное распределение на множестве $X$, то есть сопоставим вероятность $\theta_{yx}$ каждому значению $x \in X$, тогда\\
-  $$p(x|y) = \theta_{yx}$$\\
-  \bigbreak
-  \pause
-  Какие проблемы у такой функции правдоподобия?
-\end{frame}
+\section{Наивность}
 
 \begin{frame} {Функция правдоподобия}
+  \alert{Идея}: Будем использовать дискретное распределение на множестве $X$, то есть каждому значению $x \in X$ сопоставим некоторую вероятность.\\
+  \bigbreak
+  \pause
   Предположим, что все признаки (компоненты вектора $x$) независимы \alert{при условии} $y$, тогда:\\
-  $$p(x|y) = \prod\limits_{d=1}^{|V|} p(x_d | y)$$\\
+  $$p(x|y) = \prod\limits_{d=1}^{|V|} p(x^d | y)$$\\
   \pause
   \bigbreak
   Полученный классификатор называют \alert{наивным} Байесовским классификатором из-за наивности сделанного предположения\\
-  $$a(x) = \arg\max_{y \in Y} \lambda_y P_y \prod\limits_{d=1}^{|V|} p(x_d | y)$$
+  $$a(x) = \arg\max_{y \in Y} \lambda_y P_y \prod\limits_{d=1}^{|V|} p(x^d | y)$$
 \end{frame}
 
 {\foot{Daniel Bernoulli}
@@ -189,11 +175,13 @@
 \end{frame}
 }
 
+{\foot{maximum likelihood estimation}
 \begin{frame}{Метод максимального правдоподобия}
-  Метод позволяет оценивать параметры функций правдоподобия по выборке $X^l$.\\
+  Попробуем оценить параметры функций правдоподобия по выборке $X^l$.\\
   $$L(\theta) = \sum\limits_{i=1}^{l} \ln p(x_i;\theta) \rightarrow \max\limits_{\theta}$$
   Как записать условие оптимума?
 \end{frame}
+}
 
 \begin{frame}{Метод максимального правдоподобия}
   $$\frac{\partial }{\partial \theta} L(\theta) = \sum\limits_{i=1}^{l} \frac{\partial }{\partial \theta} \ln p(x_i, \theta) = \sum\limits_{i=1}^{l} \frac{x_i}{\theta} + \frac{1-x_i}{\theta-1} = 0$$\\
@@ -202,6 +190,8 @@
 \end{frame}
 
 \begin{frame}{Наивный Байесовски классификатор}
+  Оценим методом максимального правдоподобия априорные вероятности классов $\hat{P}_y$ и параметры распределения Бернулли 
+  $\hat{\theta}_{yd}$\\
   $$\hat{P}_y = \frac{\sum\limits_{i=1}^l [y_i = y]}{l} \qquad \hat{\theta}_{yd} = \frac{\sum\limits_{i=1}^l [y_i = y] x_{id}}{\sum\limits_{i=1}^l [y_i = y]}$$\\
   \bigbreak
   \pause
