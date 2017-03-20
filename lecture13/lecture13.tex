@@ -1,0 +1,77 @@
+\documentclass[10pt]{beamer}
+\input{../base}
+
+\title{Лекция 13}
+\subtitle{Композиции алгоритмов}
+
+\begin{document}
+
+\maketitle
+
+\section{Разбор летучки}
+
+\section{Мотивирующий пример}
+
+\begin{frame}{Пример}
+  \TODO{пример}  
+\end{frame}
+
+
+\begin{frame}{Определение композиции}
+  ${X^l = (x_i, y_i)_{i = 1}^l}$ -- обучающая выборка\\
+  $b:X \rightarrow R$ --- базовый алгоритм\\
+  $C:R \rightarrow Y$ --- решающее правило\\
+  $R$ --- пространство оценок.
+  \bigbreak
+  $a(x) = C(b(x))$\\
+\end{frame}
+
+\begin{frame}{Определение композиции}
+  Композиция базовых алгоритмов $b_1, \dots, b_t$\\
+  \bigbreak
+  $a(x) = C(F(b_1(x), \dots, b_t(x)))$\\
+  $F: R^T \rightarrow R$ -- корректирующая операция
+\end{frame}
+
+\begin{frame}{Примеры}
+  \begin{enumerate}
+    \item Простое голосование\\
+      $$F(b_1(x), \dots, b_t(x)) = \frac{1}{T} \sum\limits_{t=1}^{T} b_t(x)$$
+    \item Взвешенное голосование\\
+      $$F(b_1(x), \dots, b_t(x)) = \sum\limits_{t=1}^{T} \alpha_t b_t(x)$$
+    \item Смесь алгоритмов\\
+      $$F(b_1(x), \dots, b_t(x)) = \sum\limits_{t=1}^{T} g_t(x) b_t(x)$$      
+  \end{enumerate}
+\end{frame}
+
+{\foot{Boosting}
+\begin{frame}{Бустинг}
+  $Y = \{\pm 1\}$, $b_t: X\rightarrow \{-1, 0, +1\}$, $C(b) = \sign(b)$\\
+  $b_t(x) = 0$ -- отказ от классификации\\
+  \bigbreak
+  \pause
+  $a(x) = \sign(\sum\limits_{t=1}^{T} \alpha_t b_t(x))$\\
+  \bigbreak
+  Функционал качества композиции:\\
+  $Q_T = \sum\limits_{i=1}^l [y_i \sum\limits_{t=1}^{T} \alpha_t b_t(x) < 0 ]$
+\end{frame}
+}
+
+\begin{frame}[standout]
+  Вопросы?
+\end{frame}
+
+\appendix
+
+\begin{frame}\frametitle{На следующей лекции}
+	\begin{itemize}
+    	\item[--] Функционалы качества
+    	\item[--] Неравенство Хефдинга
+    	\item[--] Близость гипотез
+    	\item[--] Неравенство Вапника-Червоненкиса
+    	\item[--] Генерация модельных данных    	    	
+	\end{itemize}
+\end{frame}
+\end{document}
+
+\end{document}
