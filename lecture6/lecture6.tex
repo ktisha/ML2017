@@ -12,43 +12,61 @@
 
 \section{Мотивирующий пример}
 
+{\foot{\href{https://www.kaggle.com/c/dogs-vs-cats}{Dogs vs. Cats}}
 \begin{frame}{Пример}
-  \TODO{пример}  
+  \centering
+  \includegraphics[width=0.9 \textwidth, keepaspectratio]{images/catvsdog}
+\end{frame}
+}
+
+{\foot{\href{https://www.kaggle.com/c/dogs-vs-cats}{Dogs vs. Cats}}
+\begin{frame}{Пример}
+  \centering
+  \includegraphics[width=0.9 \textwidth, keepaspectratio]{images/cats}
+\end{frame}
+}
+
+{\foot{\href{https://www.kaggle.com/c/dogs-vs-cats}{Dogs vs. Cats}}
+\begin{frame}{Пример}
+  \centering
+  \includegraphics[width=0.9 \textwidth, keepaspectratio]{images/dogs}
+\end{frame}
+}
+
+\begin{frame}{Постановка задачи}
+  $X = \mathbb{R}^n$, ${Y = \left\{ -1, + 1\right\}}$\\
+  ${X^l = (x_i, y_i)_{i = 1}^l}$ -- обучающая выборка\\
+  \bigbreak
+  \alert{Задача}: Построить алгоритм ${a \colon X \rightarrow Y}$, способный классифицировать произвольный объект ${x \in X}$.\\
+  
 \end{frame}
 
+{\foot{decision surface, decision boundary}
+\begin{frame}\frametitle{Перцептрон}
+  \alert{Идея}: Назначим каждому признаку объекта некоторый вес. Посчитаем взвешенную сумму и если она больше некоторого порогового значения, отнесем объект к искомому классу. \\
+  \bigbreak \pause
+  Получается, что на самом деле мы ищем разделяющую поверхность.
+\end{frame}
+}
+
+\begin{frame}{Пример}
+  \centering
+  \includegraphics[width=0.9 \textwidth, keepaspectratio]{images/catdog1}
+\end{frame}
 
 \begin{frame}{Постановка задачи}
   $X = \mathbb{R}^n$, ${Y = \left\{ -1, + 1\right\}}$\\
   ${X^l = (x_i, y_i)_{i = 1}^l}$ -- обучающая выборка\\
   \bigbreak
   \alert{Задача}:\\
-  $(n-1)$-мерную гиперплоскость, которая разделяет данные как можно лучше.
-  \bigbreak \pause
-  Как можно лучше -- это как?
+  $(n-1)$-мерную гиперплоскость, которая разделяет данные.
 \end{frame}
-
-\begin{frame}{Пример}
-  \TODO{пример}  
-\end{frame}
-
-\begin{frame}{Постановка задачи}
-  Как можно лучше:\\
-  Два разделенных класса должны лежать как можно дальше от разделяющей гиперплоскости.
-\end{frame}
-
-%{\foot{decision surface, decision boundary}
-\begin{frame}\frametitle{Перцептрон}
-  \alert{Идея}: Назначим каждому признаку объекта некоторый вес. Посчитаем взвешенную сумму и если она больше некоторого порогового значения, отнесем объект к искомому классу. \\
-%  \bigbreak \pause
-%  \alert{Идея}: Получается, что на самом деле мы ищем разделяющую поверхность.
-\end{frame}
-%}
 
 \begin{frame}\frametitle{Модель McCulloch-Pitts}
   $X = \mathbb{R}^n$, ${Y = \left\{ -1, + 1\right\}}$\\
 	\pause
-	$$a(x,w) = \sigma(\sum\limits_{j=1}^n w_j f_j(x) - w_0) = \sigma(\langle w, x \rangle)$$\\
-  $f_j$ — числовые признаки, $j = 1,\dots, n$ \\	
+	$$a(x,w) = \sigma(\sum\limits_{j=1}^n w_j x^j - w_0) = \sigma(\langle w, x \rangle)$$\\
+  $x^j$ — числовые признаки, $j = 1,\dots, n$ \\	
 	$w_j \in R$ -- веса признаков\\
 	$\sigma(s)$ -- функция активации (например, $\sign$)
 	\pause
@@ -129,6 +147,26 @@
            	\EndRepeat
         \EndFunction
     \end{algorithmic}
+\end{frame}
+
+\begin{frame}{Постановка задачи}
+  $X = \mathbb{R}^n$, ${Y = \left\{ -1, + 1\right\}}$\\
+  ${X^l = (x_i, y_i)_{i = 1}^l}$ -- обучающая выборка\\
+  \bigbreak
+  \alert{Задача}:\\
+  $(n-1)$-мерную гиперплоскость, которая разделяет данные \alert{как можно лучше}.
+  \bigbreak \pause
+  Как можно лучше -- это как?
+\end{frame}
+
+\begin{frame}{Пример}
+  \centering
+  \includegraphics[width=0.9 \textwidth, keepaspectratio]{images/catdog}
+\end{frame}
+
+\begin{frame}{Постановка задачи}
+  Как можно лучше:\\
+  Два разделенных класса должны лежать как можно дальше от разделяющей гиперплоскости.
 \end{frame}
 
 \begin{frame}\frametitle{Определение отступа}
@@ -259,7 +297,7 @@
 \begin{frame}\frametitle{Метод стохастического градиента}
 	$$\mathbf{w} =  \mathbf{w} - \alpha \sum\limits_{i=1}^l \mathcal{L}'(\langle \mathbf{w}, \mathbf{x_i}\rangle y_i)\mathbf{x_i}y_i$$\\
 	\bigbreak \pause
-	Давайте брать $(x_i, y_i)$ по одному и сразу обновлять вектор весов
+	\alert{Идея}: Давайте брать $(x_i, y_i)$ по одному и сразу обновлять вектор весов
 \end{frame}
 
 \begin{frame}\frametitle{Алгоритм}
