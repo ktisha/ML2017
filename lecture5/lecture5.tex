@@ -6,9 +6,9 @@
 
 \begin{document}
 
-\maketitle
-
 \section{Разбор летучки}
+
+\maketitle
 
 \begin{frame}{}
 	\centering
@@ -41,6 +41,7 @@
 \end{frame}
 }
 
+{\foot{a priori, likelihood}
 \begin{frame} {Вероятностная постановка задачи}
   $X$ -- множество объектов\\
   $Y$ -- множество меток классов\\
@@ -52,6 +53,12 @@
   \bigbreak
   \pause
   \alert{Задача}: Построить алгоритм $a: X \rightarrow Y$, минимизирующий \textbf{вероятность} ошибки.
+\end{frame}
+}
+
+\begin{frame} {Плотности $p(x|y)$}
+  \centering
+  \includegraphics[width=0.9 \textwidth, height=0.9 \textheight, keepaspectratio]{images/density}
 \end{frame}
 
 \begin{frame}{Известное и неизвестное}
@@ -77,7 +84,7 @@
   \pause
   \alert{Ошибка}: объект $x$ класса $y$ попадает в $A_s$, $s \neq y$\\
   \bigbreak
-  Вероятность ошибки: $p(A_s|y) = \int\limits_{A_s} p(x|y) dx$
+  Вероятность ошибки: $p(A_s, y) = \int\limits_{A_s} p(x, y) dx$
 \end{frame}
 
 \begin{frame}{Функционал среднего риска}
@@ -85,7 +92,7 @@
   \pause
   \bigbreak
   Функционал среднего риска алгоритма $a$:\\
-  $$R(a) = \sum\limits_{s \in Y} \sum\limits_{y \in Y} \lambda_{y} P_y p(A_s|y) \qquad p(A_s|y) = \int\limits_{A_s} p(x|y) dx$$\\
+  $$R(a) = \sum\limits_{s \in Y} \sum\limits_{y \in Y} \lambda_{y} P_y p(A_s|y)$$\\
 %  \bigbreak
 %  $\lambda_{y} = \left[ y \neq s \right]$, то $R(a)$ -- вероятность ошибки алгоритма $a(x)$
 \end{frame}
@@ -153,10 +160,13 @@
 \section{Наивность}
 
 \begin{frame} {Функция правдоподобия}
-  \alert{Идея}: Будем использовать дискретное распределение на множестве $X$, то есть каждому значению $x \in X$ сопоставим некоторую вероятность.\\
-  \bigbreak
-  \pause
-  Предположим, что все признаки (компоненты вектора $x$) независимы \alert{при условии} $y$, тогда:\\
+  \alert{Идея}: будем использовать дискретное распределение на множестве $X$, то есть сопоставим вероятность $\theta_{yx}$ каждому
+значению $x \in X$, тогда\\
+$$p(x|y) = \theta_{yx}$$
+\end{frame}
+
+\begin{frame} {Функция правдоподобия}
+  \alert{Идея}: Предположим, что все признаки (компоненты вектора $x$) независимы \alert{при условии} $y$, тогда:\\
   $$p(x|y) = \prod\limits_{d=1}^{|V|} p(x^d | y)$$\\
   \pause
   \bigbreak
@@ -220,12 +230,14 @@
   \end{equation*}
 \end{frame}
 
+{\foot{Laplace smoothing}
 \begin{frame} {Аддитивное сглаживание}
   \alert{Идея}: Введем параметр $\alpha \geq 0$ и добавим его в ОМП для распределения Бернулли.\\
   $$\hat{\theta}_{yd}^* = \frac{\sum\limits_{i=1}^{l} [y_i = y] x_{id} + \alpha}{\sum\limits_{i=1}^{l} [y_i = y] + 2 \alpha}$$
   \bigbreak
   Если в обучающей выборке много представителей класса $y$, содержащих слово $v_d$, то $\hat{\theta}_{yd}^*$ будет стремиться к ОМП, в обратном случае $\hat{\theta}_{yd}^* \approx \frac{1}{2}$
 \end{frame}
+}
 
 \begin{frame} {Фреквентистский и Байесовский подходы}
   Фреквентистский подход предполагает, что параметры распределения некоторой случайной величины -- это фиксированные (но, возможно, неизвестные) значения.\\
@@ -287,6 +299,14 @@
 \end{frame}
 
 \appendix
+
+\begin{frame}\frametitle{Что почитать по этой лекции}
+  \begin{itemize}
+    \item Kevin P. Murphy "Machine Learning: A Probabilistic Perspective" Chapter 3
+    \item \href{http://www.ccas.ru/voron/download/Bayes.pdf}{Воронцов "Байесовские алгоритмы классификации"}
+    \item Tom Mitchell "Machine Learning" Chapter 6
+  \end{itemize}
+\end{frame}
 
 \begin{frame}{На следующей лекции}
   	\begin{enumerate} [--]
