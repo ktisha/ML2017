@@ -1,376 +1,365 @@
-\documentclass[10pt]{beamer}
+\documentclass[12pt]{beamer}
 \input{../base}
-
-\usepackage{gensymb}
-
-\title{Лекция 8}
-\subtitle{Нейронные сети}
+\subtitle{Лекция 8. Метод опорных векторов.}
 
 \begin{document}	
+\frame{\titlepage}
 
 \section{Разбор летучки}
 
-\frame{\titlepage}
+\section{Мотивирующий пример}
 
-\begin{frame}\frametitle{Нейрон}
+\begin{frame}{Постановка задачи}
+	$X = \mathbb{R}^n$, ${Y = \left\{ -1, + 1\right\}}$\\
+	${X^l = (x_i, y_i)_{i = 1}^l}$ -- обучающая выборка\\
+	\bigbreakНайти:\\
+	$(n-1)$-мерную гиперплоскость, которая разделяет данные как можно лучше.
+	\\ \bigbreak
+	Как можно лучше -- это как?
+\end{frame}
+
+\begin{frame}{Пример}
 	\begin{figure}[htbp]
-	  \includegraphics[height=200pt, keepaspectratio = true]{images/neuron}   
+	  \includegraphics[height=190pt, keepaspectratio = true]{images/example}   
 	\end{figure}
 \end{frame}
 
-\begin{frame}\frametitle{Линейная модель нейрона}
-	Модель МакКаллока-Питтса:\\
-	$f_j: X \rightarrow R, \hspace{10mm} j = 1,\dots, n$ — числовые признаки\\
-	$a(x,w) = \sigma(\langle w, x_i \rangle) = \sigma(\sum\limits_{j=1}^n w_j f_j(x) - w_0)$\\
-	где $w_0, w_1, \dots,w_n \in R$ -- веса признаков\\
-	$\sigma(s)$ -- функция активации (например, $\sign$)
-	
-	\begin{figure}[htbp]
-	  \includegraphics[height=100pt, keepaspectratio = true]{images/neuron-scheme}   
-	\end{figure}
+\begin{frame}{Постановка задачи}
+	Как можно лучше:\\
+	Два разделенных класса должны лежать как можно дальше от разделяющей гиперплоскости.\\
 \end{frame}
 
-\begin{frame}\frametitle{Линейные алгоритмы классификации и регрессии}
-	Задача классификации: \\
-	$Y = \left\{ \pm1 \right\}, \hspace{10mm} a(x,w) = \sign \langle w, x_i \rangle $\\
-	$Q(w;X^l) = \sum\limits_{i=1}^l \mathcal{L} (\langle w, x_i\rangle y_i) \rightarrow \min\limits_w$\\
-\end{frame}
+\section{Опорная гиперплоскость}
 
-\section{Какой класс функций можно реализовать нейроном?}
-
-\begin{frame}\frametitle{Нейронная реализация логических функций}
-	\begin{figure}[htbp]
-	  \includegraphics[height=60pt, keepaspectratio = true]{images/OR}   
-	\end{figure}
-	
-	\begin{figure}[htbp]
-	  \includegraphics[height=60pt, keepaspectratio = true]{images/AND}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Нейронная реализация логических функций}
-	Функции И, ИЛИ, НЕ от бинарных переменных $x_1$ и $x_2$:\\
-	$$x_1 \wedge x_2 = x_1 + x_2 - \frac{3}{2} > 0$$\\
-	$$x_1 \vee x_2 = x_1 + x_2 - \frac{1}{2} > 0$$\\
-	$$\neg x_1 = -x_1 + \frac{1}{2}> 0$$
-\end{frame}
-
-\begin{frame}\frametitle{Логическая функция XOR}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/XOR}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Логическая функция XOR}
-	Функция $x_1 \oplus x_2 = [x_1 \neq x_2]$ не реализуема одним нейроном.\\
-	
-	Два способа реализации:\\
-	\begin{enumerate}[--]
-		\item Добавлением нелинейного признака:\\
-		$x_1 \oplus x_2 = [x_1 + x_2 + 2x_1x_2 - \frac{1}{2} > 0]$
-		\item Сетью (двухслойной суперпозицией) функций И, ИЛИ, НЕ:\\
-		$x_1 \oplus x_2 = [(x_1 \vee x_2) - (x_1 \wedge x_2) - \frac{1}{2} > 0]$
-		\end{enumerate}
-\end{frame}
-
-\begin{frame}\frametitle{Логическая функция XOR}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/XOR1}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Любую ли функцию можно представить нейросетью?}
-	\begin{enumerate}[--]
-		\item Двухслойная сеть в $\left\{0, 1 \right\}^n$ позволяет реализовать произвольную булеву функцию.
-		\item Двухслойная сеть в $\mathbb{R}^n$ позволяет отделить произвольный выпуклый многогранник.
-		\item Трёхслойная сеть $\mathbb{R}^n$ позволяет отделить произвольную многогранную область, не обязательно выпуклую, и даже не обязательно связную.
-		\item С помощью линейных операций и одной нелинейной функции активации $\sigma$ можно приблизить любую непрерывную функцию с любой желаемой точностью
-	\end{enumerate}
-\end{frame}
-
-\begin{frame}\frametitle{Практические рекомендации}
-	\begin{enumerate}[--]
-    	\item Двух-трёх слоёв обычно достаточно.
-	  \item Можно достраивать нейроны в произвольных местах сети по необходимости.
-	\end{enumerate}
-\end{frame}
-
-\begin{frame}\frametitle{Многослойная нейронная сеть}
-	Пусть $Y = \mathbb{R}^M$, два слоя в сети.\\
-	
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/neural_network}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Многослойная нейронная сеть}
-	\begin{figure}[htbp]
-	  \includegraphics[height=100pt, keepaspectratio = true]{images/neural_network1}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Стохастический градиент}
-  Задача минимизации суммарных потерь:\\
-  ${Q}(\mathbf{w}) = \sum\limits_{i=1}^l \mathcal{L}(w, x_i, y_i) \rightarrow \min\limits_w$ \\
-  \begin{algorithmic}[1]
-    \Function{stochastic\_gradient}{$X^l$, $\alpha$, $\eta$}
-     \State Перемешать данные в $X^l$
-     \State Инициализировать $w$, ${Q}(w)$
-     \State ${Q}(\mathbf{w}) = \sum\limits_{i=1}^l \mathcal{L}(\langle \mathbf{w}, \mathbf{x_i} \rangle y_i)$
-     \MRepeat [пока $Q$ и/или $w$ не стабилизируются] 
-       \State Взять $x_i$ из $X^l$
-       \State Потеря: $\varepsilon_i = \mathcal{L}(w, x_i, y_i)$
-       \State Градиентный шаг: $w =  w - \alpha \triangledown \mathcal{L}(w, x_i, y_i)$
-       \State Оценить $Q = (1-\eta)Q + \eta \varepsilon_i$
-     \EndRepeat
-    \EndFunction
-  \end{algorithmic}  
-\end{frame}
-
-\section{Сколько операций потребуется для вычисления градиента в точке?}
-
-\begin{frame}\frametitle{Идея}
-  \alert{Идея}: Сохранять некоторые промежуточные результаты в узлах сети.
-\end{frame}
-
-\begin{frame}\frametitle{Задача дифференцирования суперпозиции функций}
-	Выходные значения $a^m(x_i)$, $m = 1,\dots,M$ на объекте $x_i$:\\
-	$$a^m(x_i) = \sigma_m (\sum\limits_{h=0}^H w_{hm} u^h(x_i)), \hspace{5mm} u^h(x_i) = \sigma_h (\sum\limits_{j=0}^n w_{jh} f_j(x_i))$$\\
-	Возьмем $\mathcal{L}_i(w)$ -- средний квадрат ошибки:\\
-	$$\mathcal{L}_i(w) = \frac{1}{2} \sum\limits_{m=1}^M (a^m(x_i) - y_i^m)^2$$\\
-	Промежуточная задача: найти частные производные\\
-	$$\frac {\partial \mathcal{L}_i(w)}{\partial a^m} \hspace{5mm} \frac {\partial \mathcal{L}_i(w)}{\partial u^h}$$
-\end{frame}
-
-\begin{frame}\frametitle{Быстрое вычисление градиента}
-  Ошибка на выходном слое:	
-	$$\frac{\partial \mathcal{L}_i(w)}{\partial a^m} = a^m (x_i) - y_i^m = \varepsilon^m_i$$ 
-	
-	Ошибка на скрытом слое:	
-	$$\frac{\partial \mathcal{L}_i(w)}{\partial u^h} = \sum\limits_{m=1}^M (a^m(x_i) - y_i^m) \sigma'_m w_{hm} = \sum\limits_{m=1}^M \varepsilon^m_i \sigma'_m w_{hm} = \varepsilon^h_i$$
-	$\varepsilon_i^h$ вычисляется по $\varepsilon_i^m$, если запустить сеть «задом наперёд»:\\
-	
-	\begin{figure}[htbp]
-	  \includegraphics[height=50pt, keepaspectratio = true]{images/backpropagation}   
-	\end{figure}
-
-\end{frame}
-
-\begin{frame}\frametitle{Быстрое вычисление градиента}
-	Теперь, имея частные производные $\mathcal{L}_i(w)$ по $a^m$ и $u^h$, легко выписать градиент $\mathcal{L}_i(w)$ по весам $w$.\\
+\begin{frame}{Опорная гиперплоскость}
+	Гиперплоскость называется опорной для множества точек
+	$X$, если все точки из $X$ лежат по одну сторону от этой гиперплоскости.\\\bigbreak
+	${f(\mathbf{x},\mathbf{w}, w_0) = \langle \mathbf{x}, \mathbf{w}\rangle - w_0 = 0}$\\
 	\bigbreak
-	\pause
-	\alert{Вопрос}: как?
+	Как посчитать расстояние от точки до гиперплоскости?
 \end{frame}
 
-\begin{frame}\frametitle{Быстрое вычисление градиента}
-	$$\frac {\partial \mathcal{L}_i(w)}{\partial w_{hm}} = \frac {\partial \mathcal{L}_i(w)}{\partial a^m} \frac {\partial a^m}{\partial w_{hm}} = \varepsilon^m_i \sigma'_m u^h(x_i), \hspace{50mm}$$ $$m = 1,\dots,M, \hspace{2mm} h = 0,\dots, H$$\\
+\begin{frame}{Опорная гиперплоскость}
+	Гиперплоскость называется опорной для множества точек
+	$X$, если все точки из $X$ лежат по одну сторону от этой гиперплоскости.\\\bigbreak
+	${f(\mathbf{x},\mathbf{w}, w_0) = \langle \mathbf{x}, \mathbf{w}\rangle - w_0 = 0}$\\
+	\bigbreak
+	Расстояние от точки до гиперплоскости:
+	$\frac{\vert f(\mathbf{x},\mathbf{w}, w_0) \vert}{\Vert \mathbf{w} \Vert}$
+\end{frame}
+
+\begin{frame}{Максимизиция отступа}
+	\alert{Идея}: Максимизировать отступ между двумя параллельными опорными плоскостями, а затем провести параллельную им плоскость на равных расстояниях.\\
+\end{frame}
+
+\begin{frame}{Постановка задачи}
+	${X^l = (x_i,y_i)_{i = 1}^l}$\\ 
+	${Y=\left\{-1,+1\right\}}$\\
+	\bigbreak
+	Линейный классификатор:\\
+	$a(\mathbf{x}, \mathbf{w}) = sign(\langle \mathbf{w}, \mathbf{x}\rangle - w_0)$\\
+\end{frame}
+
+\section{Линейно разделимая выборка}
+
+\begin{frame}{Линейно разделимая выборка}
+	Выборка линейно разделима, если отступ на каждом объекте положителен.\\
+	\bigbreak
+	$\exists \mathbf{w}, w_0 : M_i(\mathbf{w}, w_0) = y_i  (\langle \mathbf{w}, \mathbf{x_i} \rangle - w_0) > 0$, i=1, \dots , l\\
+\end{frame}
+
+\begin{frame}{Линейно разделимая выборка}
+	\begin{figure}[htbp]
+	  \includegraphics[height=190pt, keepaspectratio = true]{images/linearly_separable1}   
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Линейно неразделимая выборка}
+	\begin{figure}[htbp]
+	  \includegraphics[height=190pt, keepaspectratio = true]{images/linearly_unseparable}   
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Оптимальная разделяющая гиперплоскость}
+	Нормировка: $\min\limits_{i = 1, \dots , l} M_i(\mathbf{w}, w_0) = 1$\\
+	Как выглядит разделяющая полоса?
+	\begin{figure}[htbp]
+	  \includegraphics[height=100pt, keepaspectratio = true]{images/linearly_separable3}   
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Оптимальная разделяющая гиперплоскость}
+	Нормировка: $\min\limits_{i = 1, \dots , l} M_i(\mathbf{w}, w_0) = 1$\\
+	Разделяющая полоса: $\left\{\mathbf{x}: -1 \leq \langle \mathbf{w}, \mathbf{x}\rangle - w_0 \leq 1\right\}$
+	\begin{figure}[htbp]
+	  \includegraphics[height=100pt, keepaspectratio = true]{images/linearly_separable3}   
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Оптимальная разделяющая гиперплоскость}
+	Разделяющая полоса: $\left\{\mathbf{x}: -1 \leq \langle \mathbf{w}, \mathbf{x}\rangle - w_0 \leq 1\right\}$\\
+	Ширина разделяющей полосы?
+	\begin{figure}[htbp]
+	  \includegraphics[height=100pt, keepaspectratio = true]{images/linearly_separable2}   
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Оптимальная разделяющая гиперплоскость}
+	Разделяющая полоса: $\left\{\mathbf{x}: -1 \leq \langle \mathbf{w}, \mathbf{x}\rangle - w_0 \leq 1\right\}$\\
+	Ширина разделяющей полосы: $\frac{\langle \mathbf{x_{+}}, \mathbf{w} \rangle + \langle \mathbf{x_{-}}, \mathbf{w} \rangle}{\Vert \mathbf{w} \Vert} = \frac{2}{\Vert \mathbf{w} \Vert} \rightarrow \max$\\
 	
-	$$\frac {\partial \mathcal{L}_i(w)}{\partial w_{jh}} = \frac {\partial \mathcal{L}_i(w)}{\partial u^h} \frac {\partial u^h}{\partial w_{jh}} = \varepsilon_i^h \sigma'_h f_j(x_i), \hspace{50mm}$$ $$h = 1,\dots,H, \hspace{2mm} j = 0,\dots, n$$ \\
+	\begin{figure}[htbp]
+	  \includegraphics[height=100pt, keepaspectratio = true]{images/linearly_separable2}   
+	\end{figure}
 \end{frame}
 
-\begin{frame}\frametitle{Алгоритм обратного распространения ошибки}
-  \begin{algorithmic}[1]
-    \Function{stochastic\_gradient}{$X^l \subset \mathbb{R}^n \times \mathbb{R}^M$, $H$, $\alpha$, $\eta$}
-     \MRepeat [пока $Q$ не стабилизируются] 
-       \State Взять $x_i$ из $X^l$
-       \State 	$\begin{cases}
-	\hspace{5mm} u^h_i = \sigma_h (\sum\limits_{j=0}^J w_{jh} x_i^j), \hspace{4mm} h = 1, \dots, H\\
-	\hspace{5mm} a^m_i = \sigma_m (\sum\limits_{h=0}^H w_{hm} u_i^h), \hspace{4mm} \varepsilon_i^m = a_i^m - y_i^m, \hspace{4mm} m = 1, \dots, M\\
-	\hspace{5mm} \mathcal{L}_i = \sum\limits_{m=1}^M (\varepsilon_i^m)^2\\
+\begin{frame}{Оптимальная разделяющая гиперплоскость}
+	Линейно разделимая выборка:\\
+	$\begin{cases}
+		{\Vert \mathbf{w} \Vert^2 \rightarrow \min\limits_{\mathbf{w}}}\\
+		M_i(\mathbf{w}, w_0) \geq 1
 	\end{cases}$\\
-	$\begin{cases} \hspace{5mm} \varepsilon_i^h = \sum\limits_{m=1}^M \varepsilon_i^m \sigma'_m w_{hm}, \hspace{4mm} h = 1, \dots, H\end{cases}$\\
-	$\begin{cases} \hspace{5mm} w_{hm} = w_{hm} - \alpha \varepsilon_i^m \sigma'_m u_i^h, \hspace{4mm} h = 0, \dots, H, \hspace{4mm} m = 1, \dots, M\\
-	\hspace{5mm} w_{jh} = w_{jh} - \alpha \varepsilon_i^h \sigma'_h x_i^j, \hspace{4mm} j = 0, \dots, n, \hspace{4mm} h = 1, \dots, H\\
-	\hspace{5mm} Q = (1 - \eta)Q + \eta \mathcal{L}_i \end{cases}$
-     \EndRepeat
-    \EndFunction
-  \end{algorithmic}  
-  
+	Линейно неразделимая выборка -- надо ослабить имеющиеся условия.\\
+	$\begin{cases}
+		{\frac{1}{2}\Vert \mathbf{w} \Vert^2 + C \sum\limits_{i=1}^l \xi_i \rightarrow \min\limits_{\mathbf{w}, \xi}}\\
+		M_i(\mathbf{w}, w_0) \geq 1 - \xi_i\\
+		\xi_i \geq 0
+	\end{cases}$\\
 \end{frame}
 
-\begin{frame}\frametitle{Особенности}
-	\begin{enumerate}[<+->]
-	\item[+] Эффективность: градиент вычисляется за время, сравнимое со временем вычисления самой сети
-	\item[+] Легко обобщается на любые $\sigma$, $\mathcal{L}$
-	\item[+] Возможно динамическое (потоковое) обучение
-	\item[+] На сверхбольших выборках не обязательно брать все $x_i$
-	\item[+] Возможность распараллеливания
+\begin{frame}{Оптимальная разделяющая гиперплоскость}
+	$\begin{cases}
+		\xi_i \geq 1 - M_i(\mathbf{w}, w_0) \\
+		\xi_i \geq 0
+	\end{cases} \Rightarrow \xi_i = 1 - M_i(\mathbf{w}, w_0) $\\
+	\begin{figure}[htbp]
+	  \includegraphics[height=100pt, keepaspectratio = true]{images/xi}   
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Задача безусловной минимизации}
+	$\begin{cases}
+		{\frac{1}{2}\Vert \mathbf{w} \Vert^2 + C \sum\limits_{i=1}^l \xi_i \rightarrow \min\limits_{\mathbf{w}, \xi}}\\
+		\xi_i = 1 - M_i(\mathbf{w}, w_0)
+	\end{cases}$\\
 	\bigbreak
-	\item[--] Возможна медленная сходимость
-	\item[--] Застревание в локальных минимумах
-	\item[--] Проблема переобучения
-	\item[--] Подбор комплекса эвристик
+	Задача безусловной минимизации:\\
+	$ C \sum\limits_{i=1}^l (1 - M_i(\mathbf{w}, w_0)) + \frac{1}{2}\Vert \mathbf{w} \Vert^2 \rightarrow \min\limits_{\mathbf{w}}$
+\end{frame}
+
+\begin{frame}{Минимизация эмпирического риска}
+	${Q(\mathbf{w}) = \sum\limits_{i=1}^l \left[ M_i(\mathbf{w}, w_0) < 0 \right] \leq\sum\limits_{i=1}^l \mathcal{L}(M_i(\mathbf{w}, w_0)) \rightarrow \min\limits_{\mathbf{w}} }$\\\vspace{3mm}
+	Штраф за увеличение нормы вектора весов:\\
+	$Q_{\tau} = Q + \frac{\tau}{2}\Vert \mathbf{w} \Vert^2 \rightarrow \min\limits_{\mathbf{w}}$\\
+	\bigbreak
+	Метод опорных векторов:\\
+	$ C\sum\limits_{i=1}^l (1 - M_i(\mathbf{w}, w_0)) + \frac{1}{2}\Vert \mathbf{w} \Vert^2 \rightarrow \min\limits_{\mathbf{w}}$
+\end{frame}
+
+\begin{frame}{Примеры $\mathcal{L}$}
+	\begin{figure}[htbp]
+	  \includegraphics[height=160pt, keepaspectratio = true]{images/l}
+	\end{figure}
+	\begin{enumerate}
+		\item $\left[M_i(\mathbf{w}, w_0) < 0 \right]$
+		\item $L(M) = \log_2(1+e^{-M})$ -- логарифмическая
+		\item $S(M) = 2(1+e^M)^{-1}$ -- сигмоидная
+		\item $V(M) = (1-M)_+$ -- кусочно-линейная
 	\end{enumerate}
 \end{frame}
 
-
-\begin{frame}\frametitle{Стандартные эвристики для метода SG}
-	Применимы все те же эвристики, что и в обычном SG.\\
+\begin{frame}{Вопрос}
+	$ \sum\limits_{i=1}^l (1 - M_i(\mathbf{w}, w_0)) + \frac{1}{2C}\Vert \mathbf{w} \Vert^2 \rightarrow \min\limits_{\mathbf{w}}$\\
 	\bigbreak
-	\pause
-	Напомните.
+	На что влияет параметр $C$?
 \end{frame}
 
-\begin{frame}\frametitle{Стандартные эвристики для метода SG}
-	\begin{itemize}[<+->]
-		\item Инициализация весов
-		\item Порядок предъявления объектов
-		\item Оптимизация величины градиентного шага
-		\item Регуляризация (сокращение весов)
-	\end{itemize}
+{\foot{Пример из Python scikit-learn: http://scikit-learn.org/dev}
+\begin{frame}{Выбор параметра $C$}
+	\begin{figure}[htbp]
+		\begin{minipage}{.5\textwidth}
+		  \includegraphics[height=120pt, keepaspectratio = true]{images/svm_reg} \\
+			\centering Маленький $C$\\ Сильная регуляризация\\
+	  \end{minipage}%
+	  \begin{minipage}{.5\textwidth}
+			\includegraphics[height=120pt, keepaspectratio = true]{images/svm_non_reg}   \\
+		  \centering Большой $C$\\ Слабая регуляризация\\
+		\end{minipage}%
+	\end{figure}
+\end{frame}
+}
+
+\begin{frame}{Условие Каруша-Куна-Такера}
+	$\begin{cases}
+		f(x) \rightarrow \min\\
+		g_i(x) \leq 0 , i = 1, \dots, m\\
+		h_j(x) = 0 , j = 1, \dots, k\\
+	\end{cases}$\\
+	\bigbreak
+	Двойственная задача:\\
+	$\begin{cases}
+		\mathcal{L}(x; \mu, \alpha) = f(x) + \sum\limits_{i = 1}^m \mu_ig_i(x) + \sum\limits_{j = 1}^k \alpha_jh_j(x)\\
+		\frac{\partial \mathcal{L}}{\partial x} = 0\\
+		g_i(x) \leq 0 , h_j(x) = 0\\
+		\mu_i \geq 0\\
+		\mu_ig_i(x) = 0
+	\end{cases}$\\
 \end{frame}
 
-\begin{frame}\frametitle{Новые проблемы}
-	\begin{itemize}[<+->]
-		\item Выбор функций активации в каждом нейроне
-		\item Выбор числа слоёв и числа нейронов;
-		\item Выбор значимых связей;
-	\end{itemize}
+\begin{frame}{Двойственная задача SVM}
+	$\begin{cases}
+		{\frac{1}{2}\Vert \mathbf{w} \Vert^2 + C \sum\limits_{i=1}^l \xi_i \rightarrow \min\limits_{\mathbf{w}, \xi}}\\
+		M_i(\mathbf{w}, w_0) \geq 1 - \xi_i\\
+		\xi_i \geq 0
+	\end{cases}$\\
+	\bigbreak
+	Двойственная задача:\\
+	$\begin{cases}
+		\mathcal{L} = \frac{1}{2} \Vert \mathbf{w} \Vert^2 - \sum\limits_{i = 1}^l \alpha_i (M_i(\mathbf{w}, w_0) - 1) - \sum\limits_{i = 1}^l \xi_i (\alpha_i + \mu_i - C)\\
+		\xi_i \geq 0,   \alpha_i \geq 0,    \mu_i \geq 0\\
+		\alpha_i = 0$ либо $M_i(\mathbf{w}, w_0) = 1 - \xi_i , i = 1, \dots, l\\
+		\mu_i = 0 $ либо $\xi_i = 0, i = 1, \dots, l
+	\end{cases}$
 \end{frame}
 
-\begin{frame}\frametitle{Ускорение сходимости}
-	\begin{itemize}[<+->]
-		\item Тщательный подбор начального приближения
-		\item Адаптивный градиентный шаг
-		\item Метод сопряжённых градиентов и chunking -- разбиение суммы $Q(w) = \sum\limits_{i=1}^l \mathcal{L}_i(w)$ на блоки
-	\end{itemize}
+\begin{frame}{Двойственная задача SVM}
+	$\mathcal{L}(\mathbf{w}, w_0, \xi) = \frac{1}{2} \Vert \mathbf{w} \Vert^2 - \sum\limits_{i = 1}^l \alpha_i (M_i(\mathbf{w}, w_0) - 1) - \sum\limits_{i = 1}^l \xi_i (\alpha_i + \mu_i -C)$\\
+	\bigbreak
+	$\frac{\partial \mathcal{L}}{\partial \mathbf{w}}  = \mathbf{w} - \sum\limits_{i=1}^l \alpha_iy_i\mathbf{x_i} = 0 $ \hspace{5mm} $\Rightarrow \mathbf{w} = \sum\limits_{i=1}^l \alpha_iy_i\mathbf{x_i} = 0$\\
+	$\frac{\partial \mathcal{L}}{\partial w_0} = - \sum\limits_{i=1}^l \alpha_iy_i = 0$ \hspace{12mm} $\Rightarrow \sum\limits_{i=1}^l \alpha_iy_i = 0$\\
+	$\frac{\partial \mathcal{L}}{\partial \xi_i} = -\alpha_i - \mu_i + C = 0$ \hspace{6mm}  $\Rightarrow \mu_i + \alpha_i = C$\\
 \end{frame}
 
-\begin{frame}\frametitle{Начальное приближение}
-	Нейроны настраиваются как отдельные линейные алгоритмы:
+\begin{frame}{Двойственная задача SVM}
+	$\begin{cases}
+	  -\mathcal{L}(\alpha) = - \sum\limits_{i = 1}^l \alpha_i  + \frac{1}{2} \sum\limits_{i = 1}^l\sum\limits_{j = 1}^l \alpha_i \alpha_j y_iy_j \langle \mathbf{x_i}, \mathbf{x_j} \rangle \rightarrow \min\limits_{\alpha}\\
+	0 \leq \alpha_i \leq C\\
+	\sum\limits_{i=1}^l \alpha_iy_i = 0
+	\end{cases}$\\
+\end{frame}
+
+\begin{frame}{Двойственная задача SVM}
+	Решение исходной задачи выражается через решение двойственной:\\
+	$\begin{cases}
+	\mathbf{w} = \sum\limits_{i = 1}^l \alpha_iy_i\mathbf{x_i}\\
+	w_0 = \langle \mathbf{w}, \mathbf{x_i} \rangle - y_i
+	\end{cases}$\\
+	\bigbreak
+	Линейный классификатор:\\
+	$a(\mathbf{x}) = \sign(\sum\limits_{i=1}^l \alpha_iy_i \langle \mathbf{x_i}, \mathbf{x} \rangle - w_0)$
+\end{frame}
+
+\begin{frame}{Понятие опорного вектора}
 	\begin{itemize}
-		\item либо по случайной подвыборке $X' \subseteq X^l$
-		\item либо по случайному подмножеству входов
-		\item либо из различных случайных начальных приближений
+		\item[--] $\alpha_i = 0$, $M_i \geq 1$ -- неинформативные объекты
+		\item[--] $0 < \alpha_i < C$, $M_i = 1$ -- опорные объекты
+		\item[--] $\alpha_i = C$, $M_i < 1$ -- опорные объекты-нарушители
 	\end{itemize}
-	Tем самым обеспечивается различность нейронов.
-\end{frame}
-
-\begin{frame}\frametitle{Оптимизация структуры сети}
-	Динамическое наращивание сети.\\
-	\begin{itemize}[<+->]
-		\item Обучение при заведомо недостаточном числе нейронов $H$
-		\item После стабилизации  $Q(w)$ -- добавление нового нейрона и его инициализация путём обучения
-		\item Снова итерации BackProp
-	\end{itemize}
-	\vspace{5mm}
-	Противоположная идея -- прореживание сети.
-\end{frame}
-
-\begin{frame}\frametitle{Специальные нейронные сети}
-	Большинство используемых на сегодняшний день методов придуманы в 80-х.\\
-	Почему их снова стали использовать?\\
-	\begin{enumerate}[--]
-		\item Большие вычислительные возможности (в том числе
-		распределенные вычисления)
-		\item Большие объемы данных
-		\item Новые методы предобучения, новые архитектуры
-	\end{enumerate}
-\end{frame}
-
-\begin{frame}\frametitle{Как было раньше?}
-	Ученые придумывали признаки. На них обучали классификатор.\\
 	
 	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/old_approach}   
+	  \includegraphics[height=100pt, keepaspectratio = true]{images/classification}   
 	\end{figure}
+
 \end{frame}
 
-\begin{frame}\frametitle{Deep learning}
-  Извлечение признаков во время обучения.\\
+\begin{frame}{Двойственная задача SVM}
+	Решение исходной задачи выражается через решение двойственной:\\
+	$\begin{cases}
+	\mathbf{w} = \sum\limits_{i = 1}^l \alpha_iy_i\mathbf{x_i}\\
+	w_0 = \langle \mathbf{w}, \mathbf{x_i} \rangle - y_i
+	\end{cases}$\\
+	\bigbreak
+	Линейный классификатор:\\
+	$a(\mathbf{x}) = \sign(\sum\limits_{i=1}^l \alpha_iy_i \langle \mathbf{x_i}, \mathbf{x} \rangle - w_0)$
+\end{frame}
 
+\begin{frame}{Kernel trick}
+	$\langle \mathbf{x_i}, \mathbf{x} \rangle \rightarrow K(\mathbf{x_i}, \mathbf{x})$\\
+	\bigbreak
+	$\psi: X \rightarrow H$, $H$ - Гильбертово пространство\\
+	$K(\mathbf{x_i}, \mathbf{x}) = \langle \mathbf{\psi(x_i)}, \mathbf{\psi(x)} \rangle_H$
+	\begin{itemize}
+		\item[--] $K(\mathbf{x_i}, \mathbf{x}) = K(\mathbf{x}, \mathbf{x_i})$
+		\item[--] неотрицательно определена
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Переход к более высокой размерности}
 	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/deep_learning}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Сверточные нейросети}
-	Архитектура сети выбирается таким образом, чтобы заложить в нее априорные знания из предметной области:\\
-	\begin{enumerate}[--]
-		\item Пиксель изображения сильнее связан с соседними пикселями (локальная корреляция)
-		\item Объект может встретиться в любой части изображения (инвариантность к перемещению)
-	\end{enumerate}
-\end{frame}
-
-\begin{frame}\frametitle{Локально-связанный слой}
-	Закладываем в архитектуру сети априорное знание о том, что
-	соседние пиксели изображения сильнее связаны между собой.\\
+		\begin{minipage}{.5\textwidth}
+		  \includegraphics[height=120pt, keepaspectratio = true]{images/data-r2} \\
+			\centering Данные в $\mathbb{R}^2$
+	  \end{minipage}%
+	  \begin{minipage}{.5\textwidth}
+			\includegraphics[height=120pt, keepaspectratio = true]{images/data-r3}   \\
+			\centering Данные в $\mathbb{R}^3$
+		\end{minipage}%
 	
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/local_layer}   
 	\end{figure}
 \end{frame}
 
-\begin{frame}\frametitle{Инвариантность к перемещению}
-	Операция свертки.\\
+\begin{frame}{Переход к более высокой размерности}
 	\begin{figure}[htbp]
-	  \includegraphics[height=200pt, keepaspectratio = true]{images/conv}   
+		\begin{minipage}{.5\textwidth}
+		  \includegraphics[height=120pt, keepaspectratio = true]{images/data-r2-1} \\
+			\centering Данные в $\mathbb{R}^2$
+	    \end{minipage}%
+	    \begin{minipage}{.5\textwidth}
+			\includegraphics[height=120pt, keepaspectratio = true]{images/data-r3-1}   \\
+			\centering Данные в $\mathbb{R}^3$
+		\end{minipage}%
+	
 	\end{figure}
 \end{frame}
 
-\begin{frame}\frametitle{Инвариантность к перемещению}
+{\foot{Пример из Python scikit-learn: http://scikit-learn.org/dev}
+\begin{frame}{Примеры ядер}
 	\begin{figure}[htbp]
-	  \includegraphics[height=200pt, keepaspectratio = true]{images/conv2}   
+		\begin{minipage}{.3\textwidth}
+		  \includegraphics[height=70pt, keepaspectratio = true]{images/linear} \\
+		  \centering Линейное\\$\langle x, x'\rangle$
+	    \end{minipage}%
+	    \begin{minipage}{.3\textwidth}
+			\includegraphics[height=70pt, keepaspectratio = true]{images/poly}   \\
+			\centering Полиномиальное\\$(\langle x, x'\rangle + 1)^3$
+		\end{minipage}%
+	    \begin{minipage}{.3\textwidth}
+			\includegraphics[height=70pt, keepaspectratio = true]{images/gauss}   \\
+			\centering Гауссовское\\$exp(-\beta \Vert x - x'\Vert^2 )$
+		\end{minipage}%
+	
+	\end{figure}
+\end{frame}
+}
+
+\begin{frame}{Примеры ядер}
+	\begin{figure}[htbp]
+	  \centering Гауссовское\\$exp(-\beta \Vert x - x'\Vert^2 )$\\
+	  \includegraphics[height=160pt, keepaspectratio = true]{images/svm_spiral}
 	\end{figure}
 \end{frame}
 
-\begin{frame}\frametitle{Простейшая свертка}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/conv_easy}   
-	\end{figure}
+\begin{frame}{Конструктивные методы получения ядер}
+	\begin{itemize}
+		\item[--] $K(\mathbf{x_i}, \mathbf{x}) = \langle \mathbf{x_i}, \mathbf{x} \rangle$
+		\item[--] $K(\mathbf{x_i}, \mathbf{x}) = const$
+		\item[--] $K(\mathbf{x_i}, \mathbf{x}) = K_1(\mathbf{x_i}, \mathbf{x}) K_2(\mathbf{x_i}, \mathbf{x})$
+		\item[--] $K(\mathbf{x_i}, \mathbf{x}) = \alpha_1 K_1(\mathbf{x_i}, \mathbf{x}) + \alpha_2 K_2(\mathbf{x_i}, \mathbf{x})$ при  $\alpha_1, \alpha_2 > 0$
+		\item[--] $\forall \psi: X \rightarrow \mathbb{R}$ \hspace{5mm}$K(\mathbf{x_i}, \mathbf{x}) = \psi(\mathbf{x_i}) \psi(\mathbf{x})$
+		\item[--] $\forall \phi: X \rightarrow X$ \hspace{5mm}$K(\mathbf{x_i}, \mathbf{x}) = K_0(\phi(\mathbf{x_i}),  \phi(\mathbf{x}))$
+	\end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Простейшая свертка}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/conv_easy2}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Простейшая свертка}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/conv_easy3}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Простейшая свертка}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/conv_easy4}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Фильтр Гаусса}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/gauss}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Подавление шумов}
-	\begin{figure}[htbp]
-	  \includegraphics[height=130pt, keepaspectratio = true]{images/gauss2}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Сверточный слой}
-  Локально-связанный слой с одинаковыми весами в разных частях изображения.\\
-  Закладывает в сеть априорное знание о том, что объект может встретиться в любой части изображения.
-	\begin{figure}[htbp]
-	  \includegraphics[height=180pt, keepaspectratio = true]{images/conv_layer}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Subsampling слой}
-	Добавляет устойчивости к небольшим деформациям.\\
-	Max-subsampling аналогичен сверточному слою, в котором операция «+» заменена на «max»
-	\begin{figure}[htbp]
-	  \includegraphics[height=180pt, keepaspectratio = true]{images/subsampling}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Сверточная нейросеть}
-	\begin{figure}[htbp]
-	  \includegraphics[height=75pt, keepaspectratio = true]{images/convnet}   
-	\end{figure}
+\begin{frame}{Достоинства и недостатки}
+	\begin{itemize}
+		\item[+] Задача имеет единственное решение
+		\item[+] Число опорных векторов определяется автоматически
+	  \bigbreak
+	
+		\item[--] Неустойчивость к шуму
+		\item[--] Нет общих подходов к оптимизации ядра под задачу
+		\item[--] Подбор константы C
+	\end{itemize}
 \end{frame}
 
 \begin{frame}[standout]
@@ -379,7 +368,7 @@
 
 \appendix
 
-\begin{frame}\frametitle{На следующей лекции}
+\begin{frame}{На следующей лекции}
 	\begin{itemize}
     	\item[--] 
 	\end{itemize}
