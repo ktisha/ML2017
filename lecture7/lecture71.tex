@@ -93,16 +93,16 @@
   \pause
   Метод обучения:\\
   \begin{algorithmic}[1]
-        \Function{perceptron}{$X$}
-            \State Инициализировать ${w_0, \dots, w_n}$
-            \MRepeat [пока $w$ изменяются] 
-               \For {$i = 1, \dots, l$}
-                 \If {$a(x_i) \neq y_i$}
-                   \State $w = w + y_i x_i$
-                 \EndIf  
-               \EndFor
-           	\EndRepeat
-        \EndFunction
+    \Function{perceptron}{$X^l$}
+      \State Инициализировать ${w_0, \dots, w_n}$
+      \MRepeat [пока $\mathbf{w}$ изменяются] 
+         \For {$i = 1, \dots, l$}
+           \If {$a(x_i) \neq y_i$}
+             \State $\mathbf{w} = \mathbf{w} + y_i \mathbf{x_i}$
+           \EndIf  
+         \EndFor
+       \EndRepeat
+     \EndFunction
     \end{algorithmic}
 \end{frame}
 

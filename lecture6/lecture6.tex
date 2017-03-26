@@ -6,9 +6,9 @@
 
 \begin{document}
 
-\maketitle
-
 \section{Разбор летучки}
+
+\maketitle
 
 \section{Мотивирующий пример}
 
@@ -43,22 +43,9 @@
 
 {\foot{decision surface, decision boundary}
 \begin{frame}\frametitle{Перцептрон}
-  \alert{Идея}: Назначим каждому признаку объекта некоторый вес. Посчитаем взвешенную сумму и если она больше некоторого порогового значения, отнесем объект к искомому классу. \\
+  \alert{Идея}: $(n-1)$-мерную гиперплоскость, которая разделяет данные.
 \end{frame}
 }
-
-\begin{frame}{Пример}
-  \centering
-  \includegraphics[width=\textwidth, keepaspectratio]{images/catimagemap}
-\end{frame}
-
-\begin{frame}{Постановка задачи}
-  $X = \mathbb{R}^n$, ${Y = \left\{ -1, + 1\right\}}$\\
-  ${X^l = (x_i, y_i)_{i = 1}^l}$ -- обучающая выборка\\
-  \bigbreak
-  \alert{Задача}:\\
-  $(n-1)$-мерную гиперплоскость, которая разделяет данные.
-\end{frame}
 
 \begin{frame}{Пример}
   \centering
@@ -68,7 +55,7 @@
 \begin{frame}\frametitle{Модель McCulloch-Pitts}
   $X = \mathbb{R}^n$, ${Y = \left\{ -1, + 1\right\}}$\\
 	\pause
-	$$a(x,w) = \sigma(\sum\limits_{j=1}^n w_j x^j - w_0) = \sigma(\langle w, x \rangle)$$\\
+	$$a(x,w) = \sigma(\sum\limits_{j=1}^n w_j x^j - w_0) = \sigma(\langle \mathbf{w}, \mathbf{x} \rangle)$$\\
   $x^j$ — числовые признаки, $j = 1,\dots, n$ \\	
 	$w_j \in R$ -- веса признаков\\
 	$\sigma(s)$ -- функция активации (например, $\sign$)
@@ -86,12 +73,12 @@
 
 \begin{frame}{Алгоритм}
 	\begin{algorithmic}[1]
-        \Function{perceptron}{$X$}
+        \Function{perceptron}{$X^l$}
             \State Инициализировать ${w_0, \dots, w_n}$
-            \MRepeat [пока $w$ изменяются] 
+            \MRepeat [пока $\mathbf{w}$ изменяются] 
                \For {$i = 1, \dots, l$}
                  \If {$a(x_i) \neq y_i$}
-                   \State $w = w + y_i x_i$
+                   \State $\mathbf{w} = \mathbf{w} + y_i \mathbf{x_i}$
                  \EndIf  
                \EndFor
            	\EndRepeat
@@ -99,24 +86,33 @@
     \end{algorithmic}
 \end{frame}
 
+\begin{frame}
+  \TODO{графическая интуиция}
+\end{frame}
+
 \section{Что делать в случае нескольких классов?}
 
 \begin{frame}
-  \alert{Идея}: Для каждого класса заведём отдельный вектор $w_y$.
+  \alert{Идея}: Для каждого класса заведём отдельный вектор $\mathbf{w_y}$.
   \bigbreak \pause
-  $$a(x) = \arg\max\limits_{y} w_y x $$
+  $$a(x) = \arg\max\limits_{y} \langle \mathbf{w_y}, \mathbf{x} \rangle $$
+\end{frame}
+
+\begin{frame}{Пример}
+  \centering
+  \includegraphics[width=\textwidth, keepaspectratio]{images/catimagemap}
 \end{frame}
 
 \begin{frame}{Алгоритм}
 	\begin{algorithmic}[1]
-        \Function{multiclass\_perceptron}{$X$}
-            \State Инициализировать ${w_0, \dots, w_n}$
-            \MRepeat [пока $w$ изменяются] 
+        \Function{multiclass\_perceptron}{$X^l$}
+            \State Инициализировать ${\mathbf{w_0}, \dots, \mathbf{w_n}}$
+            \MRepeat [пока $\mathbf{w}$ изменяются] 
                \For {$i = 1, \dots, l$}
-                 \State $a(x_i) = \arg\max\limits_{y} w_y x$                 
+                 \State $a(x_i) = \arg\max\limits_{y} \langle \mathbf{w_y}, \mathbf{x} \rangle $                 
                  \If {$a(x_i) \neq y_i$}
-                   \State $w_y = w_y - x_i$
-                   \State $w_{y^{*}} = w_{y^{*}} + x_i$
+                   \State $\mathbf{w_y} = \mathbf{w_y} - \mathbf{x_i}$
+                   \State $\mathbf{w_{y^{*}}} = \mathbf{w_{y^{*}}} + \mathbf{x_i}$
                  \EndIf  
                \EndFor
            	\EndRepeat
@@ -129,7 +125,7 @@
       \item[+] Алгоритм гарантированно сходится, если обучающая выборка линейно разделима
       \bigbreak
       \item[--] Не работает в случае неразделимой выборки 
-      \item[--] "Слишком правильные" предсказания добавляют штраф       
+      \item[--] "Слишком правильные" предсказания добавляют штраф      %почему? 
     \end{itemize}
 \end{frame}
 
@@ -137,20 +133,22 @@
 
 \begin{frame}{Алгоритм}
 	\begin{algorithmic}[1]
-        \Function{multiclass\_perceptron}{$X$, $\eta$}
-            \State Инициализировать ${w_0, \dots, w_n}$
-            \MRepeat [пока $w$ изменяются] 
+        \Function{multiclass\_perceptron}{$X^l$, $\eta$}
+            \State Инициализировать ${\mathbf{w_0}, \dots, \mathbf{w_n}}$
+            \MRepeat [пока $\mathbf{w}$ изменяются] 
                \For {$i = 1, \dots, l$}
-                 \State $a(x_i) = \arg\max\limits_{y} w_y x$                 
+                 \State $a(x_i) = \arg\max\limits_{y} \langle \mathbf{w_y}, \mathbf{x} \rangle$                 
                  \If {$a(x_i) \neq y_i$}
-                   \State $w_y = w_y - \alert{\eta} x_i$
-                   \State $w_{y^{*}} = w_{y^{*}} + \alert{\eta} x_i$
+                   \State $\mathbf{w_y} = \mathbf{w_y} - \alert{\eta} \mathbf{x_i}$
+                   \State $\mathbf{w_{y^{*}}} = \mathbf{w_{y^{*}}} + \alert{\eta} \mathbf{x_i}$
                  \EndIf  
                \EndFor
            	\EndRepeat
         \EndFunction
     \end{algorithmic}
 \end{frame}
+
+\section{Обобщённый линейный классификатор}
 
 \begin{frame}{Постановка задачи}
   $X = \mathbb{R}^n$, ${Y = \left\{ -1, + 1\right\}}$\\
@@ -185,19 +183,22 @@
 	\bigbreak
 	${Q(\mathbf{w})}$ -- функционал качества\\
 	\bigbreak
-  \begin{itemize}
+	\pause
+  \begin{itemize}[<+->]
 		\item[--] Индикаторную функцию сложно оптимизировать
 		\item[--] Теряем информацию насколько ${i}$-й объект был надежен
 	\end{itemize}
 \end{frame}
 
 \begin{frame}\frametitle{Отступ}
+  \TODO{картинка с собачками}
 	\begin{figure}[htbp]
 	  \includegraphics[height=190pt, keepaspectratio = true]{images/margin1}
 	\end{figure}
 \end{frame}
 
 \begin{frame}\frametitle{Отступ}
+  \TODO{картинка с собачками}
 	\begin{figure}[htbp]
 	  \includegraphics[height=190pt, keepaspectratio = true]{images/margin2}
 	\end{figure}
@@ -210,8 +211,8 @@
 \end{frame}
 
 \begin{frame}\frametitle{Минимизация эмпирического риска}
-	${Q(\mathbf{w}) = \sum\limits_{i=1}^l \left[ M_i(\mathbf{w}) < 0 \right] \leq}$\\ \vspace{3mm}
-	\hspace{10mm} ${\leq \sum\limits_{i=1}^l \mathcal{L}(M_i(\mathbf{w})) \rightarrow \min\limits_{\mathbf{w}} }$\\\vspace{3mm}
+	$${Q(\mathbf{w}) = \sum\limits_{i=1}^l \left[ M_i(\mathbf{w}) < 0 \right] \leq \sum\limits_{i=1}^l \mathcal{L}(M_i(\mathbf{w})) \rightarrow \min\limits_{\mathbf{w}} }$$\\
+	\bigbreak
 	$\mathcal{L}$ -- функция потерь, невозрастающая, неотрицательная.\\
 	$\mathcal{L}$ должна мажорировать $\left[M_i(\mathbf{w}) < 0 \right]$
 \end{frame}
@@ -237,17 +238,20 @@
 	\end{figure}
 \end{frame}
 
+{\foot{$\alpha$ -- градиентный шаг (темп обучения)}
 \begin{frame}\frametitle{Метод градиентного спуска}
-	Input: $\alpha$ -- градиентный шаг (темп обучения)\\
-	Output: $w_0, w_1, \dots, w_n$\\
-	\vspace{3mm}
-	Инициализировать: $w_j$, $j=0,\dots, n$\\
-	Повторить пока $\mathbf{w}$ не стабилизируются:\\
-	\hspace{10mm} $\mathbf{w} =  \mathbf{w} - \alpha \bigtriangledown Q(\mathbf{w})$\\
-	
-	\vspace{10mm}
+  \begin{algorithmic}[1]
+    \Function{gradient\_descent}{$X^l, \alpha$}
+     \State Инициализировать $w_j$, $j=0,\dots, n$
+     \MRepeat [пока $\mathbf{w}$ изменяются] 
+       \State $\mathbf{w} =  \mathbf{w} - \alpha \bigtriangledown Q(\mathbf{w})$
+     \EndRepeat
+    \EndFunction
+  \end{algorithmic}
+
 	$\bigtriangledown Q(\mathbf{w}) = (\frac{\partial Q(\mathbf{w})}{\partial w_j})_{j=0}^n$\\
 \end{frame}
+}
 
 \begin{frame}\frametitle{Градиентный спуск}
 	\begin{figure}[htbp]
@@ -257,15 +261,17 @@
 
 \begin{frame}\frametitle{Метод градиентного спуска}
 	Случай двух признаков.\\
-	Input: $\alpha$ -- градиентный шаг (темп обучения)\\
-	Output: $w_0, w_1$\\
-	\vspace{3mm}
-	Инициализировать: $w_0$, $w_1$\\
-	Повторить пока $w_0$ и $w_1$ не стабилизируются:\\
-	\hspace{10mm} $tmp_0 =  w_0 - \alpha \frac{\partial Q(w)}{\partial w_0}$\\
-	\hspace{10mm} $tmp_1 =  w_1 - \alpha \frac{\partial Q(w)}{\partial w_1}$\\
-	\hspace{10mm} $w_0 = tmp_0$\\
-	\hspace{10mm} $w_1 = tmp_1$
+	\begin{algorithmic}[1]
+    \Function{gradient\_descent}{$X^l, \alpha$}
+     \State Инициализировать $w_0$, $w_1$
+     \MRepeat [пока $w_0$ и $w_1$ не стабилизируются] 
+       \State $tmp_0 =  w_0 - \alpha \frac{\partial Q(w)}{\partial w_0}$
+       \State $tmp_1 =  w_1 - \alpha \frac{\partial Q(w)}{\partial w_1}$
+       \State $w_0 = tmp_0$
+       \State $w_1 = tmp_1$
+     \EndRepeat
+    \EndFunction
+  \end{algorithmic}
 \end{frame}
 
 \section{Почему важно обновить $w_0$ и $w_1$ одновременно?}
@@ -304,17 +310,19 @@
 \end{frame}
 
 \begin{frame}\frametitle{Алгоритм}
-	Input: $X^l$, $\alpha$, $\eta$\\
-	Output: $w_0, w_1, \dots, w_n$\\
-	\vspace{3mm}
-	Перемешать данные в $X^l$\\
-	Инициализировать: $w_j$, $j=0,\dots, n$\\
-	\hspace{35mm} ${Q}(\mathbf{w}) = \sum\limits_{i=1}^l \mathcal{L}(\langle \mathbf{w}, \mathbf{x_i} \rangle y_i)$\\
-	Повторить пока $Q$ и/или $w$ не стабилизируются:\\
-	\hspace{5mm} Взять $x_i$ из $X^l$\\
-	\hspace{5mm} Потеря: $\varepsilon_i = \mathcal{L}(\langle \mathbf{w}, \mathbf{x_i} \rangle y_i)$\\
-	\hspace{5mm} Градиентный шаг: $w =  w - \alpha \mathcal{L}'(\langle \mathbf{w}, \mathbf{x_i}\rangle y_i)\mathbf{x_i}y_i$\\
-	\hspace{5mm} Оценить $Q = (1-\eta)Q + \eta \varepsilon_i$
+  \begin{algorithmic}[1]
+    \Function{stochastic\_gradient}{$X^l$, $\alpha$, $\eta$}
+     \State Перемешать данные в $X^l$
+     \State Инициализировать $w_j$, $j=0,\dots, n$
+     \State ${Q}(\mathbf{w}) = \sum\limits_{i=1}^l \mathcal{L}(\langle \mathbf{w}, \mathbf{x_i} \rangle y_i)$
+     \MRepeat [пока $Q$ и/или $w$ не стабилизируются] 
+       \State Взять $x_i$ из $X^l$
+       \State Потеря: $\varepsilon_i = \mathcal{L}(\langle \mathbf{w}, \mathbf{x_i} \rangle y_i)$
+       \State Градиентный шаг: $w =  w - \alpha \mathcal{L}'(\langle \mathbf{w}, \mathbf{x_i}\rangle y_i)\mathbf{x_i}y_i$
+       \State Оценить $Q = (1-\eta)Q + \eta \varepsilon_i$
+     \EndRepeat
+    \EndFunction
+  \end{algorithmic}
 \end{frame}
 
 \begin{frame}\frametitle{Градиентный спуск}
@@ -461,6 +469,6 @@
     	\item[--] Генерация модельных данных    	    	
 	\end{itemize}
 \end{frame}
-\end{document}
+
 
 \end{document}
