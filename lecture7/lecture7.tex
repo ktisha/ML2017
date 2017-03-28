@@ -9,24 +9,24 @@
 }  
 
 \title{Лекция 7}
-\subtitle{Функционалы качества}
+\subtitle{Выбор моделей}
 
 \begin{document}
-
-\section{Разбор летучки}
 
 \maketitle
 
 \section{Разбор летучки}
 
-\begin{frame}{Задача классификации}
+\begin{frame}{Задача выбора метода обучения}
   $X$ - множество объектов \\
 	$Y$ - множество классов \\
 	Обучающая выборка: ${X^l = (x_i, y_i)_{i=1}^l}$ \\ 
 	Целевая функция: $f: X \rightarrow Y$\\
 	\bigbreak
-	Набор гипотез $h: X \rightarrow Y$, $h \in \mathcal{H}$ \\
-	Алгоритм -- лучшая из гипотез $a: h \approx f$
+	Набор моделей алгоритмов $A_t: X \rightarrow Y$, $t \in T$ \\
+	Методы обучения $\mu_t: X \times Y \rightarrow A_t$, $t \in T$ \\
+	\bigbreak
+	\alert{Задача}: Найти алгоритм $a \in A_t$  с наилучшей обобщающей способностью
 \end{frame}
 
 \begin{frame}{Модель}
@@ -42,18 +42,18 @@
     \onslide<2, 3>{    
       \node[mycircle,text width=1.5cm, below=1cm, right=2cm of dummy] (learning) 
         {Метод обучения\\
-        \textcolor{blue}{$A$}}
+        \textcolor{blue}{$\mu_t$}}
         edge[pil, <-, bend left=15] (training.south);  
       }
     \onslide<3>{   
       \node[mynode, text width=3cm, below=1cm of dummy] (hypothesis) 
-        {Набор гипотез\\
-        \textcolor{blue}{$\mathcal{H}$}}
+        {Набор моделей\\
+        \textcolor{blue}{$A_t$}}
         edge[pil, bend left=15] (learning.west);  
         }
     \node[mynode, text width=3.5cm, right=1cm of learning] (final) 
-      {Финальная гипотеза\\
-      \textcolor{blue}{$a: h \approx f$}}
+      {Финальный алгоритм\\
+      \textcolor{blue}{$a \in A_t$}}
       edge[pil, <-] (learning.east);    
   \end{tikzpicture}
 \end{frame}
@@ -70,15 +70,15 @@
     \node[below=1cm of training] (dummy) {}; 
     \node[mycircle, orange, text width=1.5cm, below=1cm, right=2cm of dummy] (learning) 
       {Метод обучения\\
-      \textcolor{blue}{$A$}}
+      \textcolor{blue}{$\mu_t$}}
       edge[pil, <-, bend left=15] (training.south);  
     \node[mynode, orange, text width=3cm, below=1cm of dummy] (hypothesis) 
-      {Набор гипотез\\
-      \textcolor{blue}{$\mathcal{H}$}}
+      {Набор моделей\\
+      \textcolor{blue}{$A_t$}}
       edge[pil, bend left=15] (learning.west);  
     \node[mynode, text width=3.5cm, right=1cm of learning] (final) 
-      {Финальная гипотеза\\
-      \textcolor{blue}{$a: h \approx f$}}
+      {Финальный алгоритм\\
+      \textcolor{blue}{$a \in A_t$}}
       edge[pil, <-] (learning.east);    
   \end{tikzpicture}
 \end{frame}
@@ -86,24 +86,166 @@
 \section{Пример}
 
 \begin{frame}{Перцептрон}
-  Набор гипотез:\\
-  $h(\mathbf{x}) = \sign(\sum\limits_{j=1}^n {\only<2,3>{\color{orange}}w_j} x^j - {\only<2,3>{\color{orange}}w_0})$\\
+  Набор моделей:\\
+  $a(\mathbf{x}) = \sign(\sum\limits_{j=1}^n {\only<2,3>{\color{orange}}w_j} x^j - {\only<2,3>{\color{orange}}w_0})$\\
   \bigbreak
   \pause
   \pause
   Метод обучения:\\
   \begin{algorithmic}[1]
-        \Function{perceptron}{$X$}
-            \State Инициализировать ${w_0, \dots, w_n}$
-            \MRepeat [пока $w$ изменяются] 
-               \For {$i = 1, \dots, l$}
-                 \If {$a(x_i) \neq y_i$}
-                   \State $w = w + y_i x_i$
-                 \EndIf  
-               \EndFor
-           	\EndRepeat
-        \EndFunction
+    \Function{perceptron}{$X^l$}
+      \State Инициализировать ${w_0, \dots, w_n}$
+      \MRepeat [пока $\mathbf{w}$ изменяются] 
+         \For {$i = 1, \dots, l$}
+           \If {$a(x_i) \neq y_i$}
+             \State $\mathbf{w} = \mathbf{w} + y_i \mathbf{x_i}$
+           \EndIf  
+         \EndFor
+       \EndRepeat
+     \EndFunction
     \end{algorithmic}
+\end{frame}
+
+\begin{frame}{Задача}  
+  \centering
+  Научиться оценивать метод обучения и обобщающую способность алгоритма
+\end{frame}
+
+{\foot{loss function}
+\begin{frame}{Функция потерь}
+  Функция потерь $\mathcal{L}(a, x_i) $ -- характеризует величину ошибки алгоритма $a$ на объекте $x_i$.\\
+  \bigbreak
+  Если $\mathcal{L} (a, x_i) = 0$, то ответ $a(x_i)$ называется корректным.
+\end{frame}
+}
+
+{\foot{loss function}
+\begin{frame}{Функция потерь}
+  Задача классификации:\\
+  $\mathcal{L}(a, x_i) = [a(x_i) \neq y_i]$ -- индикатор ошибки\\
+  \bigbreak
+  Задача регрессии:\\
+  $\mathcal{L}(a, x_i) = \vert a(x_i) - y_i \vert$ -- абсолютное значение ошибки\\
+  $\mathcal{L}(a, x_i) = (a(x_i) - y_i)^2$ -- квадратичная ошибка\\
+\end{frame}
+}
+
+{\foot{функционал средних потерь, Empirical Risk}
+\begin{frame}{Функционал качества}
+  Функционал качества алгоритма $a$ на выборке $X^l$:\\
+  $$Q(a, X^l) = \frac{1}{l} \sum\limits_{i=1}^l \mathcal{L}(a, x_i)$$\\
+  Минимизация эмпирического риска:\\
+  $$\arg\min\limits_{A_t} Q(a, X^l)$$
+\end{frame}
+}
+
+\begin{frame}{Внутренний функционал}  
+  $$Q_{\mu}(X^l) = Q(\mu(X^l), X^l)$$\\
+  \bigbreak
+  Этот функционал оценивает качество обучения на выборке $X^l$\\
+  \bigbreak
+  \pause
+  Какая с этим может быть проблема?
+\end{frame}
+
+%\begin{frame}{Простая аналогия}
+%  \centering
+%  С какой вероятностью монета, подброшенная 10 раз, выпадет одной и той же стороной все 10 раз?
+%  \pause
+%  \bigbreak
+%  \textcolor{blue}{$0.001$}
+%\end{frame}
+%
+%\begin{frame}{Простая аналогия}
+%  \centering
+%  С какой вероятностью одна из 1000 монет, каждая из которых подброшена 10 раз, выпадет одной и той же стороной все 10 раз?
+%  \pause
+%  \bigbreak
+%  \textcolor{blue}{$0.63$}
+%\end{frame}
+
+\begin{frame}{Внешний функционал}  
+  $$E_{in} = Q_{\mu}(X^l) = Q(\mu(X^l), X^l)$$\\
+  \bigbreak
+  Внешний функционал по отложенной выборке:\\
+  $$E_{out} = Q_{\mu}(X^t, X^k) = Q(\mu(X^t), X^k)$$\\
+  \bigbreak
+  \onslide<2>{
+    Какой здесь недостаток?\\
+  }
+  \onslide<3>{
+    Сильная зависимость от разбиения $X^l = X^t \sqcup X^k$
+  }
+\end{frame}
+
+{\foot{Learning curve}
+\begin{frame}{Кривая обучения}  
+  \includegraphics[width=\textwidth]{images/learning_curve}
+\end{frame}
+}
+
+{\foot{Полный скользящий контроль, cross-validation}
+\begin{frame}{Кроссвалидация}  
+  \alert{Идея}: Усреднить по всем $C_l^t$ выборкам $X^l = X^t \sqcup X^k$\\
+  $$CCV(\mu, X^l) = \frac{1}{C_l^t} \sum\limits_{X^t} Q_{\mu}(X^t, X^k)$$\\
+  \bigbreak
+  \pause
+  Во что превратится оценка при $k=1$?
+\end{frame}
+}
+
+\begin{frame}{Недостатки}  
+  \begin{enumerate}
+    \item[--] Оценка вычислительно слишком сложна
+    \item[--] Не учитывает дисперсию $X^k$
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{k-fold кроссвалидация}  
+  \alert{Идея}: Возьмём случайное разбиение $X^l = X_1 \sqcup \dots \sqcup X_k$ на $k$ блоков равной длины.\\
+  $$CV_k(\mu, X^l) = \frac{1}{k} \sum\limits_{i=1}^{k} Q_{\mu}(X^l \setminus X_i, X_i)$$\\
+  \bigbreak
+  \pause
+  Недостатки:  
+  \begin{enumerate}
+    \item[--] Оценка зависит от разбиения на блоки
+    \item[--] Каждый объект только один раз участвует в контроле    
+  \end{enumerate}
+\end{frame}
+
+{\foot{Repeated k-fold cross validation}
+\begin{frame}{Повторяющийся k-fold CV}  
+  \alert{Идея}: Выборка разбивается $t$ раз случайным образом на $k$ блоков\\
+  
+  $$CV_{tk}(\mu, X^l) = \frac{1}{t} \sum\limits_{j=1}^{t} \frac{1}{k} \sum\limits_{i=1}^{k} Q_{\mu}(X^l \setminus X_{ji}, X_{ji})$$\\
+  \bigbreak
+  \pause
+  \begin{enumerate}
+    \item[+] Выбором $t$ можно улучшать точность оценки
+    \item[+] Каждый объект участвует в контроле $t$ раз
+  \end{enumerate}
+\end{frame}
+}
+
+\begin{frame}{Критерий непротиворечивости моделей}  
+  \alert{Идея}: Если модель верна, то алгоритмы, настроенные по разным частям данных, не должны противоречить друг другу.\\
+\end{frame}
+
+\section{Аналитический подход}
+
+\begin{frame}{Как использовать аналитические оценки}  
+  \begin{enumerate}
+    \item Получить верхнюю оценку вероятности переобучения $R_{\varepsilon}$\\
+      $$R_{\varepsilon}(\mu, X^l) = P[E_{out} - E_{in} \geq \varepsilon] \leq \eta(\varepsilon, A)$$
+    \item Тогда для любых $X^l$, $A$, $\mu$ и $\eta$ с вероятностью не менее $1-\eta$ справедливо\\
+      $$E_{out} \leq E_{in} + \varepsilon(\eta, A)$$
+    \item Будем оптимизивать \\
+      $$E_{in} + \varepsilon(\eta, A) \rightarrow \min\limits_{\mu}$$
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Регуляризация}
+  Регуляризатор $\varepsilon$ — аддитивная добавка к внутреннему критерию, обычно штраф за сложность модели A.
 \end{frame}
 
 \begin{frame}{Неравенство Бернштейна-Хёфдинга}
@@ -130,40 +272,10 @@
   Каждый шар это объект $x$ из пространства $X$.\\
   Неизвестная целевая функция $f$.\\
   \bigbreak
-  Оранжевый шар -- гипотеза $h$ верна ($h(x) = f(x)$)\\
-  Зелёный шар -- гипотеза $h$ не верна ($h(x) \neq f(x)$)\\
+  Оранжевый шар -- модель $h$ верна ($h(x) = f(x)$)\\
+  Зелёный шар -- модель $h$ не верна ($h(x) \neq f(x)$)\\
   \bigbreak
-  По выборке $X^l$ можем оценить $\nu$ -- долю объектов, на которых верна гипотеза.
-\end{frame}
-
-\begin{frame}{Модель}
-  \begin{tikzpicture}[node distance=1cm, scale=0.8, transform shape]
-    \node[mynode, text width=5cm] (target) 
-      {Неизвестная целевая функция\\
-      \textcolor{blue}{$f: X \rightarrow Y$}};
-    \node[mynode, text width=3.5cm, below=1cm of target] (training) 
-      {Обучающая выборка\\
-      \textcolor{blue}{${X^l = (}\textcolor{orange}{x_i}\textcolor{blue}{, y_i)_{i=1}^l}$}}
-          edge[pil, <-] (target.south);
-    \node[below=1cm of training] (dummy) {}; 
-    \node[mycircle,text width=1.5cm, below=1cm, right=2cm of dummy] (learning) 
-      {Метод обучения\\
-      \textcolor{blue}{$A$}}
-      edge[pil, <-, bend left=15] (training.south);  
-    \node[mynode, text width=3cm, below=1cm of dummy] (hypothesis) 
-      {Набор гипотез\\
-      \textcolor{blue}{$\mathcal{H}$}}
-      edge[pil, bend left=15] (learning.west);  
-    \node[mynode, text width=3.5cm, right=1cm of learning] (final) 
-      {Финальная гипотеза\\
-      \textcolor{blue}{$a: h \approx f$}}
-      edge[pil, <-] (learning.east);    
-      
-    \node[mynode, orange, right=1cm of target, text width=5cm] (probability) 
-      {Вероятностное распределение\\
-      \textcolor{blue}{$P$ на $X$}}
-      edge[pil, bend left=35] (training.east);  
-  \end{tikzpicture}
+  По выборке $X^l$ можем оценить $\nu$ -- долю объектов, на которых верна модель.
 \end{frame}
 
 \begin{frame}{$E_{in}$ и $E_{out}$}
@@ -172,12 +284,12 @@
   \bigbreak
   $$P[\vert E_{in}(h) - E_{out}(h) \vert < \varepsilon ] \leq 2 e^{-2 \varepsilon^2 l} $$\\
   \bigbreak
-  Неравенство выполняется для каждой гипотезы.
+  Неравенство выполняется для каждой модели.
 \end{frame}
 
 \begin{frame}{Важная деталь}
   \centering
-  Какова вероятность, что гипотеза $a \in \mathcal{H}$, наилучшим образом приближающая $f$ по выборке, наилучшим образом приближает $f$ на всём множестве?
+  Какова вероятность, что модель $a \in \mathcal{H}$, наилучшим образом приближающая $f$ по выборке, наилучшим образом приближает $f$ на всём множестве?
 \end{frame}
 
 \begin{frame}{Простая аналогия}
@@ -199,7 +311,7 @@
 \begin{frame} {К нашей задаче}
   \includegraphics[width=\textwidth, keepaspectratio]{images/bins}
   
-  На $h_M$ гипотезе наблюдаем переобучение.
+  На $h_M$ модели наблюдаем переобучение.
 \end{frame}
 
 \begin{frame} {Решение}
@@ -211,31 +323,23 @@
 
 %{\foot{loss function}
 %\begin{frame}{Функция потерь}
-%  Функция потерь $\mathcal{L}(a, x_i) $ -- характеризует величину ошибки алгоритма $a$ на объекте $x_i$.\\
+%  Задача классификации:\\
+%  $\mathcal{L}(h, x_i) = [h(x_i) \neq y_i]$ -- индикатор ошибки\\
 %  \bigbreak
-%  Если $\mathcal{L} (a, x_i) = 0$, то ответ $a(x_i)$ называется корректным.
+%  Задача регрессии:\\
+%  $\mathcal{L}(h, x_i) = \vert h(x_i) - y_i \vert$ -- абсолютное значение ошибки\\
+%  $\mathcal{L}(h, x_i) = (h(x_i) - y_i)^2$ -- квадратичная ошибка\\
 %\end{frame}
 %}
 
-{\foot{loss function}
-\begin{frame}{Функция потерь}
-  Задача классификации:\\
-  $\mathcal{L}(h, x_i) = [h(x_i) \neq y_i]$ -- индикатор ошибки\\
-  \bigbreak
-  Задача регрессии:\\
-  $\mathcal{L}(h, x_i) = \vert h(x_i) - y_i \vert$ -- абсолютное значение ошибки\\
-  $\mathcal{L}(h, x_i) = (h(x_i) - y_i)^2$ -- квадратичная ошибка\\
-\end{frame}
-}
-
-{\foot{функционал средних потерь, Empirical Risk}
-\begin{frame}{Функционал качества}
-  Функционал качества гипотезы $h$ на выборке $X^l$:\\
-  $$E_{in}(h, X^l) = \frac{1}{l} \sum\limits_{i=1}^l \mathcal{L}(h, x_i)$$\\
-  Минимизация эмпирического риска:\\
-  $$\arg\min\limits_{h} E_{in}(h, X^l)$$
-\end{frame}
-}
+%{\foot{функционал средних потерь, Empirical Risk}
+%\begin{frame}{Функционал качества}
+%  Функционал качества гипотезы $h$ на выборке $X^l$:\\
+%  $$E_{in}(h, X^l) = \frac{1}{l} \sum\limits_{i=1}^l \mathcal{L}(h, x_i)$$\\
+%  Минимизация эмпирического риска:\\
+%  $$\arg\min\limits_{h} E_{in}(h, X^l)$$
+%\end{frame}
+%}
 
 \begin{frame}{Полная и поточечная ошибка}  
   $$E_{in}(h, X^l) = \frac{1}{l} \sum\limits_{i=1}^l \mathcal{L}(h, x_i)$$\\
@@ -275,17 +379,17 @@
 
 \section{Какое количество гипотез в нашем пространстве $\mathcal{H}$?}
 
-\begin{frame}{Близость гипотез} 
+\begin{frame}{Близость моделей} 
   \centering 
   \includegraphics[ width=0.6 \textwidth, keepaspectratio]{images/hypothesis1}
 \end{frame}
 
-\begin{frame}{Близость гипотез}  
+\begin{frame}{Близость моделей}  
   \centering
   \includegraphics[ width=0.6 \textwidth, keepaspectratio]{images/hypothesis}
 \end{frame}
 
-\begin{frame}{Близость гипотез}  
+\begin{frame}{Близость моделей}  
   $\bigtriangleup E_{out} = $ площадь жёлтой области\\
   \bigbreak
   $\bigtriangleup E_{in} = $ изменение меток объектов жёлтой области в выборке\\
@@ -311,9 +415,9 @@
 {\foot{коэффициент разнообразия}
 \begin{frame}{Дихотомии}  
   $$P(\vert E_{in}(a) - E_{out}(a) \vert > \varepsilon) \leq 2 M e^{-2\varepsilon^2l}$$  \\
-  Наш набор гипотез $\mathcal{H}$ может породить $\vert \mathcal{H}(x_1,\dots, x_l) \vert$ дихотомий.\\
+  Наш набор моделей $\mathcal{H}$ может породить $\vert \mathcal{H}(x_1,\dots, x_l) \vert$ дихотомий.\\
   $$\vert \mathcal{H}(x_1,\dots, x_l) \vert \leq 2^l$$\\
-  При этом сам набор гипотез может быть бесконечным.
+  При этом сам набор моделей может быть бесконечным.
 \end{frame}
 }
 
@@ -378,8 +482,7 @@
 \begin{frame}{Неравенство Вапника-Червоненкиса}  
   $$P(E_{in}(a) - E_{out}(a) > \varepsilon) \leq 4 m_{\mathcal{H}}(2l) e^{-\frac{1}{8}\varepsilon^2l}$$\\
   \bigbreak
-  Размерность $d_{VC} = $ наибольшее $l$, для которого $m_{\mathcal{H}}(l) = 2^l$. $d_{VC} = k-1$.
-  
+  Размерность $d_{VC} = $ наибольшее $l$, для которого $m_{\mathcal{H}}(l) = 2^l$. $d_{VC} = k-1$.  
 \end{frame}
 
 \begin{frame}[standout]
