@@ -97,7 +97,7 @@
             \State Инициализировать ${w_0, \dots, w_n}$
             \MRepeat [пока $\mathbf{w}$ изменяются] 
                \For {$i = 1, \dots, l$}
-                 \If {$a(x_i) \neq y_i$}
+                 \If {$a(\mathbf{x_i}) \neq y_i$}
                    \State $\mathbf{w} = \mathbf{w} + y_i \mathbf{x_i}$
                  \EndIf  
                \EndFor
@@ -136,15 +136,6 @@
     \end{algorithmic}
 \end{frame}
 
-\begin{frame} {Наблюдения}
-    \begin{itemize} [<+->]
-      \item[+] Алгоритм гарантированно сходится, если обучающая выборка линейно разделима
-      \bigbreak
-      \item[--] Не работает в случае неразделимой выборки 
-      \item[--] "Слишком правильные" предсказания добавляют штраф      %почему? 
-    \end{itemize}
-\end{frame}
-
 \section{Будем улучшать алгоритм}
 
 \begin{frame}{Алгоритм}
@@ -164,6 +155,21 @@
     \end{algorithmic}
 \end{frame}
 
+\begin{frame} {Наблюдения}
+    \begin{itemize} [<+->]
+      \item[+] Алгоритм гарантированно сходится, если обучающая выборка линейно разделима
+      \bigbreak
+      \item[--] Не работает в случае неразделимой выборки 
+      \item[--] "Слишком правильные" предсказания добавляют штраф      %почему? 
+    \end{itemize}
+\end{frame}
+
+\section{Что делать, если данные не линейно разделимы?}
+
+\begin{frame}
+  \alert{Идея}: На этапе предобработки скомбинировать признаки в полиномиальные признаки.
+\end{frame}
+
 \section{Обобщённый линейный классификатор}
 
 \begin{frame}{Постановка задачи}
@@ -181,10 +187,10 @@
   \includegraphics[width=0.9 \textwidth, keepaspectratio]{images/catdog}
 \end{frame}
 
-\begin{frame}{Постановка задачи}
-  Как можно лучше:\\
-  Два разделенных класса должны лежать как можно дальше от разделяющей гиперплоскости.
-\end{frame}
+%\begin{frame}{Постановка задачи}
+%  Как можно лучше:\\
+%  Два разделенных класса должны лежать как можно дальше от разделяющей гиперплоскости.
+%\end{frame}
 
 \begin{frame}\frametitle{Определение отступа}
 	${g = \langle \mathbf{w}, \mathbf{x}\rangle = 0}$ -- разделяющая поверхность\\
@@ -192,12 +198,11 @@
 	${M_i(\mathbf{w})<0}$ $\Rightarrow$ алгоритм $a(\mathbf{x},\mathbf{w})$ ошибается на $x_i$
 \end{frame}
 
+{\foot{Функционал качества}
 \begin{frame}\frametitle{Минимизация эмпирического риска}
 	Число ошибок на обучающей выборке:\\
 	\bigbreak
 	${Q(\mathbf{w}) = \sum\limits_{i=1}^l \left[ M_i(\mathbf{w}) < 0 \right] \rightarrow \min\limits_{\mathbf{w}} }$\\
-	\bigbreak
-	${Q(\mathbf{w})}$ -- функционал качества\\
 	\bigbreak
 	\pause
   \begin{itemize}[<+->]
@@ -205,6 +210,7 @@
 		\item[--] Теряем информацию насколько ${i}$-й объект был надежен
 	\end{itemize}
 \end{frame}
+}
 
 \begin{frame}\frametitle{Отступ}
 	\begin{figure}[htbp]
@@ -224,12 +230,14 @@
 	\end{figure}
 \end{frame}
 
+{\foot{Loss function}
 \begin{frame}\frametitle{Минимизация эмпирического риска}
 	$${Q(\mathbf{w}) = \sum\limits_{i=1}^l \left[ M_i(\mathbf{w}) < 0 \right] \leq \sum\limits_{i=1}^l \mathcal{L}(M_i(\mathbf{w})) \rightarrow \min\limits_{\mathbf{w}} }$$\\
 	\bigbreak
 	$\mathcal{L}$ -- функция потерь, невозрастающая, неотрицательная.\\
 	$\mathcal{L}$ должна мажорировать $\left[M_i(\mathbf{w}) < 0 \right]$
 \end{frame}
+}
 
 \begin{frame}\frametitle{Примеры $\mathcal{L}$}
 	\begin{figure}[htbp]
@@ -265,7 +273,7 @@
   \bigbreak
   \bigbreak
   \bigbreak
-	$\bigtriangledown Q(\mathbf{w}) = (\frac{\partial Q(\mathbf{w})}{\partial w_j})_{j=0}^n$\\
+	$\bigtriangledown Q(\mathbf{w}) = \left(\frac{\partial Q(\mathbf{w})}{\partial w_j}\right)_{j=0}^n = \sum\limits_{i=1}^l \mathcal{L}'(\langle \mathbf{w}, \mathbf{x_i} \rangle y_i) \mathbf{x_i} y_i$
 \end{frame}
 }
 
@@ -291,10 +299,6 @@
 \end{frame}
 
 \section{Почему важно обновить $w_0$ и $w_1$ одновременно?}
-
-\begin{frame}\frametitle{Градиент функционала качества $Q$}
-	$$\bigtriangledown Q(\mathbf{w}) = \left(\frac{\partial Q(\mathbf{w})}{\partial w_j}\right)_{j=0}^n = \sum\limits_{i=1}^l \mathcal{L}'(\langle \mathbf{w}, \mathbf{x_i} \rangle y_i) \mathbf{x_i} y_i$$\\
-\end{frame}
 
 \begin{frame}\frametitle{Маленький градиентный шаг}
 	\begin{figure}[htbp]
@@ -394,12 +398,6 @@
 		\item[--] Вообще не брать "хорошие" объекты с $M_i > \mu_+$
 		\item[--] Вообще не брать выбросы с $M_i < \mu_-$
 	\end{itemize}
-\end{frame}
-
-\section{Что делать, если данные не линейно разделимы?}
-
-\begin{frame}
-  \alert{Идея}: На этапе предобработки скомбинировать признаки в полиномиальные признаки.
 \end{frame}
 
 \begin{frame}\frametitle{Плюсы и минусы}
