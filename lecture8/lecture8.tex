@@ -3,9 +3,10 @@
 \subtitle{Лекция 8. Метод опорных векторов.}
 
 \begin{document}	
-\frame{\titlepage}
 
 \section{Разбор летучки}
+
+\frame{\titlepage}
 
 \section{Мотивирующий пример}
 
@@ -19,9 +20,8 @@
 \end{frame}
 
 \begin{frame}{Пример}
-	\begin{figure}[htbp]
-	  \includegraphics[height=190pt, keepaspectratio = true]{images/example}   
-	\end{figure}
+  \centering
+  \includegraphics[width=0.9 \textwidth, keepaspectratio]{images/catdog}
 \end{frame}
 
 \begin{frame}{Постановка задачи}
@@ -69,12 +69,14 @@
 \end{frame}
 
 \begin{frame}{Линейно разделимая выборка}
+  \TODO{картинка}
 	\begin{figure}[htbp]
 	  \includegraphics[height=190pt, keepaspectratio = true]{images/linearly_separable1}   
 	\end{figure}
 \end{frame}
 
 \begin{frame}{Линейно неразделимая выборка}
+  \TODO{картинка}
 	\begin{figure}[htbp]
 	  \includegraphics[height=190pt, keepaspectratio = true]{images/linearly_unseparable}   
 	\end{figure}
@@ -82,15 +84,12 @@
 
 \begin{frame}{Оптимальная разделяющая гиперплоскость}
 	Нормировка: $\min\limits_{i = 1, \dots , l} M_i(\mathbf{w}, w_0) = 1$\\
-	Как выглядит разделяющая полоса?
-	\begin{figure}[htbp]
-	  \includegraphics[height=100pt, keepaspectratio = true]{images/linearly_separable3}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Оптимальная разделяющая гиперплоскость}
-	Нормировка: $\min\limits_{i = 1, \dots , l} M_i(\mathbf{w}, w_0) = 1$\\
-	Разделяющая полоса: $\left\{\mathbf{x}: -1 \leq \langle \mathbf{w}, \mathbf{x}\rangle - w_0 \leq 1\right\}$
+	\onslide<1>{
+    	Как выглядит разделяющая полоса?\\
+	}
+	\onslide<2>{
+    	Разделяющая полоса: $\left\{\mathbf{x}: -1 \leq \langle \mathbf{w}, \mathbf{x}\rangle - w_0 \leq 1\right\}$
+	}
 	\begin{figure}[htbp]
 	  \includegraphics[height=100pt, keepaspectratio = true]{images/linearly_separable3}   
 	\end{figure}
@@ -98,16 +97,12 @@
 
 \begin{frame}{Оптимальная разделяющая гиперплоскость}
 	Разделяющая полоса: $\left\{\mathbf{x}: -1 \leq \langle \mathbf{w}, \mathbf{x}\rangle - w_0 \leq 1\right\}$\\
-	Ширина разделяющей полосы?
-	\begin{figure}[htbp]
-	  \includegraphics[height=100pt, keepaspectratio = true]{images/linearly_separable2}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Оптимальная разделяющая гиперплоскость}
-	Разделяющая полоса: $\left\{\mathbf{x}: -1 \leq \langle \mathbf{w}, \mathbf{x}\rangle - w_0 \leq 1\right\}$\\
-	Ширина разделяющей полосы: $\frac{\langle \mathbf{x_{+}}, \mathbf{w} \rangle + \langle \mathbf{x_{-}}, \mathbf{w} \rangle}{\Vert \mathbf{w} \Vert} = \frac{2}{\Vert \mathbf{w} \Vert} \rightarrow \max$\\
-	
+	\onslide<1>{
+  	  Ширина разделяющей полосы?\\
+  	  }
+  	\onslide<2>{
+    	Ширина разделяющей полосы: $\frac{\langle \mathbf{x_{+}}, \mathbf{w} \rangle + \langle \mathbf{x_{-}}, \mathbf{w} \rangle}{\Vert \mathbf{w} \Vert} = \frac{2}{\Vert \mathbf{w} \Vert} \rightarrow \max$\\
+  	}
 	\begin{figure}[htbp]
 	  \includegraphics[height=100pt, keepaspectratio = true]{images/linearly_separable2}   
 	\end{figure}
@@ -119,6 +114,8 @@
 		{\Vert \mathbf{w} \Vert^2 \rightarrow \min\limits_{\mathbf{w}}}\\
 		M_i(\mathbf{w}, w_0) \geq 1
 	\end{cases}$\\
+	\pause
+	\bigbreak
 	Линейно неразделимая выборка -- надо ослабить имеющиеся условия.\\
 	$\begin{cases}
 		{\frac{1}{2}\Vert \mathbf{w} \Vert^2 + C \sum\limits_{i=1}^l \xi_i \rightarrow \min\limits_{\mathbf{w}, \xi}}\\
@@ -143,15 +140,23 @@
 		\xi_i = 1 - M_i(\mathbf{w}, w_0)
 	\end{cases}$\\
 	\bigbreak
+	\pause
 	Задача безусловной минимизации:\\
 	$ C \sum\limits_{i=1}^l (1 - M_i(\mathbf{w}, w_0)) + \frac{1}{2}\Vert \mathbf{w} \Vert^2 \rightarrow \min\limits_{\mathbf{w}}$
 \end{frame}
 
+\begin{frame}
+  \TODO{регуляризация}
+\end{frame}
+
 \begin{frame}{Минимизация эмпирического риска}
 	${Q(\mathbf{w}) = \sum\limits_{i=1}^l \left[ M_i(\mathbf{w}, w_0) < 0 \right] \leq\sum\limits_{i=1}^l \mathcal{L}(M_i(\mathbf{w}, w_0)) \rightarrow \min\limits_{\mathbf{w}} }$\\\vspace{3mm}
+	\bigbreak
+	\pause
 	Штраф за увеличение нормы вектора весов:\\
 	$Q_{\tau} = Q + \frac{\tau}{2}\Vert \mathbf{w} \Vert^2 \rightarrow \min\limits_{\mathbf{w}}$\\
 	\bigbreak
+	\pause
 	Метод опорных векторов:\\
 	$ C\sum\limits_{i=1}^l (1 - M_i(\mathbf{w}, w_0)) + \frac{1}{2}\Vert \mathbf{w} \Vert^2 \rightarrow \min\limits_{\mathbf{w}}$
 \end{frame}
@@ -196,6 +201,7 @@
 		h_j(x) = 0 , j = 1, \dots, k\\
 	\end{cases}$\\
 	\bigbreak
+	\pause
 	Двойственная задача:\\
 	$\begin{cases}
 		\mathcal{L}(x; \mu, \alpha) = f(x) + \sum\limits_{i = 1}^m \mu_ig_i(x) + \sum\limits_{j = 1}^k \alpha_jh_j(x)\\
@@ -213,6 +219,7 @@
 		\xi_i \geq 0
 	\end{cases}$\\
 	\bigbreak
+	\pause
 	Двойственная задача:\\
 	$\begin{cases}
 		\mathcal{L} = \frac{1}{2} \Vert \mathbf{w} \Vert^2 - \sum\limits_{i = 1}^l \alpha_i (M_i(\mathbf{w}, w_0) - 1) - \sum\limits_{i = 1}^l \xi_i (\alpha_i + \mu_i - C)\\
@@ -225,8 +232,11 @@
 \begin{frame}{Двойственная задача SVM}
 	$\mathcal{L}(\mathbf{w}, w_0, \xi) = \frac{1}{2} \Vert \mathbf{w} \Vert^2 - \sum\limits_{i = 1}^l \alpha_i (M_i(\mathbf{w}, w_0) - 1) - \sum\limits_{i = 1}^l \xi_i (\alpha_i + \mu_i -C)$\\
 	\bigbreak
+	\pause
 	$\frac{\partial \mathcal{L}}{\partial \mathbf{w}}  = \mathbf{w} - \sum\limits_{i=1}^l \alpha_iy_i\mathbf{x_i} = 0 $ \hspace{5mm} $\Rightarrow \mathbf{w} = \sum\limits_{i=1}^l \alpha_iy_i\mathbf{x_i} = 0$\\
+	\pause
 	$\frac{\partial \mathcal{L}}{\partial w_0} = - \sum\limits_{i=1}^l \alpha_iy_i = 0$ \hspace{12mm} $\Rightarrow \sum\limits_{i=1}^l \alpha_iy_i = 0$\\
+	\pause
 	$\frac{\partial \mathcal{L}}{\partial \xi_i} = -\alpha_i - \mu_i + C = 0$ \hspace{6mm}  $\Rightarrow \mu_i + \alpha_i = C$\\
 \end{frame}
 
@@ -245,6 +255,7 @@
 	w_0 = \langle \mathbf{w}, \mathbf{x_i} \rangle - y_i
 	\end{cases}$\\
 	\bigbreak
+	\pause
 	Линейный классификатор:\\
 	$a(\mathbf{x}) = \sign(\sum\limits_{i=1}^l \alpha_iy_i \langle \mathbf{x_i}, \mathbf{x} \rangle - w_0)$
 \end{frame}
@@ -260,17 +271,6 @@
 	  \includegraphics[height=100pt, keepaspectratio = true]{images/classification}   
 	\end{figure}
 
-\end{frame}
-
-\begin{frame}{Двойственная задача SVM}
-	Решение исходной задачи выражается через решение двойственной:\\
-	$\begin{cases}
-	\mathbf{w} = \sum\limits_{i = 1}^l \alpha_iy_i\mathbf{x_i}\\
-	w_0 = \langle \mathbf{w}, \mathbf{x_i} \rangle - y_i
-	\end{cases}$\\
-	\bigbreak
-	Линейный классификатор:\\
-	$a(\mathbf{x}) = \sign(\sum\limits_{i=1}^l \alpha_iy_i \langle \mathbf{x_i}, \mathbf{x} \rangle - w_0)$
 \end{frame}
 
 \begin{frame}{Kernel trick}
@@ -351,7 +351,7 @@
 \end{frame}
 
 \begin{frame}{Достоинства и недостатки}
-	\begin{itemize}
+	\begin{itemize}[<+->]
 		\item[+] Задача имеет единственное решение
 		\item[+] Число опорных векторов определяется автоматически
 	  \bigbreak
