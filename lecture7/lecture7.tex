@@ -24,7 +24,7 @@
 	Целевая функция: $f: X \rightarrow Y$\\
 	\bigbreak
 	Набор моделей алгоритмов $A_t: X \rightarrow Y$, $t \in T$ \\
-	Методы обучения $\mu_t: X \times Y \rightarrow A_t$, $t \in T$ \\
+	Методы обучения $\mu: (X \times Y)^l \rightarrow A_t$, $t \in T$ \\
 	\bigbreak
 	\alert{Задача}: Найти алгоритм $a \in A_t$  с наилучшей обобщающей способностью
 \end{frame}
@@ -120,13 +120,10 @@
 }
 
 {\foot{loss function}
-\begin{frame}{Функция потерь}
-  Задача классификации:\\
-  $\mathcal{L}(a, x_i) = [a(x_i) \neq y_i]$ -- индикатор ошибки\\
-  \bigbreak
-  Задача регрессии:\\
-  $\mathcal{L}(a, x_i) = \vert a(x_i) - y_i \vert$ -- абсолютное значение ошибки\\
-  $\mathcal{L}(a, x_i) = (a(x_i) - y_i)^2$ -- квадратичная ошибка\\
+\begin{frame}\frametitle{Примеры $\mathcal{L}$}
+	\begin{figure}[htbp]
+	  \includegraphics[height=160pt, keepaspectratio = true]{images/l}
+	\end{figure}
 \end{frame}
 }
 
@@ -164,6 +161,35 @@
 %  \textcolor{blue}{$0.63$}
 %\end{frame}
 
+{\foot{Learning curve}
+\begin{frame}{Кривая обучения}  
+  \includegraphics[width=\textwidth]{images/learning_curve}
+\end{frame}
+}
+
+\section{Почему случается переобучение?}
+
+\begin{frame}\frametitle{Проблема переобучения}
+	$a(\mathbf{x}, \mathbf{w}) = sign(\langle \mathbf{w}, \mathbf{x}\rangle)$\\
+	\bigbreak
+	\pause
+	Линейная зависимость признаков:\\
+	$\forall \mathbf{x} \exists \mathbf{u}: \langle \mathbf{u}, \mathbf{x}\rangle = 0$\\
+	$\Rightarrow \forall \gamma: a'(\mathbf{x}, \mathbf{w}) = sign(\langle \mathbf{w} + \gamma \mathbf{u}, \mathbf{x}\rangle)$\\
+	\bigbreak
+	\pause
+	Алгоритм $a'$ работает точно также как исходный $a$.\\
+	А значит мы можем получить любое решение из семейства $\mathbf{w} + \gamma \mathbf{u}$
+\end{frame}
+
+\begin{frame}\frametitle{Проблема переобучения}
+	\begin{itemize}
+		\item[--] Слишком мало объектов
+		\item[--] Слишком много признаков
+		\item[--] Линейная зависимость признаков
+	\end{itemize}
+\end{frame}
+
 \begin{frame}{Внешний функционал}  
   $$E_{in} = Q_{\mu}(X^l) = Q(\mu(X^l), X^l)$$\\
   \bigbreak
@@ -177,12 +203,6 @@
     Сильная зависимость от разбиения $X^l = X^t \sqcup X^k$
   }
 \end{frame}
-
-{\foot{Learning curve}
-\begin{frame}{Кривая обучения}  
-  \includegraphics[width=\textwidth]{images/learning_curve}
-\end{frame}
-}
 
 {\foot{Полный скользящий контроль, cross-validation}
 \begin{frame}{Кроссвалидация}  
@@ -236,9 +256,9 @@
 \begin{frame}{Как использовать аналитические оценки}  
   \begin{enumerate}
     \item Получить верхнюю оценку вероятности переобучения $R_{\varepsilon}$\\
-      $$R_{\varepsilon}(\mu, X^l) = P[E_{out} - E_{in} \geq \varepsilon] \leq \eta(\varepsilon, A)$$
-    \item Тогда для любых $X^l$, $A$, $\mu$ и $\eta$ с вероятностью не менее $1-\eta$ справедливо\\
-      $$E_{out} \leq E_{in} + \varepsilon(\eta, A)$$
+      $$R_{\varepsilon}(\mu, X^l) = P[E_{out} - E_{in} > \varepsilon] \leq \eta(\varepsilon, A)$$
+    \item Тогда с вероятностью не менее $1-\eta$ справедливо\\
+      $$E_{out} < E_{in} + \varepsilon(\eta, A)$$
     \item Будем оптимизивать \\
       $$E_{in} + \varepsilon(\eta, A) \rightarrow \min\limits_{\mu}$$
   \end{enumerate}
@@ -250,7 +270,7 @@
 
 \begin{frame}{Неравенство Бернштейна-Хёфдинга}
   \begin{minipage}[t]{0.5\linewidth}
-    $$P[\vert \nu - \mu \vert < \varepsilon ] \leq 2 e^{-2 \varepsilon^2 l} $$\\
+    $$P[\vert a - b \vert > \varepsilon ] \leq 2 e^{-2 \varepsilon^2 l} $$\\
   \end{minipage}%
   \begin{minipage}{0.45\textwidth}
     \begin{center}
@@ -261,28 +281,28 @@
 
   \end{minipage}%
     \bigbreak
-    $\nu$ -- доля оранжевых шаров в выборке размера $l$\\
-    $\mu$ -- истинная доля оранжевых шаров в данных 
+    $a$ -- доля оранжевых шаров в выборке размера $l$\\
+    $b$ -- истинная доля оранжевых шаров 
   
 \end{frame}
 
-\section{Какое отношение это имеет к нашим гипотезам?}
+\section{Какое отношение это имеет к нашим моделям?}
 
 \begin{frame}
   Каждый шар это объект $x$ из пространства $X$.\\
   Неизвестная целевая функция $f$.\\
   \bigbreak
-  Оранжевый шар -- модель $h$ верна ($h(x) = f(x)$)\\
-  Зелёный шар -- модель $h$ не верна ($h(x) \neq f(x)$)\\
+  Зелёный шар -- модель $h$ верна ($h(x) \neq f(x)$)\\  
+  Оранжевый шар -- модель $h$ не верна ($h(x) = f(x)$)\\  
   \bigbreak
-  По выборке $X^l$ можем оценить $\nu$ -- долю объектов, на которых верна модель.
+  По выборке $X^l$ можем оценить долю объектов, на которых модель ошибается.
 \end{frame}
 
 \begin{frame}{$E_{in}$ и $E_{out}$}
-  $E_{in}(h) = \nu$ - доля объектов в выборке $X^l$, на которых $h$ верна\\
-  $E_{out}(h) = \mu$ - доля объектов во всём множестве $X$, на которых $h$ верна\\
+  $E_{in}(h) = a$ - доля объектов в выборке $X^l$, на которых $h$ ошибается\\
+  $E_{out}(h) = b$ - доля объектов во всём множестве $X$, на которых $h$ ошибается\\
   \bigbreak
-  $$P[\vert E_{in}(h) - E_{out}(h) \vert < \varepsilon ] \leq 2 e^{-2 \varepsilon^2 l} $$\\
+  $$P[\vert E_{in}(h) - E_{out}(h) \vert > \varepsilon ] \leq 2 e^{-2 \varepsilon^2 l} $$\\
   \bigbreak
   Неравенство выполняется для каждой модели.
 \end{frame}
@@ -311,13 +331,13 @@
 \begin{frame} {К нашей задаче}
   \includegraphics[width=\textwidth, keepaspectratio]{images/bins}
   
-  На $h_M$ модели наблюдаем переобучение.
+  На $h_t$ модели наблюдаем переобучение.
 \end{frame}
 
 \begin{frame} {Решение}
   \begin{align*}
-    P[\vert E_{in}(a) - E_{out}(a) \vert < \varepsilon ] &\leq \sum\limits_{m=1}^M P[\vert E_{in}(h) - E_{out}(h) \vert < \varepsilon ] \\
-    & \leq 2\textcolor{orange}{M} e^{-2 \varepsilon^2 l} 
+    P[\vert E_{in}(a) - E_{out}(a) \vert > \varepsilon ] &\leq \sum\limits_{t=1}^T P[\vert E_{in}(h) - E_{out}(h) \vert > \varepsilon ] \\
+    & \leq 2\textcolor{orange}{T} e^{-2 \varepsilon^2 l} 
   \end{align*}
 \end{frame}
 
@@ -341,11 +361,11 @@
 %\end{frame}
 %}
 
-\begin{frame}{Полная и поточечная ошибка}  
-  $$E_{in}(h, X^l) = \frac{1}{l} \sum\limits_{i=1}^l \mathcal{L}(h, x_i)$$\\
-  \bigbreak
-  $$E_{out} = \mathbb{E}_x \mathcal{L}(h, x) $$
-\end{frame}
+%\begin{frame}{Полная и поточечная ошибка}  
+%  $$E_{in}(h, X^l) = \frac{1}{l} \sum\limits_{i=1}^l \mathcal{L}(h, x_i)$$\\
+%  \bigbreak
+%  $$E_{out} = \mathbb{E}_x \mathcal{L}(h, x) $$
+%\end{frame}
 
 %\begin{frame}{Шум в наблюдениях}  
 %  Что делать, если два абсолютно одинаковых объекта выборки (с точки зрения параметров) имеют разные значения $y$?
@@ -360,24 +380,24 @@
 %  $f(x) = \mathbb{E}(y|x)$ + шум $y - f(x)$
 %\end{frame}
 
-\begin{frame}{Обучение в терминах вероятности}  
-  В идеале хотим достичь $E_{out}(a) = 0$\\
-  \bigbreak
-  Пытаемся достичь $E_{in}(a) \approx E_{out}(a)$ и $E_{in}(a) = 0$
-  \bigbreak
-  \pause
-  Два вопроса:\\
-  \begin{enumerate}
-    \item Можно ли судить о $E_{out}$ по $E_{in}$?
-    \item Как уменьшить $E_{in}$?
-  \end{enumerate}
-\end{frame}
+%\begin{frame}{Обучение в терминах вероятности}  
+%  В идеале хотим достичь $E_{out}(a) = 0$\\
+%  \bigbreak
+%  Пытаемся достичь $E_{in}(a) \approx E_{out}(a)$ и $E_{in}(a) = 0$
+%  \bigbreak
+%  \pause
+%  Два вопроса:\\
+%  \begin{enumerate}
+%    \item Можно ли судить о $E_{out}$ по $E_{in}$?
+%    \item Как уменьшить $E_{in}$?
+%  \end{enumerate}
+%\end{frame}
+%
+%\begin{frame}{Сложность модели}  
+%  \includegraphics[ width=\textwidth, keepaspectratio]{images/vc}
+%\end{frame}
 
-\begin{frame}{Сложность модели}  
-  \includegraphics[ width=\textwidth, keepaspectratio]{images/vc}
-\end{frame}
-
-\section{Какое количество гипотез в нашем пространстве $\mathcal{H}$?}
+\section{Какое количество моделей в нашем пространстве $\mathcal{H}$?}
 
 \begin{frame}{Близость моделей} 
   \centering 
@@ -415,6 +435,7 @@
 {\foot{коэффициент разнообразия}
 \begin{frame}{Дихотомии}  
   $$P(\vert E_{in}(a) - E_{out}(a) \vert > \varepsilon) \leq 2 M e^{-2\varepsilon^2l}$$  \\
+  \bigbreak
   Наш набор моделей $\mathcal{H}$ может породить $\vert \mathcal{H}(x_1,\dots, x_l) \vert$ дихотомий.\\
   $$\vert \mathcal{H}(x_1,\dots, x_l) \vert \leq 2^l$$\\
   При этом сам набор моделей может быть бесконечным.
@@ -429,7 +450,7 @@
 \end{frame}
 
 \begin{frame} {Функция роста $m_{\mathcal{H}(l)}$}
-  Гипотезы:\\  
+  Модели:\\  
   \begin{enumerate}
     \item Луч на множестве точек: $m_{\mathcal{H}}(l) = l+1 $
     \item Интервал на множестве точек: $m_{\mathcal{H}}(l) = C_{l+1}^2 + 1$
@@ -490,6 +511,13 @@
 \end{frame}
 
 \appendix
+
+\begin{frame}\frametitle{Что почитать по этой лекции}
+  \begin{itemize}
+    \item \href{http://work.caltech.edu/telecourse.html}{Professor Yaser Abu-Mostafa MOOC}
+    \item Tom Mitchell "Machine Learning" Chapter 4
+  \end{itemize}
+\end{frame}
 
 \begin{frame}\frametitle{На следующей лекции}
 	\begin{itemize}
