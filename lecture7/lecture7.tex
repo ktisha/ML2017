@@ -261,12 +261,12 @@
 
 \begin{frame}{Как использовать аналитические оценки}  
   \begin{enumerate}
-    \item Получить верхнюю оценку вероятности переобучения $R_{\varepsilon}$\\
-      $$R_{\varepsilon}(\mu, X^l) = P[E_{out} - E_{in} > \varepsilon] \leq \eta(\varepsilon, A)$$
+    \item Получить верхнюю оценку вероятности переобучения\\
+      $$P[E_{out} - E_{in} > \varepsilon] \leq \eta(\varepsilon)$$
     \item Тогда с вероятностью не менее $1-\eta$ справедливо\\
-      $$E_{out} < E_{in} + \varepsilon(\eta, A)$$
+      $$E_{out} < E_{in} + \varepsilon(\eta)$$
     \item Будем оптимизивать \\
-      $$E_{in} + \varepsilon(\eta, A) \rightarrow \min\limits_{\mu}$$
+      $$E_{in} + \varepsilon(\eta) \rightarrow \min\limits_{\mu}$$
   \end{enumerate}
 \end{frame}
 
@@ -516,10 +516,6 @@
   $$P(E_{in}(a) - E_{out}(a) > \varepsilon) \leq 2 l^{k-1} e^{-2 \varepsilon^2 l}$$\\
 \end{frame}
 
-\begin{frame}{Сложность модели}  
-  \includegraphics[ width=\textwidth, keepaspectratio]{images/vc}
-\end{frame}
-
 \begin{frame}{Неравенство Вапника-Червоненкиса}  
   $$P(E_{in}(a) - E_{out}(a) > \varepsilon) \leq 4 m_{A}(2l) e^{-\frac{1}{8}\varepsilon^2l}$$\\
   \bigbreak
@@ -528,6 +524,11 @@
   Для линейных классификаторов $d_{VC}$ = \# number of features.  
 \end{frame}
 
+\begin{frame}{Сложность модели}  
+  \includegraphics[ width=\textwidth, keepaspectratio]{images/vc}
+\end{frame}
+
+{\foot{$L_2$-регуляризация, ридж, weight-decay}
 \begin{frame}\frametitle{Пример регуляризации в градиентном спуске}
 	Функционал с регуляризацией:\\
 	$Q_{\tau} = Q + \frac{\tau}{2}\Vert \mathbf{w} \Vert^2 \rightarrow \min\limits_{\mathbf{w}}$\\
@@ -538,6 +539,7 @@
 	Градиентный шаг:\\
 	$\mathbf{w} = \mathbf{w}(1-\alpha \tau) - \alpha \bigtriangledown Q(\mathbf{w})$\\
 \end{frame}
+}
 
 \begin{frame}[standout]
   Вопросы?
@@ -549,6 +551,7 @@
   \begin{itemize}
     \item \href{http://work.caltech.edu/telecourse.html}{Professor Yaser Abu-Mostafa MOOC}
     \item Tom Mitchell "Machine Learning" Chapter 4
+    \item  Hastie, T., Tibshirani R. "The Elements of Statistical Learning" Chapter 7.9 
   \end{itemize}
 \end{frame}
 
