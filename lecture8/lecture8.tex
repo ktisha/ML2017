@@ -142,7 +142,6 @@
 	\bigbreak
 	\pause
 	Возьмем $\mathcal{L}_i(w)$ -- средний квадрат ошибки:\\
-	\TODO{заменить на классификацию}
 	$$\mathcal{L}_i(w) = \frac{1}{2} \sum\limits_{m=1}^M (a^m(x_i) - y_i^m)^2$$\\
 	\bigbreak
 	\pause
@@ -238,7 +237,17 @@
 	\begin{itemize}[<+->]
 		\item Выбор функций активации в каждом нейроне
 		\item Выбор числа слоёв и числа нейронов
-		\item Выбор значимых связей
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Примеры функций активации}
+	\begin{itemize}[<+->]
+		\item Сигмоида
+		$$\sigma(x) = \frac{1}{1 + e^{-x}}$$
+		\item Гиперболический тангенс
+		$$\tanh(x) = 2\sigma(2x) - 1$$
+		\item Rectified Linear Unit
+		$$f(x) = \max(0, x)$$
 	\end{itemize}
 \end{frame}
 
@@ -395,6 +404,13 @@
 \end{frame}
 
 \appendix
+
+\begin{frame}\frametitle{Что почитать по этой лекции}
+  \begin{itemize}
+    \item \href{http://cs231n.github.io/neural-networks-1/}{Andrej Karpathy lecture notes (cs231n)}
+    \item Tom Mitchell "Machine Learning" Chapter 4.5
+  \end{itemize}
+\end{frame}
 
 \begin{frame}{На следующей лекции}
 	\begin{itemize}
