@@ -91,12 +91,12 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Практические рекомендации}
-	\begin{enumerate}[--]
-    	\item Двух-трёх слоёв обычно достаточно.
-	  \item Можно достраивать нейроны в произвольных местах сети по необходимости.
-	\end{enumerate}
-\end{frame}
+%\begin{frame}{Практические рекомендации}
+%	\begin{enumerate}[--]
+%    	\item Двух-трёх слоёв обычно достаточно.
+%	  \item Можно достраивать нейроны в произвольных местах сети по необходимости.
+%	\end{enumerate}
+%\end{frame}
 
 \begin{frame}{Многослойная нейронная сеть}
 	Пусть $Y = \mathbb{R}^M$, два слоя в сети.\\
@@ -184,14 +184,18 @@
 \begin{frame}{Алгоритм обратного распространения ошибки}
   \begin{algorithmic}[1]
     \Function{Backpropagation}{$X^l$, $H$, $\alpha$, $\eta$}
+     \State \dots
      \MRepeat [пока $Q$ не стабилизируются] 
        \State Взять $x_i$ из $X^l$
+       \pause
        \State 	$\begin{cases}
 	\hspace{5mm} u^h_i = \sigma_h (\sum\limits_{j=0}^J w_{jh} x_i^j), \hspace{4mm} h = 1, \dots, H\\
 	\hspace{5mm} a^m_i = \sigma_m (\sum\limits_{h=0}^H w_{hm} u_i^h), \hspace{4mm} \varepsilon_i^m = a_i^m - y_i^m, \hspace{4mm} m = 1, \dots, M\\
-	\hspace{5mm} \mathcal{L}_i = \sum\limits_{m=1}^M (\varepsilon_i^m)^2\\
+	\hspace{5mm} \mathcal{L}_i = \frac{1}{2} \sum\limits_{m=1}^M (\varepsilon_i^m)^2\\
 	\end{cases}$\\
+	\pause
 	$\begin{cases} \hspace{5mm} \varepsilon_i^h = \sum\limits_{m=1}^M \varepsilon_i^m \sigma'_m w_{hm}, \hspace{4mm} h = 1, \dots, H\end{cases}$\\
+	\pause
 	$\begin{cases} \hspace{5mm} w_{hm} = w_{hm} - \alpha \varepsilon_i^m \sigma'_m u_i^h, \hspace{4mm} h = 0, \dots, H, \hspace{4mm} m = 1, \dots, M\\
 	\hspace{5mm} w_{jh} = w_{jh} - \alpha \varepsilon_i^h \sigma'_h x_i^j, \hspace{4mm} j = 0, \dots, n, \hspace{4mm} h = 1, \dots, H\\
 	\hspace{5mm} Q = (1 - \eta)Q + \eta \mathcal{L}_i \end{cases}$
@@ -283,7 +287,6 @@
 \section{Практическое применение}
 
 \begin{frame}{Специальные нейронные сети}
-	Большинство используемых на сегодняшний день методов придуманы в 80-х.\\
 	Почему их снова стали использовать?\\
 	\pause
 	\begin{enumerate}[--]
@@ -294,50 +297,31 @@
 	\end{enumerate}
 \end{frame}
 
-\begin{frame}{Как было раньше?}
-	Ученые придумывали признаки. На них обучали классификатор.\\
-	
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/old_approach}   
-	\end{figure}
-\end{frame}
+\section{Свёрточные сети}
 
-\begin{frame}{Deep learning}
-  Извлечение признаков во время обучения.\\
-
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/deep_learning}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Сверточные нейросети}
-	Архитектура сети выбирается таким образом, чтобы заложить в нее априорные знания из предметной области:\\
-	\pause
-	\begin{enumerate}[<+->]
-		\item Пиксель изображения сильнее связан с соседними пикселями (локальная корреляция)
+{\foot{http://www.cs.nyu.edu/~yann/talks/lecun-ranzato-icml2013.pdf}
+\begin{frame}{Свёрточные сети}
+  \begin{enumerate}
+    \item Пиксель изображения сильнее связан с соседними пикселями (локальная корреляция)
 		\item Объект может встретиться в любой части изображения (инвариантность к перемещению)
-	\end{enumerate}
+  \end{enumerate}
+  \pause
+  \begin{enumerate}
+    \item Каждый из нейронов подсоединен только к небольшой окрестности изображения
+    \item Нейроны обладают одними и теми же весами 
+  \end{enumerate}
 \end{frame}
+}
 
 \begin{frame}{Локально-связанный слой}
-	Закладываем в архитектуру сети априорное знание о том, что
-	соседние пиксели изображения сильнее связаны между собой.\\
-	
 	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/local_layer}   
+	  \includegraphics[height=200pt, keepaspectratio = true]{images/local_layer}   
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Инвариантность к перемещению}
-	Операция свертки.\\
+\begin{frame}{Операция свертки}
 	\begin{figure}[htbp]
 	  \includegraphics[height=200pt, keepaspectratio = true]{images/conv}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Инвариантность к перемещению}
-	\begin{figure}[htbp]
-	  \includegraphics[height=200pt, keepaspectratio = true]{images/conv2}   
 	\end{figure}
 \end{frame}
 
@@ -366,7 +350,7 @@
 \end{frame}
 
 \begin{frame}{Фильтр Гаусса}
-	\begin{figure}[htbp]
+ \begin{figure}[htbp]
 	  \includegraphics[height=150pt, keepaspectratio = true]{images/gauss}   
 	\end{figure}
 \end{frame}
@@ -377,27 +361,99 @@
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Сверточный слой}
-  Локально-связанный слой с одинаковыми весами в разных частях изображения.\\
-  Закладывает в сеть априорное знание о том, что объект может встретиться в любой части изображения.
+{\foot{Convolutional neural net}
+\begin{frame}{Свёрточная сеть}
+  Извлечение признаков во время обучения.\\
+
 	\begin{figure}[htbp]
-	  \includegraphics[height=180pt, keepaspectratio = true]{images/conv_layer}   
+	  \includegraphics[height=150pt, keepaspectratio = true]{images/deep_learning}   
 	\end{figure}
+\end{frame}
+}
+
+{\foot{https://www.cs.toronto.edu/~fritz/absps/imagenet.pdf}
+\begin{frame}{ImageNet}
+  \centering
+  \includegraphics[width=0.9 \textwidth, keepaspectratio = true]{images/imagenet}   
+\end{frame}
+}
+
+\begin{frame}{ImageNet}
+  \centering
+  \includegraphics[width=0.9 \textwidth, keepaspectratio = true]{images/top5}   
 \end{frame}
 
-\begin{frame}{Subsampling слой}
-	Добавляет устойчивости к небольшим деформациям.\\
-	Max-subsampling аналогичен сверточному слою, в котором операция «+» заменена на «max»
-	\begin{figure}[htbp]
-	  \includegraphics[height=180pt, keepaspectratio = true]{images/subsampling}   
-	\end{figure}
+\begin{frame}{Похожие изображения}
+  \centering
+  \includegraphics[width=0.9 \textwidth, keepaspectratio = true]{images/similar}   
 \end{frame}
 
-\begin{frame}{Сверточная нейросеть}
-	\begin{figure}[htbp]
-	  \includegraphics[height=75pt, keepaspectratio = true]{images/convnet}   
-	\end{figure}
+\begin{frame}{Похожие изображения}
+  \centering
+  \includegraphics[width=\textwidth, keepaspectratio = true]{images/similar2}   
 \end{frame}
+
+{\foot{https://arxiv.org/pdf/1508.06576v1.pdf}
+\begin{frame}{Стилизация изображений}
+  \centering
+  \includegraphics[width=\textwidth, keepaspectratio = true]{images/style}   
+\end{frame}
+}
+
+\section{Рекуррентные нейронные сети}
+
+\begin{frame}{RNN}
+  \centering
+  \includegraphics[width=0.9 \textwidth, keepaspectratio = true]{images/RNN}   
+\end{frame}
+
+\begin{frame}{Пример}
+  Текст состоит из последовательности слов. Хотелось бы подавать слова на вход нейросети по очереди, но так, чтобы сеть помнила контекст.
+\end{frame}
+
+{\foot{http://karpathy.github.io/2015/05/21/rnn-effectiveness/}
+\begin{frame}{Шекспир}
+  \centering
+  \includegraphics[width=0.9 \textwidth, keepaspectratio = true]{images/shakespeare}   
+\end{frame}
+}
+
+{\foot{http://karpathy.github.io/2015/05/21/rnn-effectiveness/}
+\begin{frame}{Генерация кода}
+  \centering 
+  \includegraphics[width=0.9 \textwidth, keepaspectratio = true]{images/code}   
+\end{frame}
+}
+
+\begin{frame}{Автоматический перевод}
+  \centering 
+  \includegraphics[width=0.9 \textwidth, keepaspectratio = true]{images/translate}   
+\end{frame}
+
+\section{RNN + CNN}
+
+{\foot{http://www.cs.toronto.edu/~rkiros/adv\_L.html}
+\begin{frame}{Подпись к изображениям}
+  \centering 
+  \includegraphics[width=0.9 \textwidth, keepaspectratio = true]{images/subscr}   
+\end{frame}
+}
+
+{\foot{http://www.cs.toronto.edu/~rkiros/adv\_L.html}
+\begin{frame}{Подпись к изображениям}
+  \centering 
+  \includegraphics[width=0.9 \textwidth, keepaspectratio = true]{images/image_gen}   
+\end{frame}
+}
+
+\section{Generative Adversarial Networks}
+
+{\foot{https://arxiv.org/pdf/1701.00160.pdf}
+\begin{frame}{Adversarial Networks}
+  \centering 
+  \includegraphics[height=0.9 \textheight, width=0.9 \textwidth, keepaspectratio = true]{images/GAN}   
+\end{frame}
+}
 
 \begin{frame}[standout]
   Вопросы?
