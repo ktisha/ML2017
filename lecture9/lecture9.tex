@@ -10,65 +10,18 @@
 
 \frame{\titlepage}
 
-\section{Мотивирующий пример}
-
 \begin{frame}{Постановка задачи}
 	$X = \mathbb{R}^n$, ${Y = \left\{ -1, + 1\right\}}$\\
 	${X^l = (x_i, y_i)_{i = 1}^l}$ -- обучающая выборка\\
-	\bigbreakНайти:\\
-	$(n-1)$-мерную гиперплоскость, которая разделяет данные как можно лучше.
-	\\ \bigbreak
-	Как можно лучше -- это как?
-\end{frame}
-
-\begin{frame}{Пример}
-  \centering
-  \includegraphics[width=0.9 \textwidth, keepaspectratio]{images/catdog}
-\end{frame}
-
-\begin{frame}{Постановка задачи}
-	Как можно лучше:\\
-	Два разделенных класса должны лежать как можно дальше от разделяющей гиперплоскости.\\
-\end{frame}
-
-\section{Опорная гиперплоскость}
-
-\begin{frame}{Опорная гиперплоскость}
-	Гиперплоскость называется опорной для множества точек
-	$X$, если все точки из $X$ лежат по одну сторону от этой гиперплоскости.\\\bigbreak
-	${f(\mathbf{x},\mathbf{w}, w_0) = \langle \mathbf{x}, \mathbf{w}\rangle - w_0 = 0}$\\
-	\bigbreak
-	Как посчитать расстояние от точки до гиперплоскости?
-\end{frame}
-
-\begin{frame}{Опорная гиперплоскость}
-	Гиперплоскость называется опорной для множества точек
-	$X$, если все точки из $X$ лежат по одну сторону от этой гиперплоскости.\\\bigbreak
-	${f(\mathbf{x},\mathbf{w}, w_0) = \langle \mathbf{x}, \mathbf{w}\rangle - w_0 = 0}$\\
-	\bigbreak
-	Расстояние от точки до гиперплоскости:
-	$\frac{\vert f(\mathbf{x},\mathbf{w}, w_0) \vert}{\Vert \mathbf{w} \Vert}$
-\end{frame}
-
-\begin{frame}{Максимизиция отступа}
-	\alert{Идея}: Максимизировать отступ между двумя параллельными опорными плоскостями, а затем провести параллельную им плоскость на равных расстояниях.\\
-\end{frame}
-
-\begin{frame}{Постановка задачи}
-	${X^l = (x_i,y_i)_{i = 1}^l}$\\ 
-	${Y=\left\{-1,+1\right\}}$\\
-	\bigbreak
+  \bigbreak
 	Линейный классификатор:\\
-	$a(\mathbf{x}, \mathbf{w}) = sign(\langle \mathbf{w}, \mathbf{x}\rangle - w_0)$\\
+	$a(\mathbf{x}, \mathbf{w}) = sign(\langle \mathbf{w}, \mathbf{x}\rangle - w_0)$\\	
+	\bigbreak
+	Найти:\\
+	$(n-1)$-мерную гиперплоскость, которая разделяет данные как можно лучше.
 \end{frame}
 
 \section{Линейно разделимая выборка}
-
-\begin{frame}{Линейно разделимая выборка}
-	Выборка линейно разделима, если отступ на каждом объекте положителен.\\
-	\bigbreak
-	$\exists \mathbf{w}, w_0 : M_i(\mathbf{w}, w_0) = y_i  (\langle \mathbf{w}, \mathbf{x_i} \rangle - w_0) > 0$, i=1, \dots , l\\
-\end{frame}
 
 \begin{frame}{Линейно разделимая выборка}
 	\begin{figure}[htbp]
@@ -82,8 +35,54 @@
 	\end{figure}
 \end{frame}
 
+\begin{frame}{Линейно разделимая выборка}
+	Выборка линейно разделима, если отступ на каждом объекте положителен.\\
+	\bigbreak
+	$\exists \mathbf{w}, w_0 : M_i(\mathbf{w}, w_0) = y_i  (\langle \mathbf{w}, \mathbf{x_i} \rangle - w_0) > 0, \qquad i=1, \dots , l$\\
+	\bigbreak
+	\pause
+  Нормировка: $\min\limits_{i = 1, \dots , l} M_i(\mathbf{w}, w_0) = 1$\\
+\end{frame}
+
+\begin{frame}{Разделяющая гиперплоскость}
+  \centering
+  \includegraphics[width=0.9 \textwidth, keepaspectratio]{images/catdog}
+\end{frame}
+
+\begin{frame}{Максимизиция отступа}
+	\alert{Идея}: Будем искать такую разделяющую поверхность, которая обеспечивает разделяющую полосу максимальной ширины.\\
+\end{frame}
+
+\begin{frame}{Пример}
+  \centering
+  \includegraphics[width=0.9 \textwidth, keepaspectratio]{images/margin}
+\end{frame}
+
+\begin{frame}{Пример}
+  \centering
+  \includegraphics[width=0.9 \textwidth, keepaspectratio]{images/margin1}
+\end{frame}
+
+\section{Опорная гиперплоскость}
+
+\begin{frame}{Опорная гиперплоскость}
+	Гиперплоскость называется опорной для множества точек
+	$X$, если все точки из $X$ лежат по одну сторону от этой гиперплоскости.\\\bigbreak
+	${a(\mathbf{x},\mathbf{w}, w_0) = \langle \mathbf{x}, \mathbf{w}\rangle - w_0 = 0}$\\
+	\bigbreak
+	\onslide<1>{
+    	Как посчитать расстояние от точки до гиперплоскости?
+  }
+  \onslide<2>{
+    Расстояние от точки до гиперплоскости = $\frac{\vert a(\mathbf{x},\mathbf{w}, w_0) \vert}{\Vert \mathbf{w} \Vert}$
+  }
+\end{frame}
+
+\begin{frame}{Максимизиция отступа}
+	\alert{Идея}: Максимизировать отступ между двумя параллельными опорными плоскостями, а затем провести параллельную им плоскость на равных расстояниях.\\
+\end{frame}
+
 \begin{frame}{Оптимальная разделяющая гиперплоскость}
-	Нормировка: $\min\limits_{i = 1, \dots , l} M_i(\mathbf{w}, w_0) = 1$\\
 	\onslide<1>{
     	Как выглядит разделяющая полоса?\\
 	}
@@ -111,16 +110,16 @@
 \begin{frame}{Оптимальная разделяющая гиперплоскость}
 	Линейно разделимая выборка:\\
 	$\begin{cases}
-		{\Vert \mathbf{w} \Vert^2 \rightarrow \min\limits_{\mathbf{w}}}\\
-		M_i(\mathbf{w}, w_0) \geq 1
+		{\frac{1}{2} \Vert \mathbf{w} \Vert^2 \rightarrow \min\limits_{\mathbf{w}}}\\
+		M_i(\mathbf{w}, w_0) \geq 1   \qquad i = 1, \dots, l
 	\end{cases}$\\
 	\pause
 	\bigbreak
 	Линейно неразделимая выборка -- надо ослабить имеющиеся условия.\\
 	$\begin{cases}
-		{\frac{1}{2}\Vert \mathbf{w} \Vert^2 + C \sum\limits_{i=1}^l \xi_i \rightarrow \min\limits_{\mathbf{w}, \xi}}\\
-		M_i(\mathbf{w}, w_0) \geq 1 - \xi_i\\
-		\xi_i \geq 0
+		{\frac{1}{2}\Vert \mathbf{w} \Vert^2 + \textcolor{orange}{C \sum\limits_{i=1}^l \xi_i} \rightarrow \min\limits_{\mathbf{w}, \xi}}\\
+		M_i(\mathbf{w}, w_0) \geq 1 - \textcolor{orange}{\xi_i} \qquad i = 1, \dots, l\\
+		\textcolor{orange}{\xi_i \geq 0} \qquad i = 1, \dots, l
 	\end{cases}$\\
 \end{frame}
 
@@ -190,6 +189,7 @@
 \end{frame}
 }
 
+{\foot{Функция Лагранжа}
 \begin{frame}{Условие Каруша-Куна-Такера}
 	$\begin{cases}
 		f(x) \rightarrow \min\\
@@ -207,6 +207,7 @@
 		\mu_ig_i(x) = 0
 	\end{cases}$\\
 \end{frame}
+}
 
 \begin{frame}{Двойственная задача SVM}
 	$\begin{cases}
@@ -219,9 +220,9 @@
 	Двойственная задача:\\
 	$\begin{cases}
 		\mathcal{L} = \frac{1}{2} \Vert \mathbf{w} \Vert^2 - \sum\limits_{i = 1}^l \alpha_i (M_i(\mathbf{w}, w_0) - 1) - \sum\limits_{i = 1}^l \xi_i (\alpha_i + \mu_i - C)\\
-		\xi_i \geq 0,   \alpha_i \geq 0,    \mu_i \geq 0\\
-		\alpha_i = 0$ либо $M_i(\mathbf{w}, w_0) = 1 - \xi_i , i = 1, \dots, l\\
-		\mu_i = 0 $ либо $\xi_i = 0, i = 1, \dots, l
+		\xi_i \geq 0, \qquad  \alpha_i \geq 0,  \qquad  \mu_i \geq 0\\
+		\alpha_i = 0$ либо $M_i(\mathbf{w}, w_0) = 1 - \xi_i ,  \qquad i = 1, \dots, l\\
+		\mu_i = 0 $ либо $\xi_i = 0, \qquad i = 1, \dots, l
 	\end{cases}$
 \end{frame}
 
@@ -266,13 +267,14 @@
 	\begin{figure}[htbp]
 	  \includegraphics[height=100pt, keepaspectratio = true]{images/classification}   
 	\end{figure}
-
 \end{frame}
+
+\section{Kernel trick}
 
 \begin{frame}{Kernel trick}
 	$\langle \mathbf{x_i}, \mathbf{x} \rangle \rightarrow K(\mathbf{x_i}, \mathbf{x})$\\
 	\bigbreak
-	$\psi: X \rightarrow H$, $H$ - Гильбертово пространство\\
+	$\psi: X \rightarrow H$, \qquad $H$ - Гильбертово пространство\\
 	$K(\mathbf{x_i}, \mathbf{x}) = \langle \mathbf{\psi(x_i)}, \mathbf{\psi(x)} \rangle_H$
 	\begin{itemize}
 		\item[--] $K(\mathbf{x_i}, \mathbf{x}) = K(\mathbf{x}, \mathbf{x_i})$
@@ -346,6 +348,17 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{Примеры ядер}
+	\begin{itemize}
+		\item[--] $K(\mathbf{x_i}, \mathbf{x}) = \langle \mathbf{x_i}, \mathbf{x} \rangle^d$
+		\item[--] $K(\mathbf{x_i}, \mathbf{x}) = (\langle \mathbf{x_i}, \mathbf{x} \rangle + 1)^d$
+		\item[--] $K(\mathbf{x_i}, \mathbf{x}) = \sigma (\langle \mathbf{x_i}, \mathbf{x} \rangle)$\\
+		  Двуслойная нейросеть с функцией активации $\sigma$
+		\item[--] $K(\mathbf{x_i}, \mathbf{x}) = th (k_0 + k_1 \langle \mathbf{x_i}, \mathbf{x} \rangle), \qquad k_0, k_1 \geq 0$
+		\item[--] $K(\mathbf{x_i}, \mathbf{x}) = \exp (-\beta \| \mathbf{x} - \mathbf{x_i} \|^2 )$
+	\end{itemize}
+\end{frame}
+
 \begin{frame}{Достоинства и недостатки}
 	\begin{itemize}[<+->]
 		\item[+] Задача имеет единственное решение
@@ -358,11 +371,26 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{SVM как двуслойная нейросеть}
+  \centering
+  \includegraphics[width=\textwidth, keepaspectratio]{images/svm_nn}\\
+  \bigbreak
+  $h$ -- количество опорных объектов
+\end{frame}
+
 \begin{frame}[standout]
   Вопросы?
 \end{frame}
 
 \appendix
+
+\begin{frame}\frametitle{Что почитать по этой лекции}
+  \begin{itemize}
+    \item T. Hastie, R. Tibshirani "The Elements of Statistical Learning" Chapter 12
+    \item Andrew Ng \href{http://cs229.stanford.edu/notes/cs229-notes3.pdf}{CS229 Lecture notes}
+    \item M. Morhi, A. Rostamizadeh, A. Talwalkar "Foundations of Machine Learning"
+  \end{itemize}
+\end{frame}
 
 \begin{frame}{На следующей лекции}
 	\begin{itemize}
