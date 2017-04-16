@@ -132,7 +132,7 @@
 
 \begin{frame}{Смещение и разброс}
   \centering
-  \includegraphics[width=0.8 \textwidth, keepaspectratio]{images/biasvariance}
+  \includegraphics[width=0.8 \textwidth, height=0.8 \textheight,  keepaspectratio]{images/biasvariance}
 \end{frame}
 
 \begin{frame}{Смещение и разброс}
@@ -144,25 +144,109 @@
 
 \begin{frame}{Пример}
   \centering
-  \includegraphics[width=0.5 \textwidth, keepaspectratio]{images/example2}
-  \includegraphics[width=0.5 \textwidth, keepaspectratio]{images/example1}
+  \begin{minipage}[b]{.45\textwidth}
+    \includegraphics[width=\textwidth, keepaspectratio]{images/example2} 
+  \end{minipage}\qquad
+  \begin{minipage}[b]{.45\textwidth}
+    \includegraphics[width=\textwidth, keepaspectratio]{images/example1}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}{Пример $\sin$}
+  \centering
+  \begin{minipage}[b]{.45\textwidth}
+    $f(x) = \sin (\pi x)$\\
+    Количество объектов $l = 2$\\
+    \bigbreak 
+    Рассмотрим 2 модели:\\
+
+      $A_1: h(x) = b$\\
+      $A_2: h(x) = ax + b$
+
+  \end{minipage}\qquad
+  \begin{minipage}[b]{.45\textwidth}
+    \includegraphics[width=\textwidth, keepaspectratio]{images/sin0}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}{Пример $\sin$}
+  \centering
+  \begin{minipage}[b]{.45\textwidth}
+    \includegraphics[width=\textwidth, keepaspectratio]{images/sin1} \\
+    $$A_1$$
+  \end{minipage}\qquad
+  \pause
+  \begin{minipage}[b]{.45\textwidth}
+    \includegraphics[width=\textwidth, keepaspectratio]{images/sin11}
+    $$A_2$$
+  \end{minipage}
+\end{frame}
+
+\begin{frame}{Обучение $A_1$, $A_2$}
+  \centering
+  \begin{minipage}[b]{.45\textwidth}
+    \includegraphics[width=\textwidth, keepaspectratio]{images/sin2} 
+    $$A_1$$
+  \end{minipage}\qquad
+  \pause
+  \begin{minipage}[b]{.45\textwidth}
+    \includegraphics[width=\textwidth, keepaspectratio]{images/sin21}
+    $$A_2$$
+  \end{minipage}
+\end{frame}
+
+\begin{frame}{Bias-variance $A_1$}
+  \centering
+  \begin{minipage}[b]{.45\textwidth}
+    \includegraphics[width=\textwidth, keepaspectratio]{images/sin3} 
+  \end{minipage}\qquad
+  \pause
+  \begin{minipage}[b]{.45\textwidth}
+    \includegraphics[width=\textwidth, keepaspectratio]{images/sin31}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}{Bias-variance $A_2$}
+  \centering
+  \begin{minipage}[b]{.45\textwidth}
+    \includegraphics[width=\textwidth, keepaspectratio]{images/sin4} 
+  \end{minipage}\qquad
+  \pause
+  \begin{minipage}[b]{.45\textwidth}
+    \includegraphics[width=\textwidth, keepaspectratio]{images/sin41}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}{Bias-variance }
+  \centering
+  \begin{minipage}[b]{.45\textwidth}
+    \includegraphics[width=\textwidth, keepaspectratio]{images/sin31} \\
+    \centering
+    bias = 0.50 \qquad var = 0.25
+  \end{minipage}\qquad
+  \pause
+  \begin{minipage}[b]{.45\textwidth}
+    \includegraphics[width=\textwidth, keepaspectratio]{images/sin41}\\
+    \centering
+    bias = 0.21 \qquad var = 1.69
+  \end{minipage}
 \end{frame}
 
 \begin{frame}{Мораль}
   Сложность модели нужно выбирать исходя из доступных данных, а не из предполагаемой сложности целевой функции.
 \end{frame}
-
-\begin{frame}{Линейные модели}
-  Смещение может быть большим.\\
-  \bigbreak
-  Низкий разброс
-\end{frame}
-
-\begin{frame}{Деревья решений}
-  Низкое смещение \\
-  \bigbreak
-  Большой разброс
-\end{frame}
+%
+%\begin{frame}{Линейные модели}
+%  Смещение может быть большим.\\
+%  \bigbreak
+%  Низкий разброс
+%\end{frame}
+%
+%\begin{frame}{Деревья решений}
+%  Низкое смещение \\
+%  \bigbreak
+%  Большой разброс
+%\end{frame}
 
 \section{Кривые обучения}
 
