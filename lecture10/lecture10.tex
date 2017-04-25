@@ -203,6 +203,7 @@
 	Модифицированное МНК-решение ($\tau I_n$ — «гребень»)\\
 	$$w^*_{\tau} = (X^TX + \tau I_n)^{-1}X^Ty$$\\
 	\pause
+	\bigbreak
 	Преимущество сингулярного разложения:\\
 	Можно подбирать параметр $\tau$ , вычислив сингулярное разложение только один раз.
 \end{frame}
@@ -291,8 +292,9 @@
 
 \begin{frame}{Метод Ньютона-Рафсена}
 	$$Q(w,X^l) = \sum\limits_{i=1}^l (f (x_i, w) - y_i)^2 \rightarrow \min\limits_{w}$$\\
-	
+	\pause
 	$$\frac{\partial Q(w)}{\partial w_j} = 2 \sum\limits_{i=1}^l (f(x_i, w) - y_i ) \frac{\partial(f(x_i, w))}{\partial w_j}$$\\
+	\pause
 	$$\frac{\partial^2 Q(w)}{\partial w_j \partial w_k} = 2 \sum\limits_{i=1}^l \frac{\partial(f(x_i, w))}{\partial w_j} \frac{\partial(f(x_i, w))}{\partial w_k} - 2 \sum\limits_{i=1}^l (f(x_i, w) - y_i ) \frac{\partial^2 (f(x_i, w))}{\partial w_j \partial w_k}$$\\
 	\bigbreak
 	\pause
@@ -301,6 +303,7 @@
 
 \begin{frame}{Метод Ньютона-Рафсена}
 	$$\frac{\partial Q(w)}{\partial w_j} = 2 \sum\limits_{i=1}^l (f(x_i, w) - y_i ) \frac{\partial(f(x_i, w))}{\partial w_j}$$\\
+	\pause
 	$$\frac{\partial^2 Q(w)}{\partial w_j \partial w_k} = 2 \sum\limits_{i=1}^l \frac{\partial(f(x_i, w))}{\partial w_j} \frac{\partial(f(x_i, w))}{\partial w_k} - 2 \sum\limits_{i=1}^l (f(x_i, w) - y_i ) \frac{\partial^2 (f(x_i, w))}{\partial w_j \partial w_k}$$\\
 	\bigbreak
 	\pause
