@@ -125,7 +125,7 @@
 \end{frame}
 
 {\foot{Singular value decomposition}
-\begin{frame}{Сингулярное разложение}
+\begin{frame}{Сингулярное разложение (экономное)}
 	Произвольная $l \times n$-матрица представима в виде сингулярного разложения:\\
 	$$X = VDU^T$$\\
 	\bigbreak
@@ -150,7 +150,7 @@
 	\pause
 	$X w^* = P_X y = (VDU^T)UD^{-1}V^Ty = VV^Ty = \sum\limits_{j=1}^n v_j (v_j^Ty)$\\
 	\pause
-	$\Vert w^* \Vert^2  = \Vert D^{-1}V^Ty \Vert^2 = \sum\limits_{j=1}^n \frac{1}{\lambda_j} (v_j^Ty)^2$
+	$\Vert w^* \Vert^2  = \Vert U D^{-1}V^Ty \Vert^2 = \sum\limits_{j=1}^n \frac{1}{\lambda_j} (v_j^Ty)^2$
 \end{frame}
 
 %\begin{frame}{Проблема мультиколлинеарности}
@@ -213,7 +213,7 @@
 	\pause
 	$$Xw_{\tau}^* = VDU^Tw_{\tau}^* = V \operatorname{diag} \left(\frac{\lambda_j}{\lambda_j + \tau}\right) V^Ty = \sum\limits_{j=1}^n \frac{\lambda_j}{\lambda_j + \textcolor{orange}{\tau}} v_j (v_j^Ty)$$\\
 	\pause
-	$$\Vert w_{\tau}^* \Vert^2 = \Vert (D^2 + \tau I_n)^{-1} DV^T y \Vert^2 = \sum\limits_{j=1}^n \frac{\lambda_j}{(\lambda_j + \textcolor{orange}{\tau})^2} (v^T_j y)^2$$\\
+	$$\Vert w_{\tau}^* \Vert^2 = \Vert U (D^2 + \tau I_n)^{-1} DV^T y \Vert^2 = \sum\limits_{j=1}^n \frac{\lambda_j}{(\lambda_j + \textcolor{orange}{\tau})^2} (v^T_j y)^2$$\\
 	\pause
 	$X w_{\tau}^* \neq Xw^*$ -- зато решение становится более устойчивым
 \end{frame}
@@ -415,12 +415,6 @@
 \begin{frame}{Метод Ньютона-Рафсена}
 	\begin{figure}[htbp]
 	  \includegraphics[height=150pt, keepaspectratio = true]{images/newton-16}   
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Метод Ньютона-Рафсена}
-	\begin{figure}[htbp]
-	  \includegraphics[height=150pt, keepaspectratio = true]{images/newton-17}   
 	\end{figure}
 \end{frame}
 
