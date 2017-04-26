@@ -6,9 +6,13 @@
 
 \begin{document}
 
+\section{Разбор летучки}
+
 \maketitle
 
-\section{Разбор летучки}
+\section{Мотивация}
+
+\section{Где уже видели композиции?}
 
 \begin{frame}{Определение композиции}
   ${X^l = (x_i, y_i)_{i = 1}^l}$ -- обучающая выборка\\
@@ -20,26 +24,26 @@
 \end{frame}
 
 \begin{frame}{Определение композиции}
-  Композиция базовых алгоритмов $b_1, \dots, b_t$\\
+  Композиция базовых алгоритмов $b_1, \dots, b_T$\\
   \bigbreak
-  $a(x) = C(F(b_1(x), \dots, b_t(x)))$\\
+  $a(x) = C(F(b_1(x), \dots, b_T(x)))$\\
   $F: R^T \rightarrow R$ -- корректирующая операция
 \end{frame}
 
 \begin{frame}{Примеры}
   \begin{enumerate}
     \item Простое голосование\\
-      $$F(b_1(x), \dots, b_t(x)) = \frac{1}{T} \sum\limits_{t=1}^{T} b_t(x)$$
+      $$F(b_1(x), \dots, b_T(x)) = \frac{1}{T} \sum\limits_{t=1}^{T} b_t(x)$$
     \item Взвешенное голосование\\
-      $$F(b_1(x), \dots, b_t(x)) = \sum\limits_{t=1}^{T} \alpha_t b_t(x)$$
+      $$F(b_1(x), \dots, b_T(x)) = \sum\limits_{t=1}^{T} \alpha_t b_t(x)$$
     \item Смесь алгоритмов\\
-      $$F(b_1(x), \dots, b_t(x)) = \sum\limits_{t=1}^{T} g_t(x) b_t(x)$$      
+      $$F(b_1(x), \dots, b_T(x)) = \sum\limits_{t=1}^{T} g_t(x) b_t(x)$$      
   \end{enumerate}
 \end{frame}
 
 {\foot{Boosting}
 \begin{frame}{Бустинг}
-  $Y = \{\pm 1\}$, $b_t: X\rightarrow \{-1, 0, +1\}$, $C(b) = \sign(b)$\\
+  $Y = \{\pm 1\}$, \qquad $b_t: X\rightarrow \{-1, 0, +1\}$, \qquad $C(b) = \sign(b)$\\
   $b_t(x) = 0$ -- отказ от классификации\\
   \bigbreak
   \pause
@@ -49,6 +53,63 @@
   $Q_T = \sum\limits_{i=1}^l [y_i \sum\limits_{t=1}^{T} \alpha_t b_t(x) < 0 ]$
 \end{frame}
 }
+
+\begin{frame}{Adaboost}
+  $B$ -- семейство базовых алгоритмов.\\
+  \bigbreak
+  Пусть для любого нормированного вектора весов $U^l$ существует алгоритм $b \in B$, классифицирующий выборку немного лучше, чем наугад $P(b, U^l) > N (b, U^l)$. 
+  Минимум функционала $Q_T$ достигается при:\\
+  $$b_T = \arg\max\limits_{b \in B} \sqrt{P(b, W^l)} - \sqrt{N(b, W^l)}$$
+  $$a_T = \frac{1}{2} \ln \frac{P(b_T, W^l)}{N(b_T, W^l)}$$
+\end{frame}
+
+\begin{frame}{Рекоммендации}
+  \begin{itemize}
+    \item Чаще всего в качестве базовых классификаторов используются решающие деревья
+    \item Для SVM бустинг не эффективен     
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Обоснование бустинга}
+    
+\end{frame}
+
+\begin{frame}{Наблюдения}
+  \begin{itemize}[<+->]
+    \item[+] Хорошая обобщающая способность
+    \item[+] Простота реализации
+    \item[+] Накладные расходы на построение не велики
+    \bigbreak
+    \item[--] Склонен к переобучению при наличии большого количества шума в данных
+    \item[--] Требует большой обучающей выборки
+    \item[--] Жадность приводит к неоптимальности
+    
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Бэггинг}
+    
+\end{frame}
+
+\begin{frame}{Bagboo}
+    
+\end{frame}
+
+\begin{frame}{Stacking}
+    
+\end{frame}
+
+\begin{frame}{Voting}
+    
+\end{frame}
+
+\begin{frame}{Почему эти подходы работают}
+  \begin{enumerate}
+    \item Бэггинг уменьшает разброс
+    \item Бустинг уменьшает разброс и смещение
+    \item Чем сильнее коррелируют базовые алгоритмы, тем менее эффективны композиции
+  \end{enumerate}
+\end{frame}
 
 \begin{frame}[standout]
   Вопросы?
