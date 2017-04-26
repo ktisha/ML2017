@@ -132,7 +132,7 @@
 	\pause
 	Основные свойства сингулярного разложения:\\
 	\begin{enumerate}[--]
-		\item $V_{l \times n} = (v_1, \dots, v_n)$ ортогональна, $V^TV = I_n$, \\столбцы $v_j$ - собственные векторы матрицы $XX^T$
+		\item $V_{l \times n} = (v_1, \dots, v_n)$ ортонормирована, $V^TV = I_n$, \\столбцы $v_j$ - собственные векторы матрицы $XX^T$
 		\item $U_{n \times n} = (u_1, \dots, u_n)$ ортогональна, $U^TU = I_n$, \\столбцы $u_j$ - собственные векторы матрицы $X^TX$
 		\item $D$ диагональна, $D_{n \times n} = \operatorname{diag} (\sqrt{\lambda_1}, \dots, \sqrt{\lambda_n})$, \\$\lambda_j > 0$ - собственные значения матриц $X^TX$ и $XX^T$
 	\end{enumerate}
@@ -424,12 +424,102 @@
 
 \appendix
 
+\section{Метод главных компонент}
+
+\begin{frame}{Метод главных компонент}
+	$x^1, \dots, x^n$ -- исходные числовые признаки\\
+	$g^1(x), \dots, g^m(x)$ -- новые числовые признаки, $m < n$\\
+	\bigbreak
+	\textbf{Вопрос:} Как сформулировать требование к новым признакам?
+\end{frame}
+
+\begin{frame}{Метод главных компонент}
+	$x^1, \dots, x^n$ -- исходные числовые признаки\\
+	$g_1(x), \dots, g_m(x)$ -- новые числовые признаки, $m < n$\\
+	\bigbreak
+	\pause
+	Требование: старые признаки должны линейно восстанавливаться по новым:\\
+	$$\hat{x}^j = \sum\limits_{s=1}^m g_s(x) u_{js} , \hspace{2mm} j = 1,\dots , n, \hspace{2mm} \forall x \in X$$\\
+	как можно точнее на обучающей выборке $x_1, \dots, x_l$:\\
+	$$\sum\limits_{i=1}^l \sum\limits_{j=1}^n (\hat{x}_i^j - x_i^j)^2 \rightarrow \min\limits_{g_s(x_i), u_{js}}$$
+\end{frame}
+
+\begin{frame}{Матричные обозначения}
+	$$\underset{l \times n}{X} = \begin{pmatrix}
+	  x_1^1 & \dots & x_1^n \\
+	  \dots & \dots & \dots\\
+	  x_l^1 & \dots & x_l^n
+	 \end{pmatrix} \qquad
+	 \underset{l \times m}{G} = \begin{pmatrix}
+	  g_1(x_1) & \dots & g_m(x_1) \\
+	  \dots & \dots & \dots\\
+	  g_1(x_l) & \dots & g_m(x_l)
+	 \end{pmatrix}$$\\
+	 $$\underset{n \times m}{U} = \begin{pmatrix}
+	  u_{11} & \dots & u_{1m} \\
+	  \dots & \dots & \dots\\
+	  u_{n1} & \dots & u_{nm}
+	 \end{pmatrix}$$
+	$U$ -- линейное преобразование новых признаков в старые\\
+	$$\hat{X} = GU^T \approx X$$\\
+	\pause
+	\alert{Найти:} новые признаки $G$ и преобразование $U$:\\
+	$$\sum\limits_{i=1}^l \sum\limits_{j=1}^n (\hat{x}_i^j - x_i^j)^2 = \Vert GU^T - X \Vert^2 \rightarrow \min\limits_{G, U}$$
+\end{frame}
+
+\begin{frame}{Основная теорема}
+	Если $m < \rank X$, то минимум $\Vert GU^T - X \Vert^2$ достигается, когда столбцы $U$ - это с.в. матрицы $X^TX$, соответствующие $m$ максимальным с.з. $\lambda_1,\dots, \lambda_m$, а матрица $G = XU$.\\
+	\bigbreak
+	\pause
+	При этом:\\
+	\begin{itemize}
+		\item матрица $U$ ортонормирована: $U^TU = I_m$
+		\item $G^TG = \Lambda = \operatorname{diag}(\lambda_1, \dots, \lambda_m)$
+		\item $U\Lambda = X^TG$, \qquad  $G = XU$
+		\item $\Vert GU^T - X \Vert^2 = \Vert X \Vert^2 - tr \Lambda = \sum\limits_{j=m+1}^n \lambda_j$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Связь с сингулярным разложением}
+	Если взять $m = n$, то:\\
+	\begin{itemize}[<+->]
+	\item $\Vert GU^T - X \Vert^2 = 0$
+	\item представление $\hat{X} = GU^T = X$ точное и совпадает с сингулярным разложением при $G = V \sqrt{\Lambda}$
+	$$X = GU^T = V\sqrt{\Lambda}U^T, \hspace{2mm} U^TU = I_m, \hspace{2mm} V^TV = I_m$$
+	\item линейное преобразование $U$ работает в обе стороны:\\
+	$$X = GU^T, \hspace{4mm} G=XU$$
+	Преобразование $U$ называется декоррелирующим
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Эффективная размерность выборки}
+	Упорядочим с.з. $X^TX$ по убыванию: $\lambda_1 > \dots > \lambda_n > 0$\\
+	Эффективная размерность выборки -- это наименьшее целое $m$, при котором\\
+	$$E_m = \frac{\Vert GU^T - X \Vert^2}{\Vert X \Vert^2} = \frac{\lambda_{m+1} + \dots + \lambda_{n}}{\lambda_1 + \dots + \lambda_n} \leq \varepsilon$$\\
+	\pause
+	Критерий «крутого склона»: находим $m: E_{m-1} >> E_m$:
+	\begin{figure}[htbp]
+	  \includegraphics[height=100pt, keepaspectratio = true]{images/edge}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Решение задачи НК в новых признаках}
+	Заменим $X$ на её приближение $GU^T$:\\
+	$$\Vert GU^Tw -y \Vert^2 = \Vert G\hat{w} -y \Vert^2 \rightarrow \min\limits_{\hat{w}}$$\\
+	Связь нового и старого вектора коэффициентов:\\
+	$$w = U\hat{w}, \hspace{5mm} \hat{w} = U^T w$$\\
+	\pause
+	\bigbreak
+	Решение задачи наименьших квадратов относительно $\hat{w}$ (единственное отличие -- $m$ слагаемых вместо $n$):\\
+	$$\hat{w}^* = D^{-1}V^Ty = \sum\limits_{j=1}^m \frac{1}{\sqrt{\lambda_j}} u_j (v_j^Ty)$$\\
+	$$G\hat{w}^* = VV^Ty = \sum\limits_{j=1}^m v_j (v_j^Ty)$$
+\end{frame}
+
 \begin{frame}\frametitle{Что почитать по этой лекции}
   \begin{itemize}
     \item T. Hastie, R. Tibshirani "The Elements of Statistical Learning" Chapter 3
   \end{itemize}
 \end{frame}
-
 
 \begin{frame}{На следующей лекции}
 	\begin{itemize}
