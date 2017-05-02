@@ -15,8 +15,8 @@
 \maketitle
 
 \begin{frame}{Постановка задачи}
-  $X$ - множество объектов \\
-	$Y$ — ответы в $\mathbb{R}$ \\
+  $X$ -- множество объектов \\
+	$Y$ -- ответы в $\mathbb{R}$ \\
 	Обучающая выборка: ${X^l = (x_i, y_i)_{i=1}^l}$ \\ 
 	Целевая функция: $f: X \rightarrow Y$\\
 	\bigbreak
@@ -29,6 +29,13 @@
   \bigbreak
   Внешний функционал по отложенной выборке:\\
   $$E_{out} = Q_{\mu}(X^t, X^k) = Q(\mu(X^t), X^k)$$\\
+\end{frame}
+
+\begin{frame}{Линейная регрессия}  
+  $$E_{in} = Q(w,X^l) = \sum\limits_{i=1}^l (f (x_i, w) - y_i)^2  = \Vert Xw - y \Vert^2 \rightarrow \min\limits_{w}$$
+  \bigbreak
+  Внешний функционал по отложенной выборке:\\
+  $$E_{out} = Q(w^*,X^k) = \Vert X^k w^* - y \Vert^2$$
 \end{frame}
 
 \begin{frame}{Постановка задачи}
@@ -49,7 +56,7 @@
 
 \begin{frame}{Внутренний функционал качества}
   Квадратичная функция потерь:\\
-  $$L(a) = (a(x_i) - f(x_i))^2$$\\
+  $$L_i(a) = (a(x_i) - f(x_i))^2$$\\
   \bigbreak
   Внутренний функционал:
   $$E_{in} = \sum\limits_{i=1}^l (a(x_i, w) - f(x_i))^2 \rightarrow \min\limits_{w}$$
@@ -142,15 +149,15 @@
   Если же модель слабая, то она не состоянии выучить закономерность, в результате выучивается что-то другое, смещенное относительно правильного решения.
 \end{frame}
 
-\begin{frame}{Пример}
-  \centering
-  \begin{minipage}[b]{.45\textwidth}
-    \includegraphics[width=\textwidth, keepaspectratio]{images/example2} 
-  \end{minipage}\qquad
-  \begin{minipage}[b]{.45\textwidth}
-    \includegraphics[width=\textwidth, keepaspectratio]{images/example1}
-  \end{minipage}
-\end{frame}
+%\begin{frame}{Пример}
+%  \centering
+%  \begin{minipage}[b]{.45\textwidth}
+%    \includegraphics[width=\textwidth, keepaspectratio]{images/example2} 
+%  \end{minipage}\qquad
+%  \begin{minipage}[b]{.45\textwidth}
+%    \includegraphics[width=\textwidth, keepaspectratio]{images/example1}
+%  \end{minipage}
+%\end{frame}
 
 \begin{frame}{Пример $\sin$}
   \centering
