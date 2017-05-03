@@ -1,0 +1,63 @@
+%% -*- TeX-engine: luatex; ispell-language: russian -*-
+
+\documentclass[a4paper,12pt]{article}
+
+\input{../handout-base}
+
+\usepackage{blkarray}
+\newcommand{\matindex}[1]{\mbox{\scriptsize#1}}
+
+\usepackage{multicol}
+
+\begin{document}
+  \subsection*{Тест №5\hfill{29 марта 2017}}
+
+  \makebox[\textwidth]{Представьтесь:\enspace\hrulefill}
+  \paragraph{1} Напишите формулу оптимального Байесовского алгоритма классификации.
+  
+  \makebox[\linewidth]{\hrulefill}
+  \makebox[\linewidth]{\hrulefill}
+  
+  \paragraph{2} Векторизуйте с использованием словаря
+  $$
+  V = \{\text{was}, \text{agree}, \text{tea}, \text{think},
+        \text{I}, \text{it}, \text{you}, \text{do}, \text{about}\}
+  $$
+  следующие предложения:
+  \begin{itemize}
+  \item Molly, my sister and I fell out,
+  \item And what do you think it was all about?
+  \item She loved coffee and I loved tea,
+  \item And that was the reason we couldn't agree.
+  \end{itemize}
+
+  \paragraph{3} Какие две подзадачи необходимо решить для обучения Байесовского
+  классификатора?
+
+  \makebox[\linewidth]{\hrulefill}
+  \makebox[\linewidth]{\hrulefill}
+  \makebox[\linewidth]{\hrulefill}
+  \makebox[\linewidth]{\hrulefill}
+
+  \paragraph{4} Какой класс будет назначен примеру $x = [1, 0, 1]$
+  наивным Байесовским классификатором с параметрами
+  \begin{center}
+    \begin{tabular}{l|c|ccc}
+      $y \in Y$   & $\hat{P}_y$ & $\hat{\theta}_{y0}$ & $\hat{\theta}_{y1}$ & $\hat{\theta}_{y2}$ \\
+      \hline
+      ${-}1$      & 0.5    & 0.3      & 0.1     & 0.6   \\
+      ${+}1$      & 0.5    & 0.5      & 0.1     & 0.4
+    \end{tabular}
+  \end{center}
+
+  \vspace{4em}
+  
+  \paragraph{5} Какую проблему решает предположение \emph{наивности} в наивном
+  Байесовском классификаторе?
+
+  \makebox[\linewidth]{\hrulefill}
+  \makebox[\linewidth]{\hrulefill}
+  \makebox[\linewidth]{\hrulefill}
+  \makebox[\linewidth]{\hrulefill}
+  
+\end{document}

@@ -1,0 +1,50 @@
+%% -*- TeX-engine: luatex; ispell-language: russian -*-
+
+\documentclass[a4paper,12pt]{article}
+
+\input{../handout-base}
+
+\usepackage{blkarray}
+\newcommand{\matindex}[1]{\mbox{\scriptsize#1}}
+
+\usepackage{multicol}
+
+\begin{document}
+  \subsection*{Тест №2\hfill{1 марта 2017}}
+
+  \makebox[\textwidth]{Представьтесь:\enspace\hrulefill}
+  \paragraph{1} Почему следующая функция не подходит для измерения расстояния между объектами?\\
+  $$\rho(u, v) = exp(-\sum\limits_{j=1}^n \vert u^j - v^j \vert)$$\\
+  \makebox[\linewidth]{\hrulefill}
+  \makebox[\linewidth]{\hrulefill}
+  
+  \paragraph{2} В каком случае может возникнуть неоднозначность классификации методом knn?
+
+  \makebox[\linewidth]{\hrulefill}
+  \makebox[\linewidth]{\hrulefill}  
+  
+  \paragraph{3} В чем заключается процесс обучения алгоритма k ближайших соседей?
+  \begin{itemize}
+    \item Настройка весов при объектах обучающей выборки
+    \item Подсчет попарных расстояний между объектами обучающей выборки
+    \item Запоминание всех объектов обучающей выборки
+  \end{itemize}
+  
+  \paragraph{4} Чем эталонный объект отличается от надежно классифицируемого?\\
+  
+  \makebox[\linewidth]{\hrulefill}
+  \makebox[\linewidth]{\hrulefill}
+    
+  \paragraph{5} Мотивация для использования Парзеновского окна. В чем минусы зависимости веса
+объекта только от его порядкового номера?\\
+
+  \makebox[\linewidth]{\hrulefill}
+  \makebox[\linewidth]{\hrulefill}
+  
+  \paragraph{6} Для чего используется функционал скользящего контроля (LOO)? 
+  Зачем при подсчёте функционала нужно выбрасывать один объект?
+
+  \makebox[\linewidth]{\hrulefill}
+  \makebox[\linewidth]{\hrulefill}
+  \makebox[\linewidth]{\hrulefill}
+\end{document}
