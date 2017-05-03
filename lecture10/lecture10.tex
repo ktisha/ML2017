@@ -418,20 +418,16 @@
 	\end{figure}
 \end{frame}
 
-\begin{frame}[standout]
-  Вопросы?
-\end{frame}
-
-\appendix
-
 \section{Метод главных компонент}
 
+{\foot{Principal Component Analysis, PCA}
 \begin{frame}{Метод главных компонент}
 	$x^1, \dots, x^n$ -- исходные числовые признаки\\
 	$g^1(x), \dots, g^m(x)$ -- новые числовые признаки, $m < n$\\
 	\bigbreak
 	\textbf{Вопрос:} Как сформулировать требование к новым признакам?
 \end{frame}
+}
 
 \begin{frame}{Метод главных компонент}
 	$x^1, \dots, x^n$ -- исходные числовые признаки\\
@@ -487,7 +483,7 @@
 	$$X = GU^T = V\sqrt{\Lambda}U^T, \hspace{2mm} U^TU = I_m, \hspace{2mm} V^TV = I_m$$
 	\item линейное преобразование $U$ работает в обе стороны:\\
 	$$X = GU^T, \hspace{4mm} G=XU$$
-	Преобразование $U$ называется декоррелирующим
+	%Преобразование $U$ называется декоррелирующим
 	\end{itemize}
 \end{frame}
 
@@ -513,6 +509,12 @@
 	$$\hat{w}^* = D^{-1}V^Ty = \sum\limits_{j=1}^m \frac{1}{\sqrt{\lambda_j}} u_j (v_j^Ty)$$\\
 	$$G\hat{w}^* = VV^Ty = \sum\limits_{j=1}^m v_j (v_j^Ty)$$
 \end{frame}
+
+\begin{frame}[standout]
+  Вопросы?
+\end{frame}
+
+\appendix
 
 \begin{frame}\frametitle{Что почитать по этой лекции}
   \begin{itemize}
