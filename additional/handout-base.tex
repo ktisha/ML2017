@@ -1,0 +1,37 @@
+\usepackage[left=1.5cm,right=2cm,top=1.5cm,bottom=2cm]{geometry}
+
+\usepackage{parskip}
+\setlength{\parindent}{0mm}
+\setcounter{secnumdepth}{1}
+
+\usepackage{amsmath}
+
+\usepackage{fontspec}
+\setmainfont{PT Serif}
+\newfontfamily\cyrillicfont[Script=Cyrillic,Ligatures=TeX]{PT Serif}
+\setsansfont{PT Sans}
+\setmonofont[Ligatures=NoCommon]{PT Mono}
+\defaultfontfeatures{Ligatures=TeX}
+
+\usepackage[bold-style=ISO]{unicode-math}
+\setmathfont{XITS Math}
+
+\usepackage{microtype}
+
+\usepackage{hyperref}
+
+\usepackage{polyglossia}
+\setmainlanguage{russian}
+\setotherlanguage{english}
+
+\usepackage{csquotes}
+
+%% for code snippets
+\usepackage{minted}
+\newminted[pycon]{pycon}{fontsize=\footnotesize}
+\newminted[python3]{python3}{fontsize=\footnotesize}
+\newminted[bash]{bash}{fontsize=\footnotesize}
+\newmintinline[pythoninline]{python3}{fontsize=\footnotesize}
+\newmintinline[bashinline]{bash}{fontsize=\footnotesize}
+
+\pagestyle{empty}
