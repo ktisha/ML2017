@@ -1,0 +1,95 @@
+%% -*- TeX-engine: luatex; ispell-language: "russian" -*-
+
+\documentclass[a4paper,12pt]{article}
+\usepackage{subcaption}
+\input{../handout-base}
+
+\begin{document}
+\subsection*{Домашнее задание №3: <<Одеревенеть от страха>>}
+
+\begin{tabular}{@{}lr}
+  \textbf{Дедлайн 1} (20 баллов): & 23 марта, 23:59 \\
+  \textbf{Дедлайн 2} (10 баллов): & 30 марта, 23:59
+\end{tabular}
+
+Домашнее задание нужно написать на Python и сдать в виде одного файла.
+Правило именования файла: \texttt{name\_surname\_3.[py | ipnb]}. Например, если
+вас зовут Иван Петров, то имя файла должно быть: \texttt{ivan\_petrov\_3.py} или \texttt{ivan\_petrov\_3.ipnb}.
+
+\makebox[\linewidth]{\hrulefill}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=.8\linewidth]{images/boo}
+\end{figure}
+
+До Хэллоуина осталось всего полгода, самое время научиться отличать чудищ друг от друга. 
+По ссылке \footnote{\url{https://gist.github.com/ktisha/c2d540df52be497c89ceaf27169b2bab}} находится датасет, содержащий информацию, которая поможет нам научиться отличать призраков, гоблинов и гулей друг от друга. Значения колонок указаны в заголовке файла, в качестве меток классов будет использоваться последняя колонка. 
+
+\paragraph{1} Реализуйте класс \pythoninline{Node} для хранения узла в дереве принятия решений. Класс должен хранить ссылки на свои поддеревья в переменных \pythoninline{false_branch} и \pythoninline{true_branch}, а также предикат по которому происходит деление на поддеревья. Hint: предикат удобно хранить в виде номера признака, по которому происходит деление выборки, и его значения. 
+
+\paragraph{2} В качестве критерия информативности в этой задаче мы будем использовать энтропийный критерий. Реализуйте функцию \pythoninline{entropy}, вычисляющую энтропию для некоторого подмножества объектов.
+
+\paragraph{3} Реализуйте рекурсивный алгоритм построения дерева решения в виде класса \pythoninline{DecisionTree}. Структура класса приведена ниже: 
+
+\begin{python3}
+class DecisionTree:
+    def build(self, X, y, score=entropy):
+        # рекурсивный алгоритм построения дерева
+        return self
+        
+    def predict(self, x):
+        ... 
+\end{python3}
+\clearpage
+Метод \pythoninline{build} должен:
+\begin{itemize}
+	\item Оценить информативность всех возможных предикатов для всех признаков с помощью функции \pythoninline{score}. 
+	Для построения всех возможных предикатов для конкретного признака нужно определить уникальные значения данного признака. 
+	Следующий шаг -- сконструировать пороговые условия для признака относительно полученных уникальных значений. 
+	Обратите внимание, что признаки в датасете двух типов -- номинальные и количественные. 
+	Для номинальных признаков количество предикатов будет равно количеству уникальных значений признака и пороговое условие превратится в проверку признака на равенство.
+	\item Выбрать наилучшее с точки зрения информативности разбиение.
+	\item Для наилучшего разбиения рекурсивно построить правое и левое поддеревья.
+\end{itemize}
+
+\paragraph{4} Реализуйте метод \pythoninline{predict}, принимающий объект \pythoninline{x} и возвращающий метку класса. 
+
+\paragraph{5} Для визуализации понадобится библиотека pillow \footnote{\url{http://pillow.readthedocs.io/en/3.1.x/reference/ImageDraw.html}}. Реализуйте методы \pythoninline{getwidth} и \pythoninline{getdepth}. Дополните функцию \pythoninline{drawnode} для визуализации дерева.
+
+\begin{python3}
+def drawtree(tree, path='tree.jpg'):
+    w = getwidth(tree) * 100
+    h = getdepth(tree) * 100
+
+    img = Image.new('RGB', (w, h), (255, 255, 255))
+    draw = ImageDraw.Draw(img)
+
+    drawnode(draw, tree, w / 2, 20)
+    img.save(path, 'JPEG')
+
+def drawnode(draw, tree, x, y):
+    if isinstance(tree, Node):
+        shift = 100
+        width1 = getwidth(tree.false_branch) * shift
+        width2 = getwidth(tree.true_branch) * shift
+        left = x - (width1 + width2) / 2
+        right = x + (width1 + width2) / 2
+
+        # получите текстовое представление предиката для текущего узла
+        predicate = ...
+         
+        draw.text((x - 20, y - 10), predicate, (0, 0, 0))
+        draw.line((x, y, left + width1 / 2, y + shift), fill=(255, 0, 0))
+        draw.line((x, y, right - width2 / 2, y + shift), fill=(255, 0, 0))
+        drawnode(draw, tree.false_branch, left + width1 / 2, y + shift)
+        drawnode(draw, tree.true_branch, right - width2 / 2, y + shift)        
+    else:
+        draw.text((x - 20, y), tree, (0, 0, 0))
+
+\end{python3}
+
+\paragraph{6} Какие предикаты влияют на классификацию объекта как класс "Goblin"?
+
+
+\end{document}
