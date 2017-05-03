@@ -14,13 +14,13 @@
 
 \section{Где уже видели композиции?}
 
-\begin{frame}{Определение композиции}
+\begin{frame}{Постановка задачи}
   ${X^l = (x_i, y_i)_{i = 1}^l}$ -- обучающая выборка\\
   $b:X \rightarrow R$ --- базовый алгоритм\\
   $C:R \rightarrow Y$ --- решающее правило\\
   $R$ --- пространство оценок.
   \bigbreak
-  $a(x) = C(b(x))$\\
+  Искомый алгоритм: $a(x) = C(b(x))$\\
 \end{frame}
 
 \begin{frame}{Определение композиции}
@@ -33,7 +33,7 @@
 \begin{frame}{Примеры}
   \begin{enumerate}
     \item Простое голосование\\
-      $$F(b_1(x), \dots, b_T(x)) = \frac{1}{T} \sum\limits_{t=1}^{T} b_t(x)$$
+      $$F(b_1(x), \dots, b_T(x)) = \sum\limits_{t=1}^{T} b_t(x)$$
     \item Взвешенное голосование\\
       $$F(b_1(x), \dots, b_T(x)) = \sum\limits_{t=1}^{T} \alpha_t b_t(x)$$
     \item Смесь алгоритмов\\
@@ -41,16 +41,97 @@
   \end{enumerate}
 \end{frame}
 
+\section{Простое голосование}
+
+\begin{frame}{Теорема Кондорсе "о жюри присяжных"}
+  Если каждый член жюри присяжных имеет независимое мнение, и если вероятность правильного решения члена жюри больше 0.5, то тогда вероятность правильного решения присяжных в целом возрастает с увеличением количества членов жюри и стремится к единице.   
+\end{frame}
+
+
+\begin{frame}{Простое голосование}
+  $$F(b_1(x), \dots, b_T(x)) = \sum\limits_{t=1}^{T} b_t(x)$$
+  \bigbreak
+  \pause
+  $$a(x) = \sign \left( \sum\limits_{t=1}^{T} b_t(x) \right)$$
+  \bigbreak
+  \pause
+  Если каждый из $b_t$ лучше случайного гадания и $b_1, \dots, b_T$ достаточно различны, то композиция может работать лучше.
+\end{frame}
+
+\begin{frame}{Достаточно различны?}
+  \begin{itemize}
+    \item Настройка по случайным подвыборкам
+    \item Обучение по случайным подмножествам признаков
+    \item Использование различных начальных приближений 
+    \item Использование различных моделей
+  \end{itemize}
+\end{frame}
+
+{\foot{Bagging, Bootstrap aggregating}
+\begin{frame}{Бэггинг}
+    \alert{Идея}: обучим $b_t$ независимо по случайным подвыборкам длины $l$ с повторениями.\\
+    Доля объектов, которые попадут в выборку $\approx 0.63$
+\end{frame}
+}
+
+{\foot{RSM, Random Subspace Method}
+\begin{frame}{Метод случайных подпространств}
+    \alert{Идея}: обучим $b_t$ независимо по случайным подмножествам $n'$ признаков.\\
+\end{frame}
+}
+
+\begin{frame}{Алгоритм}
+  	\begin{algorithmic}[1]
+    \Function{bagging\_rsm}{$X^l$, $T$, $l'$, $n'$, $\varepsilon_1$, $\varepsilon_2$}
+      \For {$t = 1, \dots, T$}
+        \State $U_t$ -- случайное подмножество $X^l$ длины $l'$
+        \State $F_t$ -- случайное подмножество признаков длины $n'$
+        \State $b_t = \mu (F_t, U_t)$
+        \If {$Q(b_t, U_t) > \varepsilon_1$ или $Q(b_t, X^l \setminus U_t) > \varepsilon_2$}
+          \State не включать $b_t$ в композициюd
+        \EndIf
+      \EndFor
+    \EndFunction
+  \end{algorithmic}
+\end{frame}
+
+{\foot{Random forest}
+\begin{frame}{Случайный лес}
+  Бэггинг над решающими деревьями.\\
+  \bigbreak
+	Голосование деревьев классификации, $Y = \left\{ -1, +1 \right\}$\\
+	$a(t) = Majority(b_t(x))$%\sign \frac{1}{T} \sum\limits_{t=1}^T b_t(x)$\\
+	\begin{enumerate}[--]
+  	  \item Каждое дерево $b_t(x)$ обучается по случайной выборке с повторениями
+	  \item В каждой вершине предикат выбирается из случайного подмножества $n$ предикатов
+	\end{enumerate}
+\end{frame}
+}
+
+\section{Взвешенное голосование}
+
 {\foot{Boosting}
 \begin{frame}{Бустинг}
   $Y = \{\pm 1\}$, \qquad $b_t: X\rightarrow \{-1, 0, +1\}$, \qquad $C(b) = \sign(b)$\\
   $b_t(x) = 0$ -- отказ от классификации\\
   \bigbreak
   \pause
-  $a(x) = \sign(\sum\limits_{t=1}^{T} \alpha_t b_t(x))$\\
+  $a(x) = \sign\left(\sum\limits_{t=1}^{T} \alpha_t b_t(x)\right)$\\
   \bigbreak
   Функционал качества композиции:\\
-  $Q_T = \sum\limits_{i=1}^l [y_i \sum\limits_{t=1}^{T} \alpha_t b_t(x) < 0 ]$
+  $Q_T = \sum\limits_{i=1}^l \mathcal{L}(\sum\limits_{t=1}^{T} \alpha_t b_t(x), y_i) \rightarrow \min\limits_{\alpha, b}$
+\end{frame}
+}
+
+{\foot{Boosting}
+\begin{frame}{Бустинг}
+  \alert{Идея}: Фиксируем $\alpha_1 b_1(x) \dots \alpha_{t-1} b_{t-1}(x)$ при добавлении $b_t$
+  \bigbreak
+  \pause
+  $b_1 = \arg\min\limits_{b} Q(b, X^l)$\\
+  $b_2 = \arg\min\limits_{b, F} Q(F(b_1, b), X^l)$\\
+  $\dots$\\
+  $b_t = \arg\min\limits_{b, F} Q(F(b_1, \dots, b_{t-1}, b), X^l)$
 \end{frame}
 }
 
@@ -96,11 +177,8 @@
 \end{frame}
 
 \begin{frame}{Stacking}
-    
-\end{frame}
-
-\begin{frame}{Voting}
-    
+    \centering
+    \includegraphics[width=0.9 \textwidth, keepaspectratio]{images/stacking}
 \end{frame}
 
 \begin{frame}{Почему эти подходы работают}
@@ -117,15 +195,6 @@
 
 \appendix
 
-\begin{frame}\frametitle{На следующей лекции}
-	\begin{itemize}
-    	\item[--] Функционалы качества
-    	\item[--] Неравенство Хефдинга
-    	\item[--] Близость гипотез
-    	\item[--] Неравенство Вапника-Червоненкиса
-    	\item[--] Генерация модельных данных    	    	
-	\end{itemize}
-\end{frame}
 \end{document}
 
 \end{document}
