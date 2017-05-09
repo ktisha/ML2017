@@ -100,11 +100,10 @@
   \alert{Идея}: В каждый узел дерева записать среднее значение целевой функции. 
   \pause
   \bigbreak
-  \alert{Идея}: Используется критерий Джини. Хотим, чтобы выборка разбивалась таким образом, что значения целевого признака в каждом листе примерно равны.
+  \alert{Идея}: Хотим, чтобы выборка разбивалась таким образом, что значения целевого признака в каждом листе примерно равны.
   \pause
   \bigbreak
-  $$I(\beta,X^l)= \sum\limits_{i=1}^n y_i(1 - y_i)$$
-  $n$ -- количество объектов в листе
+  $$I(\beta,X^l)= \frac{1}{l} \sum\limits_{i=1}^l ( y_i - \frac{1}{l} \sum\limits_{j=1}^l y_j)^2$$
 \end{frame}
 
 \begin{frame}{Пример}
@@ -196,9 +195,26 @@
   \alert{Идея}: Не считать за ошибку отклонение целевой функции меньше, чем на $\varepsilon$.
   \bigbreak
   \pause
+  \centering
+  \includegraphics[height=0.7 \textheight, keepaspectratio]{images/svr}
+\end{frame}
+
+\begin{frame}{SVR}
+  $\begin{cases}
+		\min \frac{1}{2}\Vert \mathbf{w} \Vert^2 \\
+		y_i - \langle \mathbf{w}, \mathbf{x_i} \rangle + w_0 \leq \varepsilon \\
+		\langle \mathbf{w}, \mathbf{x_i} \rangle - w_0 - y_i \leq \varepsilon \\
+	\end{cases}$\\
+	\bigbreak
+  \pause
+  $\textcolor{orange}{\xi_i} = \langle \mathbf{w}, \mathbf{x_i} \rangle - w_0 - y_i - \varepsilon $\\
+  $\textcolor{orange}{\hat{\xi_i}} = -\langle \mathbf{w}, \mathbf{x_i} \rangle + w_0 + y_i - \varepsilon $
+\end{frame}
+
+\begin{frame}{SVR}
   $\begin{cases}
 		{\frac{1}{2}\Vert \mathbf{w} \Vert^2 + \textcolor{orange}{C \sum\limits_{i=1}^l (\xi_i + \hat{\xi_i}) } \rightarrow \min\limits_{\mathbf{w}, \xi}}\\
-		y_i - \varepsilon - \textcolor{orange}{\xi_i} \leq \langle \mathbf{w}, \mathbf{x_i} - w_0 \rangle \leq y_i + \varepsilon + \textcolor{orange}{\xi_i} \qquad i = 1, \dots, l\\
+		y_i - \varepsilon - \textcolor{orange}{\hat{\xi_i}} \leq \langle \mathbf{w}, \mathbf{x_i} \rangle - w_0 \leq y_i + \varepsilon + \textcolor{orange}{\xi_i} \qquad i = 1, \dots, l\\
 		\textcolor{orange}{\xi_i, \hat{\xi_i} \geq 0} \qquad i = 1, \dots, l
 	\end{cases}$\\
 	\bigbreak
