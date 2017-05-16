@@ -23,6 +23,17 @@
   Искомый алгоритм: $a(x) = C(b(x))$\\
 \end{frame}
 
+\begin{frame}{Примеры}
+  \begin{enumerate}
+    \item Классификация (2 класса): \qquad $a(x) = \sign(b(x))$\\      
+      $b: X \rightarrow \mathbb{R} \qquad C(b) = \sign(b)$
+    \item Классификация (M классов): \qquad $a(x) = \arg\max\limits_{y \in Y} (b_y(x))$\\      
+      $b: X \rightarrow \mathbb{R}^M \qquad C(b_1, \dots, b_M) = \arg\max\limits_{y \in Y}(b_y)$
+    \item Регрессия\\
+      $C(b) = b$      
+  \end{enumerate}
+\end{frame}
+
 \begin{frame}{Определение композиции}
   Композиция базовых алгоритмов $b_1, \dots, b_T$\\
   \bigbreak
@@ -33,7 +44,7 @@
 \begin{frame}{Примеры}
   \begin{enumerate}
     \item Простое голосование\\
-      $$F(b_1(x), \dots, b_T(x)) = \sum\limits_{t=1}^{T} b_t(x)$$
+      $$F(b_1(x), \dots, b_T(x)) = \frac{1}{T}\sum\limits_{t=1}^{T} b_t(x)$$
     \item Взвешенное голосование\\
       $$F(b_1(x), \dots, b_T(x)) = \sum\limits_{t=1}^{T} \alpha_t b_t(x)$$
     \item Смесь алгоритмов\\
@@ -74,6 +85,19 @@
 \end{frame}
 }
 
+\begin{frame}{Бэггинг}
+    Бэггинг позволяет снизить дисперсию (variance) обучаемого классификатора. 
+    \bigbreak
+    \pause
+    Бэггинг эффективен на малых выборках, когда исключение даже малой части обучающих объектов приводит к построению существенно различных базовых классификаторов.
+%    \\
+%    \bigbreak
+%    Ошибка каждого классификатора:\\
+%    $$\varepsilon_i(x) = b_i(x) - y(x)$$
+%    Матожидание:\\
+%    $$E_x (b_i(x) - y(x))^2 = E_x \varepsilon_i(x)^2$$
+\end{frame}
+
 {\foot{RSM, Random Subspace Method}
 \begin{frame}{Метод случайных подпространств}
     \alert{Идея}: обучим $b_t$ независимо по случайным подмножествам $n'$ признаков.\\
@@ -88,7 +112,7 @@
         \State $F_t$ -- случайное подмножество признаков длины $n'$
         \State $b_t = \mu (F_t, U_t)$
         \If {$Q(b_t, U_t) > \varepsilon_1$ или $Q(b_t, X^l \setminus U_t) > \varepsilon_2$}
-          \State не включать $b_t$ в композициюd
+          \State не включать $b_t$ в композицию
         \EndIf
       \EndFor
     \EndFunction
@@ -119,7 +143,8 @@
   $a(x) = \sign\left(\sum\limits_{t=1}^{T} \alpha_t b_t(x)\right)$\\
   \bigbreak
   Функционал качества композиции:\\
-  $Q_T = \sum\limits_{i=1}^l \mathcal{L}(\sum\limits_{t=1}^{T} \alpha_t b_t(x), y_i) \rightarrow \min\limits_{\alpha, b}$
+  $Q_T = \sum\limits_{i=1}^l \mathcal{L}(\sum\limits_{t=1}^{T} \alpha_t b_t(x_i), y_i)  = 
+  \sum\limits_{i=1}^l \left[ y_i \sum\limits_{t=1}^{T} \alpha_t b_t(x_i) < 0 \right] \rightarrow \min\limits_{\alpha, b}$
 \end{frame}
 }
 
@@ -135,13 +160,42 @@
 \end{frame}
 }
 
+\begin{frame}{Функционал качества}  
+  Оценка функционала сверху:\\
+  $Q_T \leq \hat{Q}_T = \sum\limits_{i=1}^l \underbrace{ \exp \left( -y_i \sum\limits_{t=1}^{T-1} \alpha_t b_t(x_i) \right) }_{w_i} \exp(-y_i \alpha_T b_T(x_i))\rightarrow \min\limits_{\alpha, b}$\\
+  Нормируем веса:\\
+  $u_i = w_i / \sum\limits_{j=1}^l w_j$
+\end{frame}
+
+\begin{frame}{Бустинг}  
+  Взвешенное число ошибочных классификаций:\\
+  $N(b, U^l) = \sum\limits_{i=1}^l u_i [b(x_i) = -y_i]$
+  \bigbreak
+  Взвешенное число правильных классификаций:\\
+  $P(b, U^l) = \sum\limits_{i=1}^l u_i [b(x_i) = y_i]$
+\end{frame}
+
 \begin{frame}{Adaboost}
   $B$ -- семейство базовых алгоритмов.\\
   \bigbreak
-  Пусть для любого нормированного вектора весов $U^l$ существует алгоритм $b \in B$, классифицирующий выборку немного лучше, чем наугад $P(b, U^l) > N (b, U^l)$. 
+  Пусть для любого нормированного вектора весов $U^l$ существует алгоритм $b \in B$, классифицирующий выборку немного лучше, чем наугад $P(b, U^l) > N (b, U^l)$. \\
   Минимум функционала $Q_T$ достигается при:\\
-  $$b_T = \arg\max\limits_{b \in B} \sqrt{P(b, W^l)} - \sqrt{N(b, W^l)}$$
-  $$a_T = \frac{1}{2} \ln \frac{P(b_T, W^l)}{N(b_T, W^l)}$$
+  $$b_T = \arg\max\limits_{b \in B} \sqrt{P(b, U^l)} - \sqrt{N(b, U^l)}$$
+  $$\alpha_T = \frac{1}{2} \ln \frac{P(b_T, U^l)}{N(b_T, U^l)}$$
+\end{frame}
+
+\begin{frame}{Алгоритм}
+  \begin{algorithmic}[1]
+    \Function{adaboost}{$X^l$, $T$}
+      \State Инициализировать $w_i = 1 / l, \qquad i=1, \dots, l$
+      \For {$t = 1, \dots, T$}
+        \State $b_T = \arg\max\limits_{b \in B} \sqrt{P(b, U^l)} - \sqrt{N(b, U^l)}$
+        \State $\alpha = \frac{1}{2} \ln \frac{P(b_T, U^l)}{N(b_T, U^l)}$
+        \State $w_i = w_i \exp (- \alpha_t y_i b_t(x_i)) \qquad i=1, \dots, l$
+        \State $u_i = w_i / \sum\limits_{j=1}^l w_j$
+      \EndFor
+    \EndFunction
+  \end{algorithmic}
 \end{frame}
 
 \begin{frame}{Рекоммендации}
@@ -149,10 +203,6 @@
     \item Чаще всего в качестве базовых классификаторов используются решающие деревья
     \item Для SVM бустинг не эффективен     
   \end{itemize}
-\end{frame}
-
-\begin{frame}{Обоснование бустинга}
-    
 \end{frame}
 
 \begin{frame}{Наблюдения}
@@ -164,16 +214,7 @@
     \item[--] Склонен к переобучению при наличии большого количества шума в данных
     \item[--] Требует большой обучающей выборки
     \item[--] Жадность приводит к неоптимальности
-    
   \end{itemize}
-\end{frame}
-
-\begin{frame}{Бэггинг}
-    
-\end{frame}
-
-\begin{frame}{Bagboo}
-    
 \end{frame}
 
 \begin{frame}{Stacking}
