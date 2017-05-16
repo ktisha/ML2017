@@ -60,7 +60,7 @@
 
 
 \begin{frame}{Простое голосование}
-  $$F(b_1(x), \dots, b_T(x)) = \sum\limits_{t=1}^{T} b_t(x)$$
+  $$F(b_1(x), \dots, b_T(x)) = \frac{1}{T}\sum\limits_{t=1}^{T} b_t(x)$$
   \bigbreak
   \pause
   $$a(x) = \sign \left( \sum\limits_{t=1}^{T} b_t(x) \right)$$
@@ -189,8 +189,8 @@
     \Function{adaboost}{$X^l$, $T$}
       \State Инициализировать $w_i = 1 / l, \qquad i=1, \dots, l$
       \For {$t = 1, \dots, T$}
-        \State $b_T = \arg\max\limits_{b \in B} \sqrt{P(b, U^l)} - \sqrt{N(b, U^l)}$
-        \State $\alpha = \frac{1}{2} \ln \frac{P(b_T, U^l)}{N(b_T, U^l)}$
+        \State $b_t = \arg\max\limits_{b \in B} \sqrt{P(b, U^l)} - \sqrt{N(b, U^l)}$
+        \State $\alpha_t = \frac{1}{2} \ln \frac{P(b_T, U^l)}{N(b_T, U^l)}$
         \State $w_i = w_i \exp (- \alpha_t y_i b_t(x_i)) \qquad i=1, \dots, l$
         \State $u_i = w_i / \sum\limits_{j=1}^l w_j$
       \EndFor
