@@ -165,11 +165,12 @@
   \pause
   Оценка функционала сверху:\\
   $Q_T \leq \hat{Q}_T = \sum\limits_{i=1}^l \underbrace{ \exp \left( -y_i \sum\limits_{t=1}^{T-1} \alpha_t b_t(x_i) \right) }_{w_i} \exp(-y_i \alpha_T b_T(x_i))\rightarrow \min\limits_{\alpha, b}$\\
-  Нормируем веса:\\
-  $u_i = w_i / \sum\limits_{j=1}^l w_j$
 \end{frame}
 
 \begin{frame}{Бустинг}  
+  Нормируем веса:\\
+  $u_i = w_i / \sum\limits_{j=1}^l w_j$
+  \bigbreak
   Взвешенное число ошибочных классификаций:\\
   $N(b, U^l) = \sum\limits_{i=1}^l u_i [b(x_i) = -y_i]$
   \bigbreak
