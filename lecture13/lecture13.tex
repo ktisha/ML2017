@@ -142,9 +142,6 @@
   \pause
   $a(x) = \sign\left(\sum\limits_{t=1}^{T} \alpha_t b_t(x)\right)$\\
   \bigbreak
-  Функционал качества композиции:\\
-  $Q_T = \sum\limits_{i=1}^l \mathcal{L}(\sum\limits_{t=1}^{T} \alpha_t b_t(x_i), y_i)  = 
-  \sum\limits_{i=1}^l \left[ y_i \sum\limits_{t=1}^{T} \alpha_t b_t(x_i) < 0 \right] \rightarrow \min\limits_{\alpha, b}$
 \end{frame}
 }
 
@@ -161,6 +158,11 @@
 }
 
 \begin{frame}{Функционал качества}  
+  Функционал качества композиции:\\
+  $Q_T = \sum\limits_{i=1}^l \mathcal{L}(\sum\limits_{t=1}^{T} \alpha_t b_t(x_i), y_i)  = 
+  \sum\limits_{i=1}^l \left[ y_i \sum\limits_{t=1}^{T} \alpha_t b_t(x_i) < 0 \right] \rightarrow \min\limits_{\alpha, b}$
+  \bigbreak
+  \pause
   Оценка функционала сверху:\\
   $Q_T \leq \hat{Q}_T = \sum\limits_{i=1}^l \underbrace{ \exp \left( -y_i \sum\limits_{t=1}^{T-1} \alpha_t b_t(x_i) \right) }_{w_i} \exp(-y_i \alpha_T b_T(x_i))\rightarrow \min\limits_{\alpha, b}$\\
   Нормируем веса:\\
